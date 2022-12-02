@@ -26,4 +26,9 @@ public class CategoryController {
         return categoryService.getById(id);
     }
 
+
+    @GetMapping("/getAllCategoriesNameDesc")
+    public List<Category> getCategoriesNameDesc(String name){
+        return categoryService.getAllCategoriesNameDesc(name);
+    }
 }

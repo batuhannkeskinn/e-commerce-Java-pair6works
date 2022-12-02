@@ -24,10 +24,10 @@ public class Category {
     private int categoryId;
 
     @Column(name="category_name")
-    private String name;
+    private String categoryName;
 
     @Column(name="description")
-    private String type;
+    private String description;
     @JsonIgnore
     @OneToMany(mappedBy = "category")
     private List<CategoryProduct> categoryProductList;

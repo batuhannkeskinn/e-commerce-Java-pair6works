@@ -19,9 +19,6 @@ public class Street {
     @Column(name="street_name")
     private String streetName;
 
-    @Column(name="city_id")
-    private int cityName;
-
     @OneToMany(mappedBy = "street")
     private List<Address> addresses;
 

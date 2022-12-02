@@ -21,4 +21,9 @@ public class CategoryManager implements CategoryService {
     public Category getById(int id) {
         return categoryRepository.findById(id).orElseThrow();
     }
+
+    @Override
+    public List<Category> getAllCategoriesNameDesc(String name) {
+        return categoryRepository.findAllCategoriesByCategoryName(name);
+    }
 }
