@@ -34,7 +34,7 @@ public class Customer {
     private  String phoneNumber;
 
     @Column(name="birth_day")
-    private LocalDate birthDay;
+    private String birthDay;
 
     @JsonIgnore
     @OneToMany(mappedBy = "customer")

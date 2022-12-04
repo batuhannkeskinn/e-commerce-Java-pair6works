@@ -27,4 +27,9 @@ public class CustomerManager implements CustomerService {
     public List<Customer> getAllByFirstName(String name) {
         return customerRepository.findAllCustomersByFirstName(name);
     }
+
+    @Override
+    public Customer customById(int id) {
+        return customerRepository.customById(id);
+    }
 }

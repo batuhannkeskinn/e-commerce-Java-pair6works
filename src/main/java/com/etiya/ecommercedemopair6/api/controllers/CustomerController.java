@@ -29,4 +29,8 @@ public class CustomerController {
     public List<Customer> getAllCustomersByFirstName(@RequestParam ("name") String name){
         return customerService.getAllByFirstName(name);
     }
+    @GetMapping("/getCustomById")
+    public  Customer getcustomById(@RequestParam int id){
+        return customerService.customById(id);
+    }
 }

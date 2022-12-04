@@ -32,5 +32,15 @@ public class AddressController {
         return  addressService.getAllAddressByTitle(title);
     }
 
+    @GetMapping("/getAddress")
+    public Address addressFind(@RequestParam int id ){
+        return addressService.addressTitle(id);
+    }
+//    @GetMapping("/getAllCitiesByAddressId")
+//    public Address getAllCitiesByAddressId(@RequestParam("id")int id){
+//        return addressService.getAllCitiesByAddresId(id);
+//
+//    }
+
 
 }

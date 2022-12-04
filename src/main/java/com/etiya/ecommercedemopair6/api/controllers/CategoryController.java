@@ -31,4 +31,11 @@ public class CategoryController {
     public List<Category> getCategoriesNameDesc(String name){
         return categoryService.getAllCategoriesNameDesc(name);
     }
+
+
+    @GetMapping("/getByName")
+    public Category customByName (@RequestParam int id){return categoryService.customFindName(id);
+
+
+    }
 }

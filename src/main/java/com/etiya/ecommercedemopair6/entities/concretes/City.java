@@ -1,6 +1,7 @@
 package com.etiya.ecommercedemopair6.entities.concretes;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -12,6 +13,7 @@ import java.util.List;
 @NoArgsConstructor
 @Data
 @Table(name="cities")
+@Builder
 public class City {
 
     @Id

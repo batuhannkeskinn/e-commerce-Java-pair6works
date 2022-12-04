@@ -9,4 +9,8 @@ public interface CategoryService {
     Category getById(int id);
 
     List<Category> getAllCategoriesNameDesc(String name);
+
+
+
+    Category customFindName(int id);
 }

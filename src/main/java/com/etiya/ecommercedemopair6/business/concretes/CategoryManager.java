@@ -4,7 +4,6 @@ import com.etiya.ecommercedemopair6.business.abstracts.CategoryService;
 import com.etiya.ecommercedemopair6.entities.concretes.Category;
 import com.etiya.ecommercedemopair6.repository.abstracts.CategoryRepository;
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -25,5 +24,10 @@ public class CategoryManager implements CategoryService {
     @Override
     public List<Category> getAllCategoriesNameDesc(String name) {
         return categoryRepository.findAllCategoriesByCategoryName(name);
+    }
+
+    @Override
+    public Category customFindName(int id) {
+        return categoryRepository.customByName(id);
     }
 }
