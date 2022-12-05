@@ -1,6 +1,8 @@
 package com.etiya.ecommercedemopair6.business.concretes;
 
 import com.etiya.ecommercedemopair6.business.abstracts.CategoryProductService;
+import com.etiya.ecommercedemopair6.business.dto.request.concretes.categoryProduct.CreateCategoryProductRequest;
+import com.etiya.ecommercedemopair6.business.dto.response.concretes.categoryProduct.CreateCategoryProductResponse;
 import com.etiya.ecommercedemopair6.entities.concretes.CategoryProduct;
 import com.etiya.ecommercedemopair6.repository.abstracts.CategoryProductRepository;
 import lombok.AllArgsConstructor;
@@ -21,5 +23,12 @@ public class CategoryProductManager implements CategoryProductService {
     @Override
     public CategoryProduct getById(int id) {
         return categoryProductRepository.findById(id).orElseThrow();
+    }
+
+    @Override
+    public CreateCategoryProductResponse createCategoryProduct(CreateCategoryProductRequest createCategoryProductRequest) {
+        CategoryProduct categoryProduct = new CategoryProduct();
+        CreateCategoryProductResponse response = new CreateCategoryProductResponse();
+        return response;
     }
 }

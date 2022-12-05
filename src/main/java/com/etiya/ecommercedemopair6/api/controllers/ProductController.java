@@ -1,12 +1,13 @@
 package com.etiya.ecommercedemopair6.api.controllers;
 
 import com.etiya.ecommercedemopair6.business.abstracts.ProductService;
+import com.etiya.ecommercedemopair6.business.dto.request.concretes.product.CreateProductRequest;
+import com.etiya.ecommercedemopair6.business.dto.response.concretes.product.CreateProductResponse;
 import com.etiya.ecommercedemopair6.entities.concretes.Product;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -38,6 +39,12 @@ public class ProductController {
     @GetMapping("/getByName")
     public Product getByName(@RequestParam("name")String name){
       return  productService.findByName(name);
+    }
+
+    @PostMapping("/add")
+    public ResponseEntity<CreateProductResponse> createProduct(@RequestBody CreateProductRequest createProductRequest){
+        return new ResponseEntity<CreateProductResponse>(productService.createProduct(createProductRequest), HttpStatus.CREATED);
+
     }
 
 }

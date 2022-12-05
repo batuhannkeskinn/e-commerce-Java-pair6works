@@ -1,8 +1,12 @@
 package com.etiya.ecommercedemopair6.api.controllers;
 
 import com.etiya.ecommercedemopair6.business.abstracts.CategoryProductService;
+import com.etiya.ecommercedemopair6.business.dto.request.concretes.categoryProduct.CreateCategoryProductRequest;
+import com.etiya.ecommercedemopair6.business.dto.response.concretes.categoryProduct.CreateCategoryProductResponse;
 import com.etiya.ecommercedemopair6.entities.concretes.CategoryProduct;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,4 +28,11 @@ public class CategoryProductController {
     public CategoryProduct getById(@RequestParam int id) {
         return categoryProductService.getById(id);
     }
+
+    @PostMapping("/add")
+    public ResponseEntity<CreateCategoryProductResponse> addCategoryProduct(@RequestBody CreateCategoryProductRequest createCategoryProductRequest){
+        return new ResponseEntity<CreateCategoryProductResponse>(categoryProductService.createCategoryProduct(createCategoryProductRequest), HttpStatus.CREATED);
+    }
+
+
 }

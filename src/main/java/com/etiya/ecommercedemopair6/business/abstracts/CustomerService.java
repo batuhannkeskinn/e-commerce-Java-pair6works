@@ -1,15 +1,21 @@
 package com.etiya.ecommercedemopair6.business.abstracts;
 
+import com.etiya.ecommercedemopair6.business.dto.request.concretes.customer.CreateCustomerRequest;
+import com.etiya.ecommercedemopair6.business.dto.response.concretes.customer.CreateCustomerResponse;
 import com.etiya.ecommercedemopair6.entities.concretes.Customer;
 
 import java.util.List;
 
 public interface CustomerService {
-    List<Customer>getAll();
+    List<Customer> getAll();
 
     Customer getById(int id);
 
     List<Customer> getAllByFirstName(String name);
 
-    Customer customById (int id);
+    Customer customById(int id);
+
+    CreateCustomerResponse createCustomer(CreateCustomerRequest createCustomerRequest);
+
+
 }

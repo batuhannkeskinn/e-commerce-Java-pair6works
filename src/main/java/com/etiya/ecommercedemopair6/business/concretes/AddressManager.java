@@ -1,8 +1,9 @@
 package com.etiya.ecommercedemopair6.business.concretes;
 
 import com.etiya.ecommercedemopair6.business.abstracts.AddressService;
+import com.etiya.ecommercedemopair6.business.dto.request.concretes.address.CreateAddressRequest;
+import com.etiya.ecommercedemopair6.business.dto.response.concretes.address.CreateAddressResponse;
 import com.etiya.ecommercedemopair6.entities.concretes.Address;
-import com.etiya.ecommercedemopair6.entities.concretes.Customer;
 import com.etiya.ecommercedemopair6.repository.abstracts.AddressRepository;
 import org.springframework.stereotype.Service;
 
@@ -35,6 +36,15 @@ public class AddressManager implements AddressService {
     @Override
     public Address addressTitle(int id) {
         return addressRepository.customAddress(id);
+    }
+
+    @Override
+    public CreateAddressResponse addAddress(CreateAddressRequest createAddressRequest) {
+        Address address = new Address();
+        address.setTitle(createAddressRequest.getTitle());
+        Address savedAddress = addressRepository.save(address);
+        CreateAddressResponse response = new CreateAddressResponse(savedAddress.getTitle());
+        return response;
     }
 
 
