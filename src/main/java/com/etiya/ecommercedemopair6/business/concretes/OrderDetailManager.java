@@ -38,6 +38,7 @@ public class OrderDetailManager implements OrderDetailService {
         Order order = orderService.getById(createOrderDetailRequest.getOrderId());
         Product product = productService.getById(createOrderDetailRequest.getProductId());
         OrderDetail orderDetail = new OrderDetail();
+
         orderDetail.setOrder(order);
         orderDetail.setProduct(product);
         OrderDetail savedOrderDetail = orderDetailRepository.save(orderDetail);

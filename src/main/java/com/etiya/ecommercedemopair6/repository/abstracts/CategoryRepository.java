@@ -9,6 +9,9 @@ import java.util.List;
 public interface CategoryRepository extends JpaRepository<Category,Integer> {
     List<Category> findAllCategoriesByCategoryName(String name);
 
+    boolean existsCategoryByCategoryName(String name);
+
+
     //    @Query("Select ad from Address as ad Where name =:name")
 //    Product findByName(String name);
     @Query("Select ca from Category as ca where category_id =:id")
