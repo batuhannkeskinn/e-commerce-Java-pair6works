@@ -1,12 +1,13 @@
 package com.etiya.ecommercedemopair6.entities.concretes;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 @Getter
@@ -32,18 +33,18 @@ public class Order {
     private double totalPrice;
 
     @Column(name = "order_date")
-    private LocalDate orderDate;
-
+    private Date orderDate;
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "customer_id")
     private Customer customer;
-
+    @JsonIgnore
     @OneToMany(mappedBy = "order")
     private List<Delivery> deliveries;
 
     @OneToMany(mappedBy = "order")
     private List<OrderDetail> orderDetails;
-
+    @JsonIgnore
     @OneToMany(mappedBy = "order")
     private List<Payment> payments;
 }

@@ -13,6 +13,7 @@ public class CreateAddressResponse {
     private int cityId;
     private int countryId;
 
+
     public CreateAddressResponse(String title) {
         this.title = title;
     }

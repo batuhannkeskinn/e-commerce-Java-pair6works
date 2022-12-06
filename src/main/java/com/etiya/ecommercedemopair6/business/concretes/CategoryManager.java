@@ -39,7 +39,7 @@ public class CategoryManager implements CategoryService {
         category.setCategoryName(createCategoryRequest.getCategoryName());
         category.setDescription(createCategoryRequest.getDescription());
         Category savedCategory= categoryRepository.save(category);
-        CreateCategoryResponse response = new CreateCategoryResponse(category.getCategoryName(), category.getDescription());
+        CreateCategoryResponse response = new CreateCategoryResponse(savedCategory.getCategoryName(), savedCategory.getDescription());
         return response;
 
     }

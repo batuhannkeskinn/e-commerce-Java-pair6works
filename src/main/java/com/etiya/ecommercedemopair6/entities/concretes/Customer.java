@@ -6,7 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -34,7 +34,7 @@ public class Customer {
     private  String phoneNumber;
 
     @Column(name="birth_day")
-    private String birthDay;
+    private Date birthDay;
 
     @JsonIgnore
     @OneToMany(mappedBy = "customer")

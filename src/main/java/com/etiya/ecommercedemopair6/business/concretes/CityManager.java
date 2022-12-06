@@ -37,7 +37,7 @@ public class CityManager implements CityService {
         City city = new City();
         city.setCityName(createCityRequest.getCityName());
         City savedCity = cityRepository.save(city);
-        CreateCityResponse response = new CreateCityResponse(city.getCityName());
+        CreateCityResponse response = new CreateCityResponse(savedCity.getCityName());
         return response;
     }
 }

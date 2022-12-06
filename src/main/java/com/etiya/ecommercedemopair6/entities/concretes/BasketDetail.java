@@ -1,11 +1,11 @@
 package com.etiya.ecommercedemopair6.entities.concretes;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
 @Data
@@ -19,15 +19,15 @@ public class BasketDetail {
     private int basketDetailId;
 
     @Column(name="quantity")
-    private String quantity;
+    private int quantity;
 
-    //basket_id
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "basket_id")
     private Basket basket;
 
     //productId
-
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "product_id")
     private Product product;

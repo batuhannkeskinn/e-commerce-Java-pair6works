@@ -5,6 +5,7 @@ import com.etiya.ecommercedemopair6.business.dto.request.concretes.customer.Crea
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.customer.CreateCustomerResponse;
 import com.etiya.ecommercedemopair6.entities.concretes.Customer;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,7 +16,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/customers")
 public class CustomerController {
-
+    @Autowired
     private CustomerService customerService;
 
     @GetMapping("/getAll")

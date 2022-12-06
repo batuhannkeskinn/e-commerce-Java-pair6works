@@ -1,14 +1,12 @@
 package com.etiya.ecommercedemopair6.entities.concretes;
 
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import javax.persistence.*;
 
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
@@ -23,7 +21,7 @@ public class Payment {
     private String bankName;
 
     @Column(name = "card_number")
-    private int cardNumber;
+    private String cardNumber;
 
     @ManyToOne
     @JoinColumn(name= "order_id")

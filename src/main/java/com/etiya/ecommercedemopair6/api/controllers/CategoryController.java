@@ -5,6 +5,7 @@ import com.etiya.ecommercedemopair6.business.dto.request.concretes.category.Crea
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.category.CreateCategoryResponse;
 import com.etiya.ecommercedemopair6.entities.concretes.Category;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,8 +16,8 @@ import java.util.List;
 @RequestMapping("/api/categories")
 @AllArgsConstructor
 public class CategoryController {
-
-   private CategoryService categoryService;
+    @Autowired
+    private CategoryService categoryService;
 
     @GetMapping("/getAll")
     public List<Category> getAll() {

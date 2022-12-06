@@ -5,18 +5,20 @@ import com.etiya.ecommercedemopair6.business.dto.request.concretes.address.Creat
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.address.CreateAddressResponse;
 import com.etiya.ecommercedemopair6.entities.concretes.Address;
 import lombok.AllArgsConstructor;
-import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/addresses")
 @AllArgsConstructor
 public class AddressController {
+
+    @Autowired
     private AddressService addressService;
 
     @GetMapping("/getAll")
@@ -45,7 +47,7 @@ public class AddressController {
 //    }
 
     @PostMapping("/add")
-    public ResponseEntity<CreateAddressResponse> createAddress(@RequestBody CreateAddressRequest createAddressRequest){
+    public ResponseEntity<CreateAddressResponse> createAddress(@RequestBody @Valid CreateAddressRequest createAddressRequest){
         return new ResponseEntity<CreateAddressResponse>( addressService.addAddress(createAddressRequest), HttpStatus.CREATED);
     }
 
