@@ -5,6 +5,7 @@ import com.etiya.ecommercedemopair6.business.dto.request.concretes.categoryProdu
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.categoryProduct.CreateCategoryProductResponse;
 import com.etiya.ecommercedemopair6.entities.concretes.CategoryProduct;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,7 +17,7 @@ import java.util.List;
 @AllArgsConstructor
 public class CategoryProductController {
 
-
+    @Autowired
     private CategoryProductService categoryProductService;
 
     @GetMapping("/getAll")

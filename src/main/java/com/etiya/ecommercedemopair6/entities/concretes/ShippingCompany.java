@@ -1,5 +1,6 @@
 package com.etiya.ecommercedemopair6.entities.concretes;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.Data;
@@ -20,7 +21,7 @@ public class ShippingCompany {
 
     @Column(name="company_name")
     private String companyName;
-
+    @JsonIgnore
     @OneToMany(mappedBy = "shippingCompany")
     private List<Delivery> deliveries;
 }

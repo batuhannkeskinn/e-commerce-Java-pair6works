@@ -1,4 +1,5 @@
 package com.etiya.ecommercedemopair6.entities.concretes;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.Data;
@@ -18,7 +19,7 @@ public class Street {
 
     @Column(name="street_name")
     private String streetName;
-
+    @JsonIgnore
     @OneToMany(mappedBy = "street")
     private List<Address> addresses;
 

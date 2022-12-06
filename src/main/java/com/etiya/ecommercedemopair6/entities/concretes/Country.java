@@ -1,5 +1,6 @@
 package com.etiya.ecommercedemopair6.entities.concretes;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -21,7 +22,7 @@ public class Country {
 
     @Column(name="country_name")
     private String countryName;
-
+    @JsonIgnore
     @OneToMany(mappedBy = "country")
     private List<Address> addresses;
 }

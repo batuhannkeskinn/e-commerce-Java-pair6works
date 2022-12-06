@@ -1,4 +1,5 @@
 package com.etiya.ecommercedemopair6.entities.concretes;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.Data;
@@ -19,7 +20,7 @@ public class Size {
 
     @Column(name = "number")
     private String number;
-
+    @JsonIgnore
     @OneToMany(mappedBy = "size")
     private List<ProductInfo> productInfoList;
 }

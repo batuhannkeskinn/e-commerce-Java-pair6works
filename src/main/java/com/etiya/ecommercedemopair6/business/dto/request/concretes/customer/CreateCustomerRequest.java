@@ -15,7 +15,7 @@ public class CreateCustomerRequest {
     private String customerLastName;
     private String customerEmail;
     private Date birthDay;
-
+    private int addressId;//join
 
 
 

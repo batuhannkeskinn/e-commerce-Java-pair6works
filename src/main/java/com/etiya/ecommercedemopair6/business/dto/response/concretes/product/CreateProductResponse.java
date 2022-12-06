@@ -11,6 +11,4 @@ public class CreateProductResponse {
     private String productName;
     private  int stock;
     private double unitPrice;
-
-
 }

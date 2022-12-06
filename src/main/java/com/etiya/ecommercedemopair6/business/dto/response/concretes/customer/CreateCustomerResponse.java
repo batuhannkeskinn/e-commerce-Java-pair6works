@@ -15,4 +15,6 @@ public class CreateCustomerResponse {
     private String customerLastName;
     private String customerEmail;
     private Date birth_day;
+    private int addressId;//join
+
 }

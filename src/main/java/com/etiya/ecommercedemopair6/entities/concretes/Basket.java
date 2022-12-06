@@ -1,6 +1,6 @@
 package com.etiya.ecommercedemopair6.entities.concretes;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,12 +18,12 @@ public class Basket {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "basket_id")
     private int basketId;
-
+    @JsonIgnore
     @OneToMany(mappedBy = "basket")
     private List<BasketDetail> basketDetails;
 
     //customer_id
-
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name="customer_id")
     private Customer customer;

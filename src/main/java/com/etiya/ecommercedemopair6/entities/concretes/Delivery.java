@@ -1,13 +1,14 @@
 package com.etiya.ecommercedemopair6.entities.concretes;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 
 
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
@@ -19,12 +20,12 @@ public class Delivery {
     private int deliveryId;
 
     @Column(name = "delivery_date")
-    private LocalDate deliveryDate;
-
+    private String deliveryDate;
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "shipping_company_id")
     private ShippingCompany shippingCompany;
-
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "order_id")
     private Order order;
