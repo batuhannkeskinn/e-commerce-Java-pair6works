@@ -41,6 +41,7 @@ public class CustomerManager implements CustomerService {
 
     @Override
     public CreateCustomerResponse createCustomer(CreateCustomerRequest createCustomerRequest) {
+        checkIfCustomerExistsAddressId(createCustomerRequest.getAddressId());
         Address address = addressService.getById(createCustomerRequest.getAddressId());
         Customer customer = new Customer();
         customer.setFirstName(createCustomerRequest.getCustomerFirstName());
@@ -48,8 +49,11 @@ public class CustomerManager implements CustomerService {
         customer.setBirthDay(createCustomerRequest.getBirthDay());
         customer.setEmail(createCustomerRequest.getCustomerEmail());
         customer.setPhoneNumber(createCustomerRequest.getPhoneNumber());
+
         customer.setAddress(address);
         Customer saveCustomer = customerRepository.save(customer);
+
+
 
         CreateCustomerResponse response = new CreateCustomerResponse(
                 saveCustomer.getPhoneNumber(),
@@ -62,5 +66,10 @@ public class CustomerManager implements CustomerService {
         return response;
     }
 
-
+    public void checkIfCustomerExistsAddressId(int id){
+        Address address = this.addressService.getById(id);
+        if(address==null){
+            throw new RuntimeException("yok!!!");
+        }
+    }
 }

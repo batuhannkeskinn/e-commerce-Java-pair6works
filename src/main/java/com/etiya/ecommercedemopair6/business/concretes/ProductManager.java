@@ -1,5 +1,6 @@
 package com.etiya.ecommercedemopair6.business.concretes;
 
+import com.etiya.ecommercedemopair6.business.abstracts.CategoryService;
 import com.etiya.ecommercedemopair6.business.abstracts.ProductService;
 import com.etiya.ecommercedemopair6.business.dto.request.concretes.product.CreateProductRequest;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.product.CreateProductResponse;
@@ -17,6 +18,7 @@ public class ProductManager implements ProductService {
     //dependency injection
 
     private ProductRepository productRepository;
+    private CategoryService categoryService;
     //Spring IoC (inversion on control?) autowired kullanıldı
 
     @Override
@@ -55,7 +57,13 @@ public class ProductManager implements ProductService {
                 savedProduct.getStock(),savedProduct.getUnitPrice());
         return response;
     }
+    //Eklenen product muhakkak var olan bir category Id ile eşleşmeli.
 
-}
+
+    }
+
+
+
+
 
 

@@ -35,6 +35,7 @@ public class CategoryManager implements CategoryService {
 
     @Override
     public CreateCategoryResponse createCategory(CreateCategoryRequest createCategoryRequest) {
+        checkIfExistsWithSameName(createCategoryRequest.getCategoryName());
         Category category = new Category();
         category.setCategoryName(createCategoryRequest.getCategoryName());
         category.setDescription(createCategoryRequest.getDescription());
@@ -43,5 +44,24 @@ public class CategoryManager implements CategoryService {
         return response;
 
     }
+
+    public void checkIfExistsWithSameName(String name){
+        boolean isExists = categoryRepository.existsCategoryByCategoryName(name);
+        if (isExists){
+            throw new RuntimeException("Bu kategori mevcut");
+        }
+    }
+
+
+
+//    private void categoryCanNotExistWithSameName(String name){
+//        // Exception fırlatma
+//        boolean isExists = categoryRepository.existsCategoryByName(name);  //false,true
+//        if(isExists) // Veritabanımda bu isimde bir kategori mevcut!!
+//            // TODO: Add custom business exception.
+//            // TODO: Remove magic string
+//            // TODO: Add global exception handler
+//            throw new RuntimeException("Bu isimle bir kategori zaten mevcut!");
+//    }
 
 }
