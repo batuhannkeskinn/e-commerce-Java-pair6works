@@ -3,6 +3,7 @@ package com.etiya.ecommercedemopair6.business.concretes;
 import com.etiya.ecommercedemopair6.business.abstracts.CategoryService;
 import com.etiya.ecommercedemopair6.business.dto.request.concretes.category.CreateCategoryRequest;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.category.CreateCategoryResponse;
+import com.etiya.ecommercedemopair6.core.util.mapping.ModelMapperService;
 import com.etiya.ecommercedemopair6.entities.concretes.Category;
 import com.etiya.ecommercedemopair6.repository.abstracts.CategoryRepository;
 import lombok.AllArgsConstructor;
@@ -13,6 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 public class CategoryManager implements CategoryService {
     private CategoryRepository categoryRepository;
+    private ModelMapperService modelMapperService;
     @Override
     public List<Category> getAll() {
         return categoryRepository.findAll();
@@ -36,11 +38,17 @@ public class CategoryManager implements CategoryService {
     @Override
     public CreateCategoryResponse createCategory(CreateCategoryRequest createCategoryRequest) {
         checkIfExistsWithSameName(createCategoryRequest.getCategoryName());
-        Category category = new Category();
-        category.setCategoryName(createCategoryRequest.getCategoryName());
-        category.setDescription(createCategoryRequest.getDescription());
-        Category savedCategory= categoryRepository.save(category);
-        CreateCategoryResponse response = new CreateCategoryResponse(savedCategory.getCategoryName(), savedCategory.getDescription());
+        //***********************************ManuelMapper******************************************
+
+//        Category category = new Category();
+//        category.setCategoryName(createCategoryRequest.getCategoryName());
+//        category.setDescription(createCategoryRequest.getDescription());
+//        Category savedCategory= categoryRepository.save(category);
+//        CreateCategoryResponse response = new CreateCategoryResponse(savedCategory.getCategoryName(), savedCategory.getDescription());
+
+        Category category = modelMapperService.forRequest().map(createCategoryRequest,Category.class);
+        Category savedCategory=categoryRepository.save(category);
+        CreateCategoryResponse response = modelMapperService.forResponse().map(savedCategory,CreateCategoryResponse.class);
         return response;
 
     }

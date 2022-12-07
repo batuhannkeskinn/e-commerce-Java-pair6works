@@ -18,6 +18,10 @@ import java.util.List;
 @Builder
 public class Color {
 
+    public Color(String colorName) {
+        this.colorName = colorName;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="color_id")
@@ -25,6 +29,7 @@ public class Color {
 
     @Column(name = "color_name")
     private String colorName;
+
     @JsonIgnore
     @OneToMany(mappedBy = "color")
     private List<ProductInfo> productInfos;

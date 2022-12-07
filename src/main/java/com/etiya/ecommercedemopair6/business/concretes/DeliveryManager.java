@@ -5,9 +5,8 @@ import com.etiya.ecommercedemopair6.business.abstracts.OrderService;
 import com.etiya.ecommercedemopair6.business.abstracts.ShippingCompanyService;
 import com.etiya.ecommercedemopair6.business.dto.request.concretes.delivery.CreateDeliveryRequest;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.delivery.CreateDeliveryResponse;
+import com.etiya.ecommercedemopair6.core.util.mapping.ModelMapperService;
 import com.etiya.ecommercedemopair6.entities.concretes.Delivery;
-import com.etiya.ecommercedemopair6.entities.concretes.Order;
-import com.etiya.ecommercedemopair6.entities.concretes.ShippingCompany;
 import com.etiya.ecommercedemopair6.repository.abstracts.DeliveryRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -20,6 +19,7 @@ public class DeliveryManager implements DeliveryService {
     private DeliveryRepository deliveryRepository;
     private ShippingCompanyService shippingCompanyService;
     private OrderService orderService;
+    private ModelMapperService modelMapperService;
 
     @Override
     public Delivery getById(int id) {
@@ -33,18 +33,23 @@ public class DeliveryManager implements DeliveryService {
 
     @Override
     public CreateDeliveryResponse createDelivery(CreateDeliveryRequest createDeliveryRequest) {
-        ShippingCompany shippingCompany = shippingCompanyService.getById(createDeliveryRequest.getShippingCompanyId());
-        Order order = orderService.getById(createDeliveryRequest.getOrderId());
-        Delivery delivery = new Delivery();
-        delivery.setDeliveryDate(createDeliveryRequest.getDeliveryDate());
-        delivery.setShippingCompany(shippingCompany);
-        delivery.setOrder(order);
-        Delivery savedDelivery = deliveryRepository.save(delivery);
-        CreateDeliveryResponse response = new
-                CreateDeliveryResponse(
-                savedDelivery.getDeliveryDate(),
-                savedDelivery.getShippingCompany().getShippingCompanyId(),
-                savedDelivery.getOrder().getOrderId());
+        Delivery delivery = modelMapperService.forRequest().map(createDeliveryRequest,Delivery.class);
+        Delivery deliverySaved = deliveryRepository.save(delivery);
+        CreateDeliveryResponse response = modelMapperService.forResponse().map(deliverySaved,CreateDeliveryResponse.class);
+        //***********************************ManuelMapper******************************************
+
+//        ShippingCompany shippingCompany = shippingCompanyService.getById(createDeliveryRequest.getShippingCompanyId());
+//        Order order = orderService.getById(createDeliveryRequest.getOrderId());
+//        Delivery delivery = new Delivery();
+//        delivery.setDeliveryDate(createDeliveryRequest.getDeliveryDate());
+//        delivery.setShippingCompany(shippingCompany);
+//        delivery.setOrder(order);
+//        Delivery savedDelivery = deliveryRepository.save(delivery);
+//        CreateDeliveryResponse response = new
+//                CreateDeliveryResponse(
+//                savedDelivery.getDeliveryDate(),
+//                savedDelivery.getShippingCompany().getShippingCompanyId(),
+//                savedDelivery.getOrder().getOrderId());
         return response;
 
     }

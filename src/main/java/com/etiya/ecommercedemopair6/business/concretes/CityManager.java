@@ -3,6 +3,7 @@ package com.etiya.ecommercedemopair6.business.concretes;
 import com.etiya.ecommercedemopair6.business.abstracts.CityService;
 import com.etiya.ecommercedemopair6.business.dto.request.concretes.city.CreateCityRequest;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.city.CreateCityResponse;
+import com.etiya.ecommercedemopair6.core.util.mapping.ModelMapperService;
 import com.etiya.ecommercedemopair6.entities.concretes.City;
 import com.etiya.ecommercedemopair6.repository.abstracts.CityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import java.util.List;
 public class CityManager implements CityService {
     @Autowired
     private CityRepository cityRepository;
+    private ModelMapperService modelMapperService;
 
     @Override
     public List<City> getAll(){
@@ -34,10 +36,16 @@ public class CityManager implements CityService {
 
     @Override
     public CreateCityResponse addCity(CreateCityRequest createCityRequest) {
-        City city = new City();
-        city.setCityName(createCityRequest.getCityName());
+        //***********************************ManuelMapper******************************************
+
+//        City city = new City();
+//        city.setCityName(createCityRequest.getCityName());
+//        City savedCity = cityRepository.save(city);
+//        CreateCityResponse response = new CreateCityResponse(savedCity.getCityName());
+        
+        City city = modelMapperService.forRequest().map(createCityRequest,City.class);
         City savedCity = cityRepository.save(city);
-        CreateCityResponse response = new CreateCityResponse(savedCity.getCityName());
+        CreateCityResponse response = modelMapperService.forResponse().map(savedCity,CreateCityResponse.class);
         return response;
     }
 }
