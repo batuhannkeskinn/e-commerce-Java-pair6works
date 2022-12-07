@@ -9,6 +9,8 @@ import com.etiya.ecommercedemopair6.entities.concretes.Category;
 import com.etiya.ecommercedemopair6.entities.concretes.CategoryProduct;
 import com.etiya.ecommercedemopair6.entities.concretes.Product;
 import com.etiya.ecommercedemopair6.repository.abstracts.CategoryProductRepository;
+import com.etiya.ecommercedemopair6.repository.abstracts.CategoryRepository;
+import com.etiya.ecommercedemopair6.repository.abstracts.ProductRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +21,8 @@ public class CategoryProductManager implements CategoryProductService {
    private CategoryProductRepository categoryProductRepository;
    private ProductService productService;
    private CategoryService categoryService;
+    private final ProductRepository productRepository;
+    private final CategoryRepository categoryRepository;
 
     @Override
     public List<CategoryProduct> getAll() {
@@ -33,6 +37,18 @@ public class CategoryProductManager implements CategoryProductService {
 
     @Override
     public CreateCategoryProductResponse createCategoryProduct(CreateCategoryProductRequest createCategoryProductRequest) {
+        checkIfExistsProductId(createCategoryProductRequest.getProductId());
+        checkIfExistsProductId(createCategoryProductRequest.getCategoryId());
+
+
+
+
+
+
+
+
+
+
 
         Product product = productService.getById(createCategoryProductRequest.getProductId());
         Category category = categoryService.getById(createCategoryProductRequest.getProductId());
@@ -45,5 +61,18 @@ public class CategoryProductManager implements CategoryProductService {
                         savedCategoryProduct.getCategory().getCategoryId(),
                         savedCategoryProduct.getProduct().getProductId());
         return response;
+    }
+
+    public void checkIfExistsProductId(int id){
+        boolean isExists = productRepository.existsById(id);
+        if (!isExists){
+            throw new RuntimeException("This product not found");
+        }
+    }
+    public void checkIfExistsCategoryId(int id){
+        boolean isExists = categoryRepository.existsById(id);
+        if (!isExists){
+            throw new RuntimeException("This category not found");
+        }
     }
 }

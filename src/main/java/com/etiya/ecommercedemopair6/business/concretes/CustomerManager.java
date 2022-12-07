@@ -6,6 +6,7 @@ import com.etiya.ecommercedemopair6.business.dto.request.concretes.customer.Crea
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.customer.CreateCustomerResponse;
 import com.etiya.ecommercedemopair6.entities.concretes.Address;
 import com.etiya.ecommercedemopair6.entities.concretes.Customer;
+import com.etiya.ecommercedemopair6.repository.abstracts.AddressRepository;
 import com.etiya.ecommercedemopair6.repository.abstracts.CustomerRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -16,7 +17,9 @@ import java.util.List;
 @Service
 public class CustomerManager implements CustomerService {
     private CustomerRepository customerRepository;
+
     private AddressService addressService;
+    private AddressRepository addressRepository;
 
     @Override
     public List<Customer> getAll() {
@@ -67,9 +70,9 @@ public class CustomerManager implements CustomerService {
     }
 
     public void checkIfCustomerExistsAddressId(int id){
-        Address address = this.addressService.getById(id);
-        if(address==null){
-            throw new RuntimeException("yok!!!");
+        boolean isExists = addressRepository.existsById(id);
+        if(!isExists){
+            throw new RuntimeException("Kişinin sistemde kayıtlı bir adresi yok");
         }
     }
 }
