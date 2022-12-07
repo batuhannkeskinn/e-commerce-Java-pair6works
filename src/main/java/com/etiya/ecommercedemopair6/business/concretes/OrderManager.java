@@ -4,7 +4,7 @@ import com.etiya.ecommercedemopair6.business.abstracts.CustomerService;
 import com.etiya.ecommercedemopair6.business.abstracts.OrderService;
 import com.etiya.ecommercedemopair6.business.dto.request.concretes.order.CreateOrderRequest;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.order.CreateOrderResponse;
-import com.etiya.ecommercedemopair6.entities.concretes.Customer;
+import com.etiya.ecommercedemopair6.core.util.mapping.ModelMapperService;
 import com.etiya.ecommercedemopair6.entities.concretes.Order;
 import com.etiya.ecommercedemopair6.repository.abstracts.OrderRepository;
 import lombok.AllArgsConstructor;
@@ -16,7 +16,7 @@ import java.util.List;
 public class OrderManager implements OrderService {
     OrderRepository orderRepository;
     CustomerService customerService;
-
+    ModelMapperService modelMapperService;
     @Override
     public Order getById(int id) {
         return orderRepository.findById(id).orElseThrow();
@@ -29,17 +29,22 @@ public class OrderManager implements OrderService {
 
     @Override
     public CreateOrderResponse createOrder(CreateOrderRequest createOrderRequest) {
-        Customer customer = customerService.getById(createOrderRequest.getCustomerId());
-        Order order = new Order();
-        order.setOrderDate(createOrderRequest.getOrderDate());
-        order.setOrderNumber(createOrderRequest.getOrderNumber());
-        order.setOrderQuantity(createOrderRequest.getOrderQuantity());
-        order.setTotalPrice(createOrderRequest.getTotalPrice());
-        order.setOrderNumber(createOrderRequest.getOrderNumber());
-        order.setCustomer(customer);
+        Order order =modelMapperService.forRequest().map(createOrderRequest,Order.class);
+
         Order savedOrder = orderRepository.save(order);
-        CreateOrderResponse response = new CreateOrderResponse(savedOrder.getOrderNumber(),
-                savedOrder.getOrderQuantity(), savedOrder.getTotalPrice() , savedOrder.getCustomer().getCustomerId());
+        CreateOrderResponse response = modelMapperService.forResponse().map(savedOrder,CreateOrderResponse.class);
+//***********************************ManuelMapper******************************************
+//        Customer customer = customerService.getById(createOrderRequest.getCustomerId());
+//        Order order = new Order();
+//        order.setOrderDate(createOrderRequest.getOrderDate());
+//        order.setOrderNumber(createOrderRequest.getOrderNumber());
+//        order.setOrderQuantity(createOrderRequest.getOrderQuantity());
+//        order.setTotalPrice(createOrderRequest.getTotalPrice());
+//        order.setOrderNumber(createOrderRequest.getOrderNumber());
+//        order.setCustomer(customer);
+//        Order savedOrder = orderRepository.save(order);
+//        CreateOrderResponse response = new CreateOrderResponse(savedOrder.getOrderNumber(),
+//                savedOrder.getOrderQuantity(), savedOrder.getTotalPrice() , savedOrder.getCustomer().getCustomerId());
         return response;
 
     }

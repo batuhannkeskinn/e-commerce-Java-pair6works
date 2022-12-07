@@ -3,6 +3,8 @@ package com.etiya.ecommercedemopair6.api.controllers;
 import com.etiya.ecommercedemopair6.business.abstracts.CustomerService;
 import com.etiya.ecommercedemopair6.business.dto.request.concretes.customer.CreateCustomerRequest;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.customer.CreateCustomerResponse;
+import com.etiya.ecommercedemopair6.business.dto.response.concretes.customer.GetAllCustomersResponse;
+import com.etiya.ecommercedemopair6.business.dto.response.concretes.customer.GetCustomerResponse;
 import com.etiya.ecommercedemopair6.entities.concretes.Customer;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,12 +22,12 @@ public class CustomerController {
     private CustomerService customerService;
 
     @GetMapping("/getAll")
-    public List<Customer> getAll() {
+    public List<GetAllCustomersResponse> getAll() {
         return customerService.getAll();
     }
 
     @GetMapping("/getById")
-    public Customer getById(@RequestParam int id) {
+    public GetCustomerResponse getById(@RequestParam int id) {
         return customerService.getById(id);
     }
 
