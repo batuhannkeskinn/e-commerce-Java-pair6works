@@ -13,8 +13,6 @@ public class CreateAddressRequest {
 
     private String title;
     @Min(value = 0)
-    private int addressId;
-    @Min(value = 0)
     private int streetId;
     @Min(value = 0)
     private int cityId;

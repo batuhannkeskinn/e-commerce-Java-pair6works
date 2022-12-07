@@ -12,9 +12,9 @@ public interface AddressRepository extends JpaRepository<Address, Integer> {
 
     boolean existsAddressByAddressId(int id);
 
-//    @Query("Select ad from Address as ad Where name =:name")
+    //    @Query("Select ad from Address as ad Where name =:name")
 //    Product findByName(String name);
-    @Query ("Select ad from Address as ad Where address_id =:id")
+    @Query("Select ad from Address as ad Where address_id =:id")
     Address customAddress(int id);
 //    @Query("SELECT new com.etiya.ecommercedemopair6.entities.concretes.City(c.cityId,c.cityName,c.addresses) FROM Address a JOIN City c ON a.city.cityId=c.cityId WHERE a.addressId=:id" )
 //    Address getAllCitiesByAddressId(@Param("id") int id);
