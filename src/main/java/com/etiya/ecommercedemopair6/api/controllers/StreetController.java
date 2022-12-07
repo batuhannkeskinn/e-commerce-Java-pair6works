@@ -4,7 +4,8 @@ package com.etiya.ecommercedemopair6.api.controllers;
 import com.etiya.ecommercedemopair6.business.abstracts.StreetService;
 import com.etiya.ecommercedemopair6.business.dto.request.concretes.street.CreateStreetRequest;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.street.CreateStreetResponse;
-import com.etiya.ecommercedemopair6.entities.concretes.Street;
+import com.etiya.ecommercedemopair6.business.dto.response.concretes.street.GetAllStreetsResponse;
+import com.etiya.ecommercedemopair6.business.dto.response.concretes.street.GetStreetResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,11 +23,11 @@ public class StreetController {
 
 
     @GetMapping("/getById")
-    public Street getById(@RequestParam int id){
+    public GetStreetResponse getById(@RequestParam int id){
         return streetService.getById(id);
     }
     @GetMapping("/getAll")
-    public List<Street> getAll(){
+    public List<GetAllStreetsResponse> getAll(){
         return streetService.getAllServices();
     }
 

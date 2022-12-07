@@ -51,14 +51,21 @@ public class CustomerManager implements CustomerService {
 //        }
 
     @Override
-    public List<Customer> getAllByFirstName(String name) {
-
-        return customerRepository.findAllCustomersByFirstName(name);
+    public List<GetAllCustomersResponse> getAllByFirstName(String name) {
+        List<Customer> customers = customerRepository.findAll();
+        List<GetAllCustomersResponse> responses = customers.
+                stream().map
+                        (customer -> modelMapperService.forResponse().map
+                                (customer, GetAllCustomersResponse.class))
+                .collect(Collectors.toList());
+        return responses;
     }
 
     @Override
-    public Customer customById(int id) {
-        return customerRepository.customById(id);
+    public GetCustomerResponse customById(int id) {
+        Customer customer= customerRepository.customById(id);
+        GetCustomerResponse response = modelMapperService.forResponse().map(customer,GetCustomerResponse.class);
+        return response;
     }
 
     @Override

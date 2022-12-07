@@ -4,7 +4,6 @@ import com.etiya.ecommercedemopair6.business.dto.request.concretes.customer.Crea
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.customer.CreateCustomerResponse;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.customer.GetAllCustomersResponse;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.customer.GetCustomerResponse;
-import com.etiya.ecommercedemopair6.entities.concretes.Customer;
 
 import java.util.List;
 
@@ -13,9 +12,9 @@ public interface CustomerService {
 
     GetCustomerResponse getById(int id);
 
-    List<Customer> getAllByFirstName(String name);
+    List<GetAllCustomersResponse> getAllByFirstName(String name);
 
-    Customer customById(int id);
+    GetCustomerResponse customById(int id);
 
     CreateCustomerResponse createCustomer(CreateCustomerRequest createCustomerRequest);
 

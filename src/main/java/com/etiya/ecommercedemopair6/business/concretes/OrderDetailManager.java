@@ -5,6 +5,8 @@ import com.etiya.ecommercedemopair6.business.abstracts.OrderService;
 import com.etiya.ecommercedemopair6.business.abstracts.ProductService;
 import com.etiya.ecommercedemopair6.business.dto.request.concretes.orderDetail.CreateOrderDetailRequest;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.orderDetail.CreateOrderDetailResponse;
+import com.etiya.ecommercedemopair6.business.dto.response.concretes.orderDetail.GetAllOrderDetailResponse;
+import com.etiya.ecommercedemopair6.business.dto.response.concretes.orderDetail.GetOrderDetailResponse;
 import com.etiya.ecommercedemopair6.core.util.mapping.ModelMapperService;
 import com.etiya.ecommercedemopair6.entities.concretes.OrderDetail;
 import com.etiya.ecommercedemopair6.repository.abstracts.OrderDetailRepository;
@@ -12,6 +14,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -24,13 +27,23 @@ public class OrderDetailManager implements OrderDetailService {
 
 
     @Override
-    public OrderDetail getById(int id) {
-        return orderDetailRepository.findById(id).orElseThrow();
+    public GetOrderDetailResponse getById(int id) {
+        OrderDetail orderDetail =orderDetailRepository.findById(id).orElseThrow();
+        GetOrderDetailResponse response = modelMapperService.forResponse().map(orderDetail,GetOrderDetailResponse.class);
+        return response;
+
     }
 
     @Override
-    public List<OrderDetail> getAllOrderDetails() {
-        return orderDetailRepository.findAll();
+    public List<GetAllOrderDetailResponse> getAllOrderDetails() {
+
+        List<OrderDetail> orderDetails = orderDetailRepository.findAll();
+        List<GetAllOrderDetailResponse> responses = orderDetails.
+                stream().map
+                        (orderDetail -> modelMapperService.forResponse().map
+                                (orderDetail, GetAllOrderDetailResponse.class))
+                .collect(Collectors.toList());
+        return responses;
     }
 
     @Override

@@ -3,7 +3,8 @@ package com.etiya.ecommercedemopair6.api.controllers;
 import com.etiya.ecommercedemopair6.business.abstracts.DeliveryService;
 import com.etiya.ecommercedemopair6.business.dto.request.concretes.delivery.CreateDeliveryRequest;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.delivery.CreateDeliveryResponse;
-import com.etiya.ecommercedemopair6.entities.concretes.Delivery;
+import com.etiya.ecommercedemopair6.business.dto.response.concretes.delivery.GetAllDeliveryResponse;
+import com.etiya.ecommercedemopair6.business.dto.response.concretes.delivery.GetDeliveryResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,12 +21,12 @@ public class DeliveryController {
     private DeliveryService deliveryService;
 
     @GetMapping("/getById")
-    public Delivery getById(@RequestParam int id){
+    public GetDeliveryResponse getById(@RequestParam int id){
         return deliveryService.getById(id);
     }
 
     @GetMapping("/getAll")
-    public List<Delivery> getAllDeliveries(){
+    public List<GetAllDeliveryResponse> getAllDeliveries(){
         return deliveryService.getAllDelivery();
     }
 

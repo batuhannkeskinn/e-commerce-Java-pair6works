@@ -3,7 +3,8 @@ package com.etiya.ecommercedemopair6.api.controllers;
 import com.etiya.ecommercedemopair6.business.abstracts.CategoryService;
 import com.etiya.ecommercedemopair6.business.dto.request.concretes.category.CreateCategoryRequest;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.category.CreateCategoryResponse;
-import com.etiya.ecommercedemopair6.entities.concretes.Category;
+import com.etiya.ecommercedemopair6.business.dto.response.concretes.category.GetAllCategoryResponse;
+import com.etiya.ecommercedemopair6.business.dto.response.concretes.category.GetCategoryResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,23 +21,23 @@ public class CategoryController {
     private CategoryService categoryService;
 
     @GetMapping("/getAll")
-    public List<Category> getAll() {
+    public List<GetAllCategoryResponse> getAll() {
         return categoryService.getAll();
     }
     @GetMapping("/getById")
-    public Category getById(@RequestParam int id) {
+    public GetCategoryResponse getById(@RequestParam int id) {
         return categoryService.getById(id);
     }
 
 
     @GetMapping("/getAllCategoriesNameDesc")
-    public List<Category> getCategoriesNameDesc(String name){
+    public List<GetAllCategoryResponse> getCategoriesNameDesc(String name){
         return categoryService.getAllCategoriesNameDesc(name);
     }
 
 
     @GetMapping("/getByName")
-    public Category customByName (@RequestParam int id){return categoryService.customFindName(id);
+    public GetCategoryResponse customByName (@RequestParam int id){return categoryService.customFindName(id);
 
     }
 

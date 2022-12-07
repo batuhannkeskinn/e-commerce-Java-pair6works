@@ -2,12 +2,13 @@ package com.etiya.ecommercedemopair6.business.abstracts;
 
 import com.etiya.ecommercedemopair6.business.dto.request.concretes.country.CreateCountryRequest;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.country.CreateCountryResponse;
-import com.etiya.ecommercedemopair6.entities.concretes.Country;
+import com.etiya.ecommercedemopair6.business.dto.response.concretes.country.GetAllCountryResponse;
+import com.etiya.ecommercedemopair6.business.dto.response.concretes.country.GetCountryResponse;
 
 import java.util.List;
 
 public interface CountyService {
-    Country getById(int id);
-    List<Country> getAllCountry();
+    GetCountryResponse getById(int id);
+    List<GetAllCountryResponse> getAllCountry();
     CreateCountryResponse createCountry(CreateCountryRequest createCountryRequest);
 }

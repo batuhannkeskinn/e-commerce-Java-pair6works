@@ -4,27 +4,40 @@ import com.etiya.ecommercedemopair6.business.abstracts.CustomerService;
 import com.etiya.ecommercedemopair6.business.abstracts.OrderService;
 import com.etiya.ecommercedemopair6.business.dto.request.concretes.order.CreateOrderRequest;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.order.CreateOrderResponse;
+import com.etiya.ecommercedemopair6.business.dto.response.concretes.order.GetAllOrderResponse;
+import com.etiya.ecommercedemopair6.business.dto.response.concretes.order.GetOrderResponse;
 import com.etiya.ecommercedemopair6.core.util.mapping.ModelMapperService;
 import com.etiya.ecommercedemopair6.entities.concretes.Order;
 import com.etiya.ecommercedemopair6.repository.abstracts.OrderRepository;
+import com.etiya.ecommercedemopair6.repository.abstracts.PaymentRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
+
 @AllArgsConstructor
 @Service
 public class OrderManager implements OrderService {
     OrderRepository orderRepository;
     CustomerService customerService;
     ModelMapperService modelMapperService;
+    private final PaymentRepository paymentRepository;
+
     @Override
-    public Order getById(int id) {
-        return orderRepository.findById(id).orElseThrow();
+    public GetOrderResponse getById(int id) {
+        Order order = orderRepository.findById(id).orElseThrow();
+        GetOrderResponse response = modelMapperService.forResponse().map(order,GetOrderResponse.class);
+        return response;
+
+
     }
 
     @Override
-    public List<Order> getAllOrders() {
-        return orderRepository.findAll();
+    public List<GetAllOrderResponse> getAllOrders() {
+       List<Order> orders = orderRepository.findAll();
+       List<GetAllOrderResponse> responses = orders.stream().map(order -> modelMapperService.forResponse().map(order, GetAllOrderResponse.class)).collect(Collectors.toList());
+       return responses;
     }
 
     @Override

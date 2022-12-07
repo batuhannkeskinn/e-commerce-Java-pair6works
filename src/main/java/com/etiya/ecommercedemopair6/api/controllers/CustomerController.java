@@ -5,7 +5,6 @@ import com.etiya.ecommercedemopair6.business.dto.request.concretes.customer.Crea
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.customer.CreateCustomerResponse;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.customer.GetAllCustomersResponse;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.customer.GetCustomerResponse;
-import com.etiya.ecommercedemopair6.entities.concretes.Customer;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -32,12 +31,12 @@ public class CustomerController {
     }
 
     @GetMapping("/getAllCustomersByFirstName")
-    public List<Customer> getAllCustomersByFirstName(@RequestParam("name") String name) {
+    public List<GetAllCustomersResponse> getAllCustomersByFirstName(@RequestParam("name") String name) {
         return customerService.getAllByFirstName(name);
     }
 
     @GetMapping("/getCustomById")
-    public Customer getcustomById(@RequestParam int id) {
+    public GetCustomerResponse getcustomById(@RequestParam int id) {
         return customerService.customById(id);
     }
 

@@ -4,7 +4,8 @@ package com.etiya.ecommercedemopair6.api.controllers;
 import com.etiya.ecommercedemopair6.business.abstracts.ColorService;
 import com.etiya.ecommercedemopair6.business.dto.request.concretes.Color.CreateColorRequest;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.color.CreateColorResponse;
-import com.etiya.ecommercedemopair6.entities.concretes.Color;
+import com.etiya.ecommercedemopair6.business.dto.response.concretes.color.GetAllColorResponse;
+import com.etiya.ecommercedemopair6.business.dto.response.concretes.color.GetColorResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,13 +24,13 @@ public class ColorController {
 
     @GetMapping("/getById")
 
-    public Color getById(@RequestParam int id){
+    public GetColorResponse getById(@RequestParam int id){
         return colorService.getById(id);
     }
 
     @GetMapping("/getAll")
 
-    public List<Color> getAllColors(){
+    public List<GetAllColorResponse> getAllColors(){
         return colorService.getAllColor();
     }
 

@@ -3,7 +3,8 @@ package com.etiya.ecommercedemopair6.api.controllers;
 import com.etiya.ecommercedemopair6.business.abstracts.SizeService;
 import com.etiya.ecommercedemopair6.business.dto.request.concretes.size.CreateSizeRequest;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.size.CreateSizeResponse;
-import com.etiya.ecommercedemopair6.entities.concretes.Size;
+import com.etiya.ecommercedemopair6.business.dto.response.concretes.size.GetAllSizesResponse;
+import com.etiya.ecommercedemopair6.business.dto.response.concretes.size.GetSizeResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,12 +24,12 @@ public class SizeController {
 
     @GetMapping("/getById")
 
-    public Size getById(int id) {
+    public GetSizeResponse getById(int id) {
      return   sizeService.getById(id);
     }
 
     @GetMapping("/getAll")
-    public List<Size> getAllSizes(){
+    public List<GetAllSizesResponse> getAllSizes(){
         return sizeService.getAllServices();
     }
 

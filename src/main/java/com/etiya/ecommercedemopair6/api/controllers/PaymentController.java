@@ -3,7 +3,8 @@ package com.etiya.ecommercedemopair6.api.controllers;
 import com.etiya.ecommercedemopair6.business.abstracts.PaymentService;
 import com.etiya.ecommercedemopair6.business.dto.request.concretes.payment.CreatePaymentRequest;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.payment.CreatePaymentResponse;
-import com.etiya.ecommercedemopair6.entities.concretes.Payment;
+import com.etiya.ecommercedemopair6.business.dto.response.concretes.payment.GetAllPaymentsResponse;
+import com.etiya.ecommercedemopair6.business.dto.response.concretes.payment.GetPaymentResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,11 +21,11 @@ public class PaymentController {
     private PaymentService paymentService;
 
     @GetMapping("/getAll")
-    public List<Payment> getAllPayments(){
+    public List<GetAllPaymentsResponse> getAllPayments(){
         return paymentService.getAllPayments();
     }
     @GetMapping("/getById")
-    public Payment getById(@RequestParam int id){
+    public GetPaymentResponse getById(@RequestParam int id){
         return paymentService.getById(id);
     }
 

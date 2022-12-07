@@ -5,6 +5,8 @@ import com.etiya.ecommercedemopair6.business.abstracts.BasketService;
 import com.etiya.ecommercedemopair6.business.abstracts.ProductService;
 import com.etiya.ecommercedemopair6.business.dto.request.concretes.BasketDetail.CreateBasketDetailRequest;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.basketDetail.CreateBasketDetailResponse;
+import com.etiya.ecommercedemopair6.business.dto.response.concretes.basketDetail.GetAllBasketDetailResponse;
+import com.etiya.ecommercedemopair6.business.dto.response.concretes.basketDetail.GetBasketDetailResponse;
 import com.etiya.ecommercedemopair6.core.util.mapping.ModelMapperService;
 import com.etiya.ecommercedemopair6.entities.concretes.BasketDetail;
 import com.etiya.ecommercedemopair6.repository.abstracts.BasketDetailRepository;
@@ -12,6 +14,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -23,14 +26,22 @@ public class BasketDetailManager implements BasketDetailService {
     private ModelMapperService modelMapperService;
 
     @Override
-    public BasketDetail getById(int id){
-        return basketDetailRepository.findById(id).orElseThrow();
+    public GetBasketDetailResponse getById(int id){
+        BasketDetail basketDetail = basketDetailRepository.findById(id).orElseThrow();
+        GetBasketDetailResponse response = modelMapperService.forResponse().map(basketDetail,GetBasketDetailResponse.class);
+        return response;
 
     }
 
     @Override
-    public List<BasketDetail> getAllBasketDetail() {
-        return basketDetailRepository.findAll();
+    public List<GetAllBasketDetailResponse> getAllBasketDetail() {
+        List<BasketDetail> basketResponses = basketDetailRepository.findAll();
+        List<GetAllBasketDetailResponse> responses = basketResponses.stream()
+                .map(basketDetail -> modelMapperService.forResponse().map(basketDetail,GetAllBasketDetailResponse.class))
+                .collect(Collectors.toList());
+
+
+        return responses;
     }
 
     @Override

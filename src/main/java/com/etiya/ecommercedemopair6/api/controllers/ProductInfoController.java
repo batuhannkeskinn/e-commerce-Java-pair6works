@@ -3,7 +3,8 @@ package com.etiya.ecommercedemopair6.api.controllers;
 import com.etiya.ecommercedemopair6.business.abstracts.ProductInfoService;
 import com.etiya.ecommercedemopair6.business.dto.request.concretes.productInfo.CreateProductInfoRequest;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.productInfo.CreateProductInfoResponse;
-import com.etiya.ecommercedemopair6.entities.concretes.ProductInfo;
+import com.etiya.ecommercedemopair6.business.dto.response.concretes.productInfo.GetAllProductInfosResponse;
+import com.etiya.ecommercedemopair6.business.dto.response.concretes.productInfo.GetProductInfoResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,12 +20,12 @@ public class ProductInfoController {
 
 
     @GetMapping
-    public List<ProductInfo> getAll() {
+    public List<GetAllProductInfosResponse> getAll() {
         return productInfoService.getAllProductInfos();
     }
 
     @GetMapping("/getById")
-    public ProductInfo getById(@RequestParam int id) {
+    public GetProductInfoResponse getById(@RequestParam int id) {
         return productInfoService.getById(id);
     }
 

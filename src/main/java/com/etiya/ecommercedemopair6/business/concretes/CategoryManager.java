@@ -3,6 +3,8 @@ package com.etiya.ecommercedemopair6.business.concretes;
 import com.etiya.ecommercedemopair6.business.abstracts.CategoryService;
 import com.etiya.ecommercedemopair6.business.dto.request.concretes.category.CreateCategoryRequest;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.category.CreateCategoryResponse;
+import com.etiya.ecommercedemopair6.business.dto.response.concretes.category.GetAllCategoryResponse;
+import com.etiya.ecommercedemopair6.business.dto.response.concretes.category.GetCategoryResponse;
 import com.etiya.ecommercedemopair6.core.util.mapping.ModelMapperService;
 import com.etiya.ecommercedemopair6.entities.concretes.Category;
 import com.etiya.ecommercedemopair6.repository.abstracts.CategoryRepository;
@@ -10,29 +12,45 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 @AllArgsConstructor
 public class CategoryManager implements CategoryService {
     private CategoryRepository categoryRepository;
     private ModelMapperService modelMapperService;
     @Override
-    public List<Category> getAll() {
-        return categoryRepository.findAll();
+    public List<GetAllCategoryResponse> getAll() {
+        List<Category> categories  = categoryRepository.findAll();
+        List<GetAllCategoryResponse> responses = categories
+                .stream()
+                .map(category -> modelMapperService.forResponse().map(category,GetAllCategoryResponse.class))
+                .collect(Collectors.toList());
+        return responses;
     }
 
     @Override
-    public Category getById(int id) {
-        return categoryRepository.findById(id).orElseThrow();
+    public GetCategoryResponse getById(int id) {
+        Category category = categoryRepository.findById(id).orElseThrow();
+        GetCategoryResponse response = modelMapperService.forResponse().map(category,GetCategoryResponse.class);
+        return response;
     }
 
     @Override
-    public List<Category> getAllCategoriesNameDesc(String name) {
-        return categoryRepository.findAllCategoriesByCategoryName(name);
+    public List<GetAllCategoryResponse> getAllCategoriesNameDesc(String name) {
+        List<Category> categories  =categoryRepository.findAllCategoriesByCategoryName(name);
+        List<GetAllCategoryResponse> responses = categories
+                .stream()
+                .map(category -> modelMapperService.forResponse().map(category,GetAllCategoryResponse.class))
+                .collect(Collectors.toList());
+        return responses;
     }
 
     @Override
-    public Category customFindName(int id) {
-        return categoryRepository.customByName(id);
+    public GetCategoryResponse customFindName(int id) {
+        Category category =categoryRepository.customByName(id);
+        GetCategoryResponse response = modelMapperService.forResponse().map(category,GetCategoryResponse.class);
+        return response;
     }
 
     @Override
