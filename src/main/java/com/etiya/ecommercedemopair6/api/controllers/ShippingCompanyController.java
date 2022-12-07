@@ -3,7 +3,8 @@ package com.etiya.ecommercedemopair6.api.controllers;
 import com.etiya.ecommercedemopair6.business.abstracts.ShippingCompanyService;
 import com.etiya.ecommercedemopair6.business.dto.request.concretes.shippingCompany.CreateShippingCompanyRequest;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.shippingCompany.CreateShippingCompanyResponse;
-import com.etiya.ecommercedemopair6.entities.concretes.ShippingCompany;
+import com.etiya.ecommercedemopair6.business.dto.response.concretes.shippingCompany.GetAllShippingCompanyResponse;
+import com.etiya.ecommercedemopair6.business.dto.response.concretes.shippingCompany.GetShippingCompanyResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,12 +26,12 @@ public class ShippingCompanyController {
 
 
     @GetMapping("/getById")
-    public ShippingCompany getById(int id){
+    public GetShippingCompanyResponse getById(int id){
         return shippingCompanyService.getById(id);
     }
 
     @GetMapping("/getAll")
-    public List<ShippingCompany> getAll() {
+    public List<GetAllShippingCompanyResponse> getAll() {
         return shippingCompanyService.getAllShippingCompanies();
     }
 

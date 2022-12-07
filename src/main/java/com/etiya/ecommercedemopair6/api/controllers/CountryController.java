@@ -3,7 +3,8 @@ package com.etiya.ecommercedemopair6.api.controllers;
 import com.etiya.ecommercedemopair6.business.abstracts.CountyService;
 import com.etiya.ecommercedemopair6.business.dto.request.concretes.country.CreateCountryRequest;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.country.CreateCountryResponse;
-import com.etiya.ecommercedemopair6.entities.concretes.Country;
+import com.etiya.ecommercedemopair6.business.dto.response.concretes.country.GetAllCountryResponse;
+import com.etiya.ecommercedemopair6.business.dto.response.concretes.country.GetCountryResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,12 +21,12 @@ public class CountryController {
     private CountyService countyService;
 
     @GetMapping("/getById")
-    public Country getById(@RequestParam int id){
+    public GetCountryResponse getById(@RequestParam int id){
         return countyService.getById(id);
     }
 
     @GetMapping("/getAll")
-    public List<Country> getAll(){
+    public List<GetAllCountryResponse> getAll(){
         return countyService.getAllCountry();
     }
 

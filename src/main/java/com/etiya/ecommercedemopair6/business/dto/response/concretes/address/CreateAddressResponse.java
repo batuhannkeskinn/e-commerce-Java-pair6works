@@ -14,7 +14,5 @@ public class CreateAddressResponse {
     private int countryId;
 
 
-    public CreateAddressResponse(String title) {
-        this.title = title;
-    }
+
 }

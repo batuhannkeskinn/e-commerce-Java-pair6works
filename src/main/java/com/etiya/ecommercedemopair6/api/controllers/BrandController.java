@@ -3,7 +3,8 @@ package com.etiya.ecommercedemopair6.api.controllers;
 import com.etiya.ecommercedemopair6.business.abstracts.BrandService;
 import com.etiya.ecommercedemopair6.business.dto.request.concretes.brand.CreateBrandRequest;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.brand.CreateBrandResponse;
-import com.etiya.ecommercedemopair6.entities.concretes.Brand;
+import com.etiya.ecommercedemopair6.business.dto.response.concretes.brand.GetAllBrandResponse;
+import com.etiya.ecommercedemopair6.business.dto.response.concretes.brand.GetBrandResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,12 +22,12 @@ public class BrandController {
     private BrandService brandService;
 
     @GetMapping("/getById")
-    public Brand getById(int id) {
+    public GetBrandResponse getById(int id) {
         return brandService.getById(id);
     }
 
     @GetMapping("/getAll")
-    public List<Brand> getAllBrand() {
+    public List<GetAllBrandResponse> getAllBrand() {
         return brandService.getAllBrand();
     }
 

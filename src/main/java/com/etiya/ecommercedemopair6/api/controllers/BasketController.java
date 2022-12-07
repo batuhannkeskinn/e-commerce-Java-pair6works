@@ -3,7 +3,8 @@ package com.etiya.ecommercedemopair6.api.controllers;
 import com.etiya.ecommercedemopair6.business.abstracts.BasketService;
 import com.etiya.ecommercedemopair6.business.dto.request.concretes.Basket.CreateBasketRequest;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.basket.CreateBasketResponse;
-import com.etiya.ecommercedemopair6.entities.concretes.Basket;
+import com.etiya.ecommercedemopair6.business.dto.response.concretes.basket.GetAllBasketResponse;
+import com.etiya.ecommercedemopair6.business.dto.response.concretes.basket.GetBasketResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,11 +24,11 @@ public class BasketController {
     private BasketService basketService;
 
     @GetMapping("/getById")
-    public Basket getById(int id){
+    public GetBasketResponse getById(int id){
         return basketService.getById(id);
     }
     @GetMapping("/getAll")
-    public List<Basket> getAll(){
+    public List<GetAllBasketResponse> getAll(){
         return basketService.getAllBasket();
     }
     @PostMapping("/add")

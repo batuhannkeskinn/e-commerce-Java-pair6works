@@ -3,7 +3,8 @@ package com.etiya.ecommercedemopair6.api.controllers;
 import com.etiya.ecommercedemopair6.business.abstracts.OrderService;
 import com.etiya.ecommercedemopair6.business.dto.request.concretes.order.CreateOrderRequest;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.order.CreateOrderResponse;
-import com.etiya.ecommercedemopair6.entities.concretes.Order;
+import com.etiya.ecommercedemopair6.business.dto.response.concretes.order.GetAllOrderResponse;
+import com.etiya.ecommercedemopair6.business.dto.response.concretes.order.GetOrderResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,12 +21,12 @@ public class OrderController {
     private OrderService orderService;
 
     @GetMapping("/getById")
-    public Order getById(@RequestParam int id){
+    public GetOrderResponse getById(@RequestParam int id){
         return orderService.getById(id);
     }
 
     @GetMapping("/getAll")
-    public List<Order> getAllOrders(){
+    public List<GetAllOrderResponse> getAllOrders(){
         return orderService.getAllOrders();
     }
 

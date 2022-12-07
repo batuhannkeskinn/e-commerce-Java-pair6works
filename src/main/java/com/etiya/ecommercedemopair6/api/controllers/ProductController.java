@@ -3,7 +3,8 @@ package com.etiya.ecommercedemopair6.api.controllers;
 import com.etiya.ecommercedemopair6.business.abstracts.ProductService;
 import com.etiya.ecommercedemopair6.business.dto.request.concretes.product.CreateProductRequest;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.product.CreateProductResponse;
-import com.etiya.ecommercedemopair6.entities.concretes.Product;
+import com.etiya.ecommercedemopair6.business.dto.response.concretes.product.GetAllProductsResponse;
+import com.etiya.ecommercedemopair6.business.dto.response.concretes.product.GetProductResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,20 +25,20 @@ public class ProductController {
     }
 
     @GetMapping("/getAll")
-    public List<Product> getAll() {
+    public List<GetAllProductsResponse> getAll() {
         return productService.getAll();
     }
 
     @GetMapping("/getById")
-    public Product getById(@RequestParam int id) {
+    public GetProductResponse getById(@RequestParam int id) {
         return productService.getById(id);
     }
     @GetMapping("/getByStockGreaterThan")
-    public List<Product> getAllByStock(@RequestParam("stock") int stock){
+    public List<GetAllProductsResponse> getAllByStock(@RequestParam("stock") int stock){
         return productService.getAllByStockGreaterThan(stock);
     }
     @GetMapping("/getByName")
-    public Product getByName(@RequestParam("name")String name){
+    public GetProductResponse getByName(@RequestParam("name")String name){
       return  productService.findByName(name);
     }
 

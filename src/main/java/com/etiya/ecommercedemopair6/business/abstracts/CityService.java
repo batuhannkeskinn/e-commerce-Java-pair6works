@@ -2,16 +2,17 @@ package com.etiya.ecommercedemopair6.business.abstracts;
 
 import com.etiya.ecommercedemopair6.business.dto.request.concretes.city.CreateCityRequest;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.city.CreateCityResponse;
-import com.etiya.ecommercedemopair6.entities.concretes.City;
+import com.etiya.ecommercedemopair6.business.dto.response.concretes.city.GetAllCityResponse;
+import com.etiya.ecommercedemopair6.business.dto.response.concretes.city.GetCityResponse;
 
 import java.util.List;
 
 public interface CityService {
-    List<City> getAll();
+    List<GetAllCityResponse> getAll();
 
-    City getById(int id);
+    GetCityResponse getById(int id);
 
-    List<City> findAllCityByCityName(String name);
+    List<GetAllCityResponse> findAllCityByCityName(String name);
 
     CreateCityResponse addCity(CreateCityRequest createCityRequest);
 }
