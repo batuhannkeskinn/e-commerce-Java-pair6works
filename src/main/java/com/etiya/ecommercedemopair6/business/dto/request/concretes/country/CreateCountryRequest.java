@@ -8,5 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CreateCountryRequest {
+    private int countryId;
     private String countryName;
+
 }

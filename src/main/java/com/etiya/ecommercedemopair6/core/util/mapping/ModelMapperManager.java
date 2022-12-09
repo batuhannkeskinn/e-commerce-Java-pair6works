@@ -13,6 +13,10 @@ public class ModelMapperManager implements ModelMapperService{
         this.modelMapper = modelMapper;
     }
 
+
+    /* forResponse()
+    *
+    * */
     @Override
     public ModelMapper forResponse() {
         this.modelMapper.getConfiguration().setAmbiguityIgnored(true).setMatchingStrategy(MatchingStrategies.LOOSE);

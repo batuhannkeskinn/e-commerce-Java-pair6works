@@ -1,6 +1,7 @@
 package com.etiya.ecommercedemopair6.business.concretes;
 
 import com.etiya.ecommercedemopair6.business.abstracts.CountyService;
+import com.etiya.ecommercedemopair6.business.constants.Message;
 import com.etiya.ecommercedemopair6.business.dto.request.concretes.country.CreateCountryRequest;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.country.CreateCountryResponse;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.country.GetAllCountryResponse;
@@ -38,10 +39,11 @@ public class CountryManager implements CountyService {
         return responses;
     }
 
+
     @Override
     public CreateCountryResponse createCountry(CreateCountryRequest createCountryRequest) {
         //***********************************ManuelMapper******************************************
-
+        checkIfExistsCountryId(createCountryRequest.getCountryId());
 
         /*Country country=new Country();
         country.setCountryName(createCountryRequest.getCountryName());
@@ -55,10 +57,10 @@ public class CountryManager implements CountyService {
 
     }
 
-    public void checkIfExistsCityId(int id) {
+    public void checkIfExistsCountryId(int id) {
         boolean isExists = countryRepository.existsById(id);
         if (!isExists) {
-            throw new RuntimeException("This country not found");
+            throw new RuntimeException(Message.Country.CheckIfExistsCountryId);
         }
     }
 }

@@ -3,6 +3,7 @@ package com.etiya.ecommercedemopair6.business.concretes;
 import com.etiya.ecommercedemopair6.business.abstracts.CategoryProductService;
 import com.etiya.ecommercedemopair6.business.abstracts.CategoryService;
 import com.etiya.ecommercedemopair6.business.abstracts.ProductService;
+import com.etiya.ecommercedemopair6.business.constants.Message;
 import com.etiya.ecommercedemopair6.business.dto.request.concretes.categoryProduct.CreateCategoryProductRequest;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.categoryProduct.CreateCategoryProductResponse;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.categoryProduct.GetAllCategoryProductResponse;
@@ -75,13 +76,13 @@ public class CategoryProductManager implements CategoryProductService {
     public void checkIfExistsProductId(int id){
         boolean isExists = productRepository.existsById(id);
         if (!isExists){
-            throw new RuntimeException("This product not found");
+            throw new RuntimeException(Message.Product.CheckIfExistsProductId);
         }
     }
     public void checkIfExistsCategoryId(int id){
         boolean isExists = categoryRepository.existsById(id);
         if (!isExists){
-            throw new RuntimeException("This category not found");
+            throw new RuntimeException(Message.Category.CheckIfExistsCategoryId);
         }
     }
 }

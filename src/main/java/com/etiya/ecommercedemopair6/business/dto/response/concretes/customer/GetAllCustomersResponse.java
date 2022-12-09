@@ -5,6 +5,6 @@ import lombok.Data;
 @Data
 public class GetAllCustomersResponse {
     private String phoneNumber;
-    private String fisrtName;
+    private String firstName;
 
 }

@@ -1,6 +1,7 @@
 package com.etiya.ecommercedemopair6.api.controllers;
 
 import com.etiya.ecommercedemopair6.business.abstracts.PaymentService;
+import com.etiya.ecommercedemopair6.business.constants.Paths;
 import com.etiya.ecommercedemopair6.business.dto.request.concretes.payment.CreatePaymentRequest;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.payment.CreatePaymentResponse;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.payment.GetAllPaymentsResponse;
@@ -15,7 +16,7 @@ import java.util.List;
 
 @AllArgsConstructor
 @RestController
-@RequestMapping("/api/payment")
+@RequestMapping(Paths.apiPrefix+"payment")
 public class PaymentController {
     @Autowired
     private PaymentService paymentService;
