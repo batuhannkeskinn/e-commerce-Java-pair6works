@@ -1,6 +1,7 @@
 package com.etiya.ecommercedemopair6.api.controllers;
 
 import com.etiya.ecommercedemopair6.business.abstracts.OrderService;
+import com.etiya.ecommercedemopair6.business.constants.Paths;
 import com.etiya.ecommercedemopair6.business.dto.request.concretes.order.CreateOrderRequest;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.order.CreateOrderResponse;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.order.GetAllOrderResponse;
@@ -15,7 +16,7 @@ import java.util.List;
 
 @AllArgsConstructor
 @RestController
-@RequestMapping("/api/orders")
+@RequestMapping(Paths.apiPrefix+"orders")
 public class OrderController {
     @Autowired
     private OrderService orderService;

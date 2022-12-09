@@ -1,6 +1,7 @@
 package com.etiya.ecommercedemopair6.api.controllers;
 
 import com.etiya.ecommercedemopair6.business.abstracts.ShippingCompanyService;
+import com.etiya.ecommercedemopair6.business.constants.Paths;
 import com.etiya.ecommercedemopair6.business.dto.request.concretes.shippingCompany.CreateShippingCompanyRequest;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.shippingCompany.CreateShippingCompanyResponse;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.shippingCompany.GetAllShippingCompanyResponse;
@@ -17,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/shippingCompanies")
+@RequestMapping(Paths.apiPrefix+"shippingCompanies")
 @AllArgsConstructor
 public class ShippingCompanyController {
     @Autowired

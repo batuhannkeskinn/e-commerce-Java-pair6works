@@ -1,6 +1,7 @@
 package com.etiya.ecommercedemopair6.api.controllers;
 
 import com.etiya.ecommercedemopair6.business.abstracts.SizeService;
+import com.etiya.ecommercedemopair6.business.constants.Paths;
 import com.etiya.ecommercedemopair6.business.dto.request.concretes.size.CreateSizeRequest;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.size.CreateSizeResponse;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.size.GetAllSizesResponse;
@@ -16,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/sizes")
+@RequestMapping(Paths.apiPrefix+"size")
 public class SizeController {
     @Autowired
     private SizeService sizeService;

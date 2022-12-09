@@ -1,6 +1,7 @@
 package com.etiya.ecommercedemopair6.api.controllers;
 
 import com.etiya.ecommercedemopair6.business.abstracts.ProductService;
+import com.etiya.ecommercedemopair6.business.constants.Paths;
 import com.etiya.ecommercedemopair6.business.dto.request.concretes.product.CreateProductRequest;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.product.CreateProductResponse;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.product.GetAllProductsResponse;
@@ -13,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/products")
+@RequestMapping(Paths.apiPrefix+"products")
 
 public class ProductController {
     @Autowired

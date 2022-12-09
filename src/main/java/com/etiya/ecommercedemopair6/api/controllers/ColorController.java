@@ -2,6 +2,7 @@ package com.etiya.ecommercedemopair6.api.controllers;
 
 
 import com.etiya.ecommercedemopair6.business.abstracts.ColorService;
+import com.etiya.ecommercedemopair6.business.constants.Paths;
 import com.etiya.ecommercedemopair6.business.dto.request.concretes.Color.CreateColorRequest;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.color.CreateColorResponse;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.color.GetAllColorResponse;
@@ -17,7 +18,7 @@ import java.util.List;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/api/colors")
+@RequestMapping(Paths.apiPrefix+"colors")
 public class ColorController {
     @Autowired
     private ColorService colorService;

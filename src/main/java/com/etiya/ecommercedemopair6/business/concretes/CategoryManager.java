@@ -1,6 +1,7 @@
 package com.etiya.ecommercedemopair6.business.concretes;
 
 import com.etiya.ecommercedemopair6.business.abstracts.CategoryService;
+import com.etiya.ecommercedemopair6.business.constants.Message;
 import com.etiya.ecommercedemopair6.business.dto.request.concretes.category.CreateCategoryRequest;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.category.CreateCategoryResponse;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.category.GetAllCategoryResponse;
@@ -74,7 +75,7 @@ public class CategoryManager implements CategoryService {
     public void checkIfExistsWithSameName(String name){
         boolean isExists = categoryRepository.existsCategoryByCategoryName(name);
         if (isExists){
-            throw new RuntimeException("Bu kategori mevcut");
+            throw new RuntimeException(Message.Category.CheckIfExistsCategoryId);
         }
     }
 

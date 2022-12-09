@@ -1,6 +1,7 @@
 package com.etiya.ecommercedemopair6.api.controllers;
 
 import com.etiya.ecommercedemopair6.business.abstracts.BrandService;
+import com.etiya.ecommercedemopair6.business.constants.Paths;
 import com.etiya.ecommercedemopair6.business.dto.request.concretes.brand.CreateBrandRequest;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.brand.CreateBrandResponse;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.brand.GetAllBrandResponse;
@@ -16,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/brands")
+@RequestMapping(Paths.apiPrefix+"brands")
 public class BrandController {
     @Autowired
     private BrandService brandService;

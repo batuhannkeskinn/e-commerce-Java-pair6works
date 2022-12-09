@@ -1,7 +1,6 @@
 package com.etiya.ecommercedemopair6.entities.concretes;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -21,7 +20,7 @@ public class CategoryProduct {
    private int categoryProductId;
 
 
-   //category_id
+//category_id
 
 
    @JsonIgnore

@@ -1,6 +1,7 @@
 package com.etiya.ecommercedemopair6.api.controllers;
 
 import com.etiya.ecommercedemopair6.business.abstracts.CityService;
+import com.etiya.ecommercedemopair6.business.constants.Paths;
 import com.etiya.ecommercedemopair6.business.dto.request.concretes.city.CreateCityRequest;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.city.CreateCityResponse;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.city.GetAllCityResponse;
@@ -13,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/cities")
+@RequestMapping(Paths.apiPrefix+"cities")
 public class CityController {
 
     @Autowired

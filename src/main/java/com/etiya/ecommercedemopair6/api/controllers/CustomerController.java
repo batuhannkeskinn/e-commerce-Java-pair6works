@@ -1,6 +1,7 @@
 package com.etiya.ecommercedemopair6.api.controllers;
 
 import com.etiya.ecommercedemopair6.business.abstracts.CustomerService;
+import com.etiya.ecommercedemopair6.business.constants.Paths;
 import com.etiya.ecommercedemopair6.business.dto.request.concretes.customer.CreateCustomerRequest;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.customer.CreateCustomerResponse;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.customer.GetAllCustomersResponse;
@@ -15,7 +16,7 @@ import java.util.List;
 
 @AllArgsConstructor
 @RestController
-@RequestMapping("/api/customers")
+@RequestMapping(Paths.apiPrefix+"customers")
 public class CustomerController {
     @Autowired
     private CustomerService customerService;

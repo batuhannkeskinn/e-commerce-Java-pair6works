@@ -2,6 +2,7 @@ package com.etiya.ecommercedemopair6.business.concretes;
 
 import com.etiya.ecommercedemopair6.business.abstracts.AddressService;
 import com.etiya.ecommercedemopair6.business.abstracts.CustomerService;
+import com.etiya.ecommercedemopair6.business.constants.Message;
 import com.etiya.ecommercedemopair6.business.dto.request.concretes.customer.CreateCustomerRequest;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.customer.CreateCustomerResponse;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.customer.GetAllCustomersResponse;
@@ -102,7 +103,7 @@ public class CustomerManager implements CustomerService {
     public void checkIfCustomerExistsAddressId(int id) {
         boolean isExists = addressRepository.existsById(id);
         if (!isExists) {
-            throw new RuntimeException("Kişinin sistemde kayıtlı bir adresi yok");
+            throw new RuntimeException(Message.Customer.CheckIfExistsCustomerId);
         }
     }
 }

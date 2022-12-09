@@ -1,6 +1,7 @@
 package com.etiya.ecommercedemopair6.api.controllers;
 
 import com.etiya.ecommercedemopair6.business.abstracts.CountyService;
+import com.etiya.ecommercedemopair6.business.constants.Paths;
 import com.etiya.ecommercedemopair6.business.dto.request.concretes.country.CreateCountryRequest;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.country.CreateCountryResponse;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.country.GetAllCountryResponse;
@@ -15,7 +16,7 @@ import java.util.List;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/api/countries")
+@RequestMapping(Paths.apiPrefix+"countries")
 public class CountryController {
     @Autowired
     private CountyService countyService;

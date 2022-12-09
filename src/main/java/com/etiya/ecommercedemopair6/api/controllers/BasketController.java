@@ -1,6 +1,7 @@
 package com.etiya.ecommercedemopair6.api.controllers;
 
 import com.etiya.ecommercedemopair6.business.abstracts.BasketService;
+import com.etiya.ecommercedemopair6.business.constants.Paths;
 import com.etiya.ecommercedemopair6.business.dto.request.concretes.Basket.CreateBasketRequest;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.basket.CreateBasketResponse;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.basket.GetAllBasketResponse;
@@ -17,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/baskets")
+@RequestMapping(Paths.apiPrefix+"baskets")
 @AllArgsConstructor
 public class BasketController {
     @Autowired
