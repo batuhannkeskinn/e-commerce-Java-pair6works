@@ -18,4 +18,5 @@ public class CreateAddressRequest {
     private int cityId;
     @Min(value = 0)
     private int countryId;
+
 }

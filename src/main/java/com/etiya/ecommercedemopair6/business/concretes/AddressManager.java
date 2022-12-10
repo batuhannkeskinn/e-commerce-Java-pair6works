@@ -8,10 +8,7 @@ import com.etiya.ecommercedemopair6.business.dto.response.concretes.address.GetA
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.address.GetAllAddressResponse;
 import com.etiya.ecommercedemopair6.core.util.mapping.ModelMapperService;
 import com.etiya.ecommercedemopair6.entities.concretes.Address;
-import com.etiya.ecommercedemopair6.repository.abstracts.AddressRepository;
-import com.etiya.ecommercedemopair6.repository.abstracts.CityRepository;
-import com.etiya.ecommercedemopair6.repository.abstracts.CountryRepository;
-import com.etiya.ecommercedemopair6.repository.abstracts.StreetRepository;
+import com.etiya.ecommercedemopair6.repository.abstracts.*;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -21,13 +18,12 @@ import java.util.stream.Collectors;
 @Service
 @AllArgsConstructor
 public class AddressManager implements AddressService {
-//
+
     private AddressRepository addressRepository;
     private CityRepository cityRepository;
     private CountryRepository countryRepository;
     private StreetRepository streetRepository;
     private ModelMapperService modelMapperService;
-
 
 
     @Override
@@ -42,11 +38,6 @@ public class AddressManager implements AddressService {
 
         List<Address> addresses = addressRepository.findAll();
 
-
-     /*   [{1,Ev,1,5,6},{2,Ev,2,5,7},{3,iş,4,5,6}
-
-                ]*/
-
         List<GetAllAddressResponse> responses = addresses.
                 stream().map
                         (address -> modelMapperService.forResponse().map
@@ -54,12 +45,13 @@ public class AddressManager implements AddressService {
                 .collect(Collectors.toList());
 
         return responses;
-    }
-    @Override
-    public List<Address> findAddressByCityByCityName(String cityName) {
-        return addressRepository.customeCityAddress(cityName);
 
     }
+//    @Override
+//    public List<Address> findAddressByCityByCityName(String cityName) {
+//        return addressRepository.customeCityAddress(cityName);
+
+//    }
 
     @Override
     public List<GetAllAddressResponse> getAllAddressByTitle(String title) {

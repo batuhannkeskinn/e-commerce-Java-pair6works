@@ -41,6 +41,9 @@ public class Product {
     private List<OrderDetail> orderDetails;
 
 
+    @ManyToOne
+    @JoinColumn(name = "supplier_id")
+    private Supplier supplier;
 
 
 }
