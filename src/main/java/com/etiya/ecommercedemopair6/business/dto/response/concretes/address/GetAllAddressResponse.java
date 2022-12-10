@@ -9,5 +9,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class GetAllAddressResponse {
     private String title;
+    private String streetName;
+    private String cityName;
+    private String countryName;
 
 }

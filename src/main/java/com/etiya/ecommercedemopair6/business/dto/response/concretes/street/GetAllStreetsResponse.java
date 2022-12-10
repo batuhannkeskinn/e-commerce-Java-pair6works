@@ -4,5 +4,5 @@ import lombok.Data;
 
 @Data
 public class GetAllStreetsResponse {
-    private String name;
+    private String streetName;
 }

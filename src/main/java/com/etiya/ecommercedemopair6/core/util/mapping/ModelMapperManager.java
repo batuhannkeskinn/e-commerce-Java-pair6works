@@ -1,22 +1,21 @@
 package com.etiya.ecommercedemopair6.core.util.mapping;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.stereotype.Service;
 
 @Service
+@AllArgsConstructor
 public class ModelMapperManager implements ModelMapperService{
-
     private ModelMapper modelMapper;
-
-    public ModelMapperManager(ModelMapper modelMapper) {
-        this.modelMapper = modelMapper;
-    }
-
 
     /* forResponse()
     *
-    * */
+    *
+    *
+    */
     @Override
     public ModelMapper forResponse() {
         this.modelMapper.getConfiguration().setAmbiguityIgnored(true).setMatchingStrategy(MatchingStrategies.LOOSE);

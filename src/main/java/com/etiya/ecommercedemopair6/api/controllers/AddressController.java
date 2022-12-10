@@ -53,8 +53,8 @@ public class AddressController {
         return new ResponseEntity<CreateAddressResponse>(addressService.addAddress(createAddressRequest), HttpStatus.CREATED);
     }
 
-    @GetMapping("getAllAddressByCityName")
-    public List<Address> findAddressByCityByCityName(@RequestParam("cityName") String cityName){
-        return addressService.findAddressByCityByCityName(cityName);
-    }
+//    @GetMapping("getAllAddressByCityName")
+//    public List<Address> findAddressByCityByCityName(@RequestParam("cityName") String cityName){
+//        return addressService.findAddressByCityByCityName(cityName);
+//    }
 }

@@ -22,7 +22,8 @@ public class Country {
 
     @Column(name="country_name")
     private String countryName;
+
     @JsonIgnore
     @OneToMany(mappedBy = "country")
-    private List<Address> addresses;
+    private List<City> cities;
 }

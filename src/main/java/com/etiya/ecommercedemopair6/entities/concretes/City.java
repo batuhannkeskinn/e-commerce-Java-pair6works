@@ -26,5 +26,9 @@ public class City {
     private String cityName;
     @JsonIgnore
     @OneToMany(mappedBy = "city")
-    private List<Address> addresses;
+    private List<Street> streets;
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "country_id")
+    private Country country;
 }

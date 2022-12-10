@@ -23,4 +23,9 @@ public class Street {
     @OneToMany(mappedBy = "street")
     private List<Address> addresses;
 
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "city_id")
+    private City city;
+
 }
