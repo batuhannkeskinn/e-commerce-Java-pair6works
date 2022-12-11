@@ -3,11 +3,16 @@ package com.etiya.ecommercedemopair6.business.concretes;
 import com.etiya.ecommercedemopair6.business.abstracts.BasketDetailService;
 import com.etiya.ecommercedemopair6.business.abstracts.BasketService;
 import com.etiya.ecommercedemopair6.business.abstracts.ProductService;
+import com.etiya.ecommercedemopair6.business.constants.Message;
 import com.etiya.ecommercedemopair6.business.dto.request.concretes.BasketDetail.CreateBasketDetailRequest;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.basketDetail.CreateBasketDetailResponse;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.basketDetail.GetAllBasketDetailResponse;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.basketDetail.GetBasketDetailResponse;
 import com.etiya.ecommercedemopair6.core.util.mapping.ModelMapperService;
+import com.etiya.ecommercedemopair6.core.util.result.DataResult;
+import com.etiya.ecommercedemopair6.core.util.result.Result;
+import com.etiya.ecommercedemopair6.core.util.result.SuccessDataResult;
+import com.etiya.ecommercedemopair6.core.util.result.SuccessResult;
 import com.etiya.ecommercedemopair6.entities.concretes.BasketDetail;
 import com.etiya.ecommercedemopair6.repository.abstracts.BasketDetailRepository;
 import lombok.AllArgsConstructor;
@@ -26,26 +31,26 @@ public class BasketDetailManager implements BasketDetailService {
     private ModelMapperService modelMapperService;
 
     @Override
-    public GetBasketDetailResponse getById(int id){
+    public DataResult<GetBasketDetailResponse> getById(int id){
         BasketDetail basketDetail = basketDetailRepository.findById(id).orElseThrow();
         GetBasketDetailResponse response = modelMapperService.forResponse().map(basketDetail,GetBasketDetailResponse.class);
-        return response;
+        return new SuccessDataResult<>(response,Message.BasketDetails.getByBasketDetailId);
 
     }
 
     @Override
-    public List<GetAllBasketDetailResponse> getAllBasketDetail() {
+    public DataResult<List<GetAllBasketDetailResponse>> getAllBasketDetail() {
         List<BasketDetail> basketResponses = basketDetailRepository.findAll();
         List<GetAllBasketDetailResponse> responses = basketResponses.stream()
                 .map(basketDetail -> modelMapperService.forResponse().map(basketDetail,GetAllBasketDetailResponse.class))
                 .collect(Collectors.toList());
 
 
-        return responses;
+        return new SuccessDataResult<>(responses,Message.BasketDetails.getAllBasketDetails);
     }
 
     @Override
-    public CreateBasketDetailResponse createBasket(CreateBasketDetailRequest createBasketDetailRequest) {
+    public Result createBasket(CreateBasketDetailRequest createBasketDetailRequest) {
 //***********************************ManuelMapper******************************************
 
 
@@ -63,7 +68,7 @@ public class BasketDetailManager implements BasketDetailService {
         BasketDetail basketDetail = modelMapperService.forRequest().map(createBasketDetailRequest, BasketDetail.class);
         BasketDetail savedBasketDetail = basketDetailRepository.save(basketDetail);
         CreateBasketDetailResponse response = modelMapperService.forResponse().map(savedBasketDetail, CreateBasketDetailResponse.class);
-        return response;
+        return new SuccessResult(Message.BasketDetails.createBasketDetail);
     }
 
 

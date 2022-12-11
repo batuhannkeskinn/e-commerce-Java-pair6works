@@ -4,11 +4,13 @@ import com.etiya.ecommercedemopair6.business.dto.request.concretes.orderDetail.C
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.orderDetail.CreateOrderDetailResponse;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.orderDetail.GetAllOrderDetailResponse;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.orderDetail.GetOrderDetailResponse;
+import com.etiya.ecommercedemopair6.core.util.result.DataResult;
+import com.etiya.ecommercedemopair6.core.util.result.Result;
 
 import java.util.List;
 
 public interface OrderDetailService {
-    GetOrderDetailResponse getById(int id);
-    List<GetAllOrderDetailResponse> getAllOrderDetails();
-    CreateOrderDetailResponse createOrderDetail(CreateOrderDetailRequest createOrderDetailRequest);
+    DataResult<GetOrderDetailResponse >getById(int id);
+    DataResult<List<GetAllOrderDetailResponse>> getAllOrderDetails();
+    Result createOrderDetail(CreateOrderDetailRequest createOrderDetailRequest);
 }

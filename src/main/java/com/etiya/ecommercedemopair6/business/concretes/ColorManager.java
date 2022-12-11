@@ -1,11 +1,16 @@
 package com.etiya.ecommercedemopair6.business.concretes;
 
 import com.etiya.ecommercedemopair6.business.abstracts.ColorService;
+import com.etiya.ecommercedemopair6.business.constants.Message;
 import com.etiya.ecommercedemopair6.business.dto.request.concretes.Color.CreateColorRequest;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.color.CreateColorResponse;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.color.GetAllColorResponse;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.color.GetColorResponse;
 import com.etiya.ecommercedemopair6.core.util.mapping.ModelMapperService;
+import com.etiya.ecommercedemopair6.core.util.result.DataResult;
+import com.etiya.ecommercedemopair6.core.util.result.Result;
+import com.etiya.ecommercedemopair6.core.util.result.SuccessDataResult;
+import com.etiya.ecommercedemopair6.core.util.result.SuccessResult;
 import com.etiya.ecommercedemopair6.entities.concretes.Color;
 import com.etiya.ecommercedemopair6.repository.abstracts.ColorRepository;
 import lombok.AllArgsConstructor;
@@ -21,24 +26,27 @@ public class ColorManager implements ColorService {
     private ColorRepository colorRepository;
     private ModelMapperService modelMapperService;
     @Override
-    public GetColorResponse getById(int id) {
+    public DataResult<GetColorResponse> getById(int id) {
         Color color = colorRepository.findById(id).orElseThrow();
         GetColorResponse response = modelMapperService
                 .forResponse().map(color,GetColorResponse.class);
-        return response;
+
+
+        return new SuccessDataResult<>(response, Message.Color.getByColorId);
     }
 
     @Override
-    public List<GetAllColorResponse> getAllColor() {
+    public DataResult< List<GetAllColorResponse>> getAllColor() {
         List<Color> colors = colorRepository.findAll();
         List<GetAllColorResponse> responses = colors.stream()
                 .map(color -> modelMapperService.forResponse().map(color,GetAllColorResponse.class))
                 .collect(Collectors.toList());
-        return responses;
+
+        return new SuccessDataResult<>(responses,Message.Color.getAllColors);
     }
 
     @Override
-    public CreateColorResponse createColor(CreateColorRequest createColorRequest) {
+    public Result createColor(CreateColorRequest createColorRequest) {
         //***********************************ManuelMapper******************************************
 
 //        Color color= new Color();
@@ -50,6 +58,6 @@ public class ColorManager implements ColorService {
         Color savedColor = colorRepository.save(color);
         CreateColorResponse response = modelMapperService.forResponse().map(savedColor,CreateColorResponse.class);
 
-        return response;
+        return new SuccessResult(Message.Color.createColor);
     }
 }

@@ -4,11 +4,13 @@ import com.etiya.ecommercedemopair6.business.dto.request.concretes.size.CreateSi
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.size.CreateSizeResponse;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.size.GetAllSizesResponse;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.size.GetSizeResponse;
+import com.etiya.ecommercedemopair6.core.util.result.DataResult;
+import com.etiya.ecommercedemopair6.core.util.result.Result;
 
 import java.util.List;
 
 public interface SizeService {
-    GetSizeResponse getById(int id);
-    List<GetAllSizesResponse> getAllServices();
-    CreateSizeResponse createSize(CreateSizeRequest createSizeRequest);
+    DataResult<GetSizeResponse> getById(int id);
+    DataResult<List<GetAllSizesResponse>> getAllServices();
+    Result createSize(CreateSizeRequest createSizeRequest);
 }

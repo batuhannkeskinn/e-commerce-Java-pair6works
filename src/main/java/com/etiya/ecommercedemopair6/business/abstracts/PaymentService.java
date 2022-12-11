@@ -4,13 +4,15 @@ import com.etiya.ecommercedemopair6.business.dto.request.concretes.payment.Creat
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.payment.CreatePaymentResponse;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.payment.GetAllPaymentsResponse;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.payment.GetPaymentResponse;
+import com.etiya.ecommercedemopair6.core.util.result.DataResult;
+import com.etiya.ecommercedemopair6.core.util.result.Result;
 
 import java.util.List;
 
 public interface PaymentService {
-    GetPaymentResponse getById(int id);
+    DataResult<GetPaymentResponse >getById(int id);
 
-    List<GetAllPaymentsResponse> getAllPayments();
+   DataResult<List<GetAllPaymentsResponse>> getAllPayments();
 
-    CreatePaymentResponse createPayment(CreatePaymentRequest createPaymentRequest);
+    Result createPayment(CreatePaymentRequest createPaymentRequest);
 }

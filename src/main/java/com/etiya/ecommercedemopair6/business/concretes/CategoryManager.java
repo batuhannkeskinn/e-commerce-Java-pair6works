@@ -3,13 +3,18 @@ package com.etiya.ecommercedemopair6.business.concretes;
 import com.etiya.ecommercedemopair6.business.abstracts.CategoryService;
 import com.etiya.ecommercedemopair6.business.constants.Message;
 import com.etiya.ecommercedemopair6.business.dto.request.concretes.category.CreateCategoryRequest;
+import com.etiya.ecommercedemopair6.business.dto.response.concretes.basket.CreateBasketResponse;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.category.CreateCategoryResponse;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.category.GetAllCategoryResponse;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.category.GetCategoryResponse;
 import com.etiya.ecommercedemopair6.core.util.mapping.ModelMapperService;
+import com.etiya.ecommercedemopair6.core.util.result.DataResult;
+import com.etiya.ecommercedemopair6.core.util.result.Result;
+import com.etiya.ecommercedemopair6.core.util.result.SuccessDataResult;
 import com.etiya.ecommercedemopair6.entities.concretes.Category;
 import com.etiya.ecommercedemopair6.repository.abstracts.CategoryRepository;
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,41 +26,41 @@ public class CategoryManager implements CategoryService {
     private CategoryRepository categoryRepository;
     private ModelMapperService modelMapperService;
     @Override
-    public List<GetAllCategoryResponse> getAll() {
+    public DataResult<List<GetAllCategoryResponse>> getAll() {
         List<Category> categories  = categoryRepository.findAll();
         List<GetAllCategoryResponse> responses = categories
                 .stream()
                 .map(category -> modelMapperService.forResponse().map(category,GetAllCategoryResponse.class))
                 .collect(Collectors.toList());
-        return responses;
+        return new SuccessDataResult<List<GetAllCategoryResponse>>(responses,Message.Category.getAllCategories);
     }
 
     @Override
-    public GetCategoryResponse getById(int id) {
+    public DataResult<GetCategoryResponse> getById(int id) {
         Category category = categoryRepository.findById(id).orElseThrow();
         GetCategoryResponse response = modelMapperService.forResponse().map(category,GetCategoryResponse.class);
-        return response;
+        return new SuccessDataResult<GetCategoryResponse>(response,Message.Category.getByCategoryId);
     }
 
     @Override
-    public List<GetAllCategoryResponse> getAllCategoriesNameDesc(String name) {
+    public DataResult<List<GetAllCategoryResponse>> getAllCategoriesNameDesc(String name) {
         List<Category> categories  =categoryRepository.findAllCategoriesByCategoryName(name);
         List<GetAllCategoryResponse> responses = categories
                 .stream()
                 .map(category -> modelMapperService.forResponse().map(category,GetAllCategoryResponse.class))
                 .collect(Collectors.toList());
-        return responses;
+        return new SuccessDataResult<>(responses);
     }
 
     @Override
-    public GetCategoryResponse customFindName(int id) {
+    public DataResult<GetCategoryResponse> customFindName(int id) {
         Category category =categoryRepository.customByName(id);
         GetCategoryResponse response = modelMapperService.forResponse().map(category,GetCategoryResponse.class);
-        return response;
+        return new SuccessDataResult<GetCategoryResponse>(response);
     }
 
     @Override
-    public CreateCategoryResponse createCategory(CreateCategoryRequest createCategoryRequest) {
+    public Result createCategory(CreateCategoryRequest createCategoryRequest) {
         checkIfExistsWithSameName(createCategoryRequest.getCategoryName());
         //***********************************ManuelMapper******************************************
 
@@ -68,7 +73,7 @@ public class CategoryManager implements CategoryService {
         Category category = modelMapperService.forRequest().map(createCategoryRequest,Category.class);
         Category savedCategory=categoryRepository.save(category);
         CreateCategoryResponse response = modelMapperService.forResponse().map(savedCategory,CreateCategoryResponse.class);
-        return response;
+        return new SuccessDataResult(Message.Category.createCategory);
 
     }
 

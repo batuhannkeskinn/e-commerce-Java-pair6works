@@ -7,6 +7,8 @@ import com.etiya.ecommercedemopair6.business.dto.request.concretes.Color.CreateC
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.color.CreateColorResponse;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.color.GetAllColorResponse;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.color.GetColorResponse;
+import com.etiya.ecommercedemopair6.core.util.result.DataResult;
+import com.etiya.ecommercedemopair6.core.util.result.Result;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,19 +27,20 @@ public class ColorController {
 
     @GetMapping("/getById")
 
-    public GetColorResponse getById(@RequestParam int id){
-        return colorService.getById(id);
+    public ResponseEntity<DataResult<GetColorResponse>>getById(@RequestParam int id){
+        return new ResponseEntity<DataResult<GetColorResponse>>(colorService.getById(id),HttpStatus.OK);
     }
 
     @GetMapping("/getAll")
 
-    public List<GetAllColorResponse> getAllColors(){
-        return colorService.getAllColor();
+    public ResponseEntity<DataResult<List<GetAllColorResponse>>>getAllColors(){
+        return new ResponseEntity<DataResult<List<GetAllColorResponse>>>(colorService.getAllColor(),HttpStatus.OK);
     }
 
     @PostMapping("/add")
 
-    public ResponseEntity<CreateColorResponse> createColor(@RequestBody @Valid CreateColorRequest createColorRequest){
-        return new ResponseEntity<>(colorService.createColor(createColorRequest), HttpStatus.CREATED);
+    public ResponseEntity<Result> createColor(@RequestBody @Valid CreateColorRequest createColorRequest){
+        return new ResponseEntity<Result>(colorService.createColor(createColorRequest), HttpStatus.CREATED);
     }
+
 }

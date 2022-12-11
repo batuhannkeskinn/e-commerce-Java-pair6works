@@ -1,12 +1,17 @@
 package com.etiya.ecommercedemopair6.business.concretes;
 
 import com.etiya.ecommercedemopair6.business.abstracts.*;
+import com.etiya.ecommercedemopair6.business.constants.Message;
 import com.etiya.ecommercedemopair6.business.dto.request.concretes.productInfo.CreateProductInfoRequest;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.productInfo.CreateProductInfoResponse;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.productInfo.GetAllProductInfosResponse;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.productInfo.GetProductInfoResponse;
 import com.etiya.ecommercedemopair6.core.util.mapping.ModelMapperService;
-import com.etiya.ecommercedemopair6.entities.concretes.*;
+import com.etiya.ecommercedemopair6.core.util.result.DataResult;
+import com.etiya.ecommercedemopair6.core.util.result.Result;
+import com.etiya.ecommercedemopair6.core.util.result.SuccessDataResult;
+import com.etiya.ecommercedemopair6.core.util.result.SuccessResult;
+import com.etiya.ecommercedemopair6.entities.concretes.ProductInfo;
 import com.etiya.ecommercedemopair6.repository.abstracts.ProductInfoRepository;
 import com.etiya.ecommercedemopair6.repository.abstracts.ProductRepository;
 import lombok.AllArgsConstructor;
@@ -27,30 +32,29 @@ public class ProductInfoManager implements ProductInfoService {
     private final ProductRepository productRepository;
 
     @Override
-    public GetProductInfoResponse getById(int id) {
-        ProductInfo productInfo=productInfoRepository.findById(id).orElseThrow();
-        GetProductInfoResponse response=modelMapperService.forResponse().map(productInfo,GetProductInfoResponse.class);
-        return response;
+    public DataResult<GetProductInfoResponse> getById(int id) {
+        ProductInfo productInfo = productInfoRepository.findById(id).orElseThrow();
+        GetProductInfoResponse response = modelMapperService.forResponse().map(productInfo, GetProductInfoResponse.class);
+        return new SuccessDataResult<>(response, Message.ProductInfo.getByProductInfId);
 
 
         //return productInfoRepository.findById(id).orElseThrow();
     }
 
     @Override
-    public List<GetAllProductInfosResponse> getAllProductInfos() {
-
+    public DataResult<List<GetAllProductInfosResponse>> getAllProductInfos() {
         List<ProductInfo> productInfos = productInfoRepository.findAll();
         List<GetAllProductInfosResponse> responses = productInfos.stream().map
                 (productInfo -> modelMapperService.forResponse().map
                         (productInfo, GetAllProductInfosResponse.class)).collect(Collectors.toList());
-        return responses;
+        return new SuccessDataResult<>(responses, Message.ProductInfo.getAllProductInfos);
     }
 
     @Override
-    public CreateProductInfoResponse createProduct2(CreateProductInfoRequest createProductInfoRequest) {
-        ProductInfo productInfo = modelMapperService.forRequest().map(createProductInfoRequest,ProductInfo.class);
+    public Result createProduct(CreateProductInfoRequest createProductInfoRequest) {
+        ProductInfo productInfo = modelMapperService.forRequest().map(createProductInfoRequest, ProductInfo.class);
         ProductInfo savedProductInfo = productInfoRepository.save(productInfo);
-        CreateProductInfoResponse response = modelMapperService.forResponse().map(savedProductInfo,CreateProductInfoResponse.class);
+        CreateProductInfoResponse response = modelMapperService.forResponse().map(savedProductInfo, CreateProductInfoResponse.class);
 // //***********************************ManuelMapper******************************************
 //        Brand brand = brandService.getById(createProductInfoRequest.getBrandId());
 //        Color color = colorService.getById(createProductInfoRequest.getColorId());
@@ -70,6 +74,6 @@ public class ProductInfoManager implements ProductInfoService {
 //                        savedProductInfo.getProduct().getProductId(),
 //                        savedProductInfo.getSize().getSizeId());
 
-        return response;
+        return new SuccessResult(Message.ProductInfo.createProductInfo);
     }
 }

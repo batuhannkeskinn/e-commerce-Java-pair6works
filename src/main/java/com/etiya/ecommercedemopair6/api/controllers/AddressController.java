@@ -6,8 +6,11 @@ import com.etiya.ecommercedemopair6.business.dto.request.concretes.address.Creat
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.address.CreateAddressResponse;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.address.GetAddressResponse;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.address.GetAllAddressResponse;
+import com.etiya.ecommercedemopair6.core.util.result.DataResult;
+import com.etiya.ecommercedemopair6.core.util.result.Result;
 import com.etiya.ecommercedemopair6.entities.concretes.Address;
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,23 +28,23 @@ public class AddressController {
 
 
     @GetMapping("/getAll")
-    public List<GetAllAddressResponse> getAll() {
-        return this.addressService.getAll();
+    public  ResponseEntity<DataResult<List<GetAllAddressResponse>>>getAll() {
+        return new ResponseEntity<DataResult<List<GetAllAddressResponse>>>(addressService.getAll(),HttpStatus.OK) ;
     }
 
     @GetMapping("/getById")
-    public GetAddressResponse getById(@RequestParam int id) {
-        return addressService.getById(id);
+    public ResponseEntity<DataResult<GetAddressResponse >>getById(@RequestParam int id) {
+        return  new ResponseEntity<DataResult<GetAddressResponse >>(addressService.getById(id),HttpStatus.OK);
     }
 
     @GetMapping("/getAllAddressByTitle")
-    public List<GetAllAddressResponse> getAllAddressByTitle(String title) {
-        return addressService.getAllAddressByTitle(title);
+    public  ResponseEntity<DataResult<List<GetAllAddressResponse>>> getAllAddressByTitle(String title) {
+        return new ResponseEntity<DataResult<List<GetAllAddressResponse>>>(addressService.getAllAddressByTitle(title),HttpStatus.OK);
     }
 
-    @GetMapping("/getAddress")
-    public GetAddressResponse addressFind(@RequestParam int id) {
-        return addressService.getByIdJPQLMethod(id);
+    @GetMapping("/getAddress/")
+    public ResponseEntity<DataResult<GetAddressResponse>> addressFind(@RequestParam int id) {
+        return new ResponseEntity<DataResult<GetAddressResponse>>(addressService.getByIdJPQLMethod(id),HttpStatus.OK);
     }
 //    @GetMapping("/getAllCitiesByAddressId")
 //    public Address getAllCitiesByAddressId(@RequestParam("id")int id){
@@ -49,8 +52,8 @@ public class AddressController {
 //    }
 
     @PostMapping("/add")
-    public ResponseEntity<CreateAddressResponse> createAddress(@RequestBody @Valid CreateAddressRequest createAddressRequest) {
-        return new ResponseEntity<CreateAddressResponse>(addressService.addAddress(createAddressRequest), HttpStatus.CREATED);
+    public ResponseEntity<Result> createAddress(@RequestBody @Valid CreateAddressRequest createAddressRequest) {
+        return new ResponseEntity<Result>(addressService.addAddress(createAddressRequest), HttpStatus.CREATED);
     }
 
 //    @GetMapping("getAllAddressByCityName")

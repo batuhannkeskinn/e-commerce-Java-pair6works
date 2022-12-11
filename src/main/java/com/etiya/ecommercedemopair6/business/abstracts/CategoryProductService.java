@@ -4,14 +4,16 @@ import com.etiya.ecommercedemopair6.business.dto.request.concretes.categoryProdu
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.categoryProduct.CreateCategoryProductResponse;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.categoryProduct.GetAllCategoryProductResponse;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.categoryProduct.GetCategoryProductResponse;
+import com.etiya.ecommercedemopair6.core.util.result.DataResult;
+import com.etiya.ecommercedemopair6.core.util.result.Result;
 
 import java.util.List;
 
 public interface CategoryProductService   {
-   List<GetAllCategoryProductResponse> getAll();
+   DataResult<List<GetAllCategoryProductResponse>> getAll();
 
-   GetCategoryProductResponse getById(int id);
+   DataResult<GetCategoryProductResponse> getById(int id);
 
-   CreateCategoryProductResponse createCategoryProduct(CreateCategoryProductRequest createCategoryProductRequest);
+   Result createCategoryProduct(CreateCategoryProductRequest createCategoryProductRequest);
 
 }

@@ -8,7 +8,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class GetProductResponse {
-    private String productName;
+    private String name;
     private  int stock;
     private double unitPrice;
+
+    public GetProductResponse(String name) {
+        this.name = name;
+    }
 }

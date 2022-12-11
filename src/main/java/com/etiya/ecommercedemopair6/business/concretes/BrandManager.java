@@ -1,11 +1,16 @@
 package com.etiya.ecommercedemopair6.business.concretes;
 
 import com.etiya.ecommercedemopair6.business.abstracts.BrandService;
+import com.etiya.ecommercedemopair6.business.constants.Message;
 import com.etiya.ecommercedemopair6.business.dto.request.concretes.brand.CreateBrandRequest;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.brand.CreateBrandResponse;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.brand.GetAllBrandResponse;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.brand.GetBrandResponse;
 import com.etiya.ecommercedemopair6.core.util.mapping.ModelMapperService;
+import com.etiya.ecommercedemopair6.core.util.result.DataResult;
+import com.etiya.ecommercedemopair6.core.util.result.Result;
+import com.etiya.ecommercedemopair6.core.util.result.SuccessDataResult;
+import com.etiya.ecommercedemopair6.core.util.result.SuccessResult;
 import com.etiya.ecommercedemopair6.entities.concretes.Brand;
 import com.etiya.ecommercedemopair6.repository.abstracts.BrandRepository;
 import lombok.AllArgsConstructor;
@@ -22,28 +27,27 @@ public class BrandManager implements BrandService {
     private ModelMapperService modelMapperService;
 
     @Override
-    public GetBrandResponse getById(int id) {
+    public DataResult<GetBrandResponse> getById(int id) {
         Brand brand = brandRepository.findById(id).orElseThrow();
         GetBrandResponse response = modelMapperService.forResponse().map(brand, GetBrandResponse.class);
-        return response;
+        return new SuccessDataResult<GetBrandResponse>(response,Message.Brand.getByBrand);
 
         //return brandRepository.findById(id).orElseThrow();
     }
 
     @Override
-    public List<GetAllBrandResponse> getAllBrand() {
-
+    public DataResult<List<GetAllBrandResponse>> getAllBrand() {
         List<Brand> brands=brandRepository.findAll();
         List<GetAllBrandResponse> responses= brands.stream().
                 map(brand -> modelMapperService.forResponse().map(brand,GetAllBrandResponse.class))
                 .collect(Collectors.toList());
-                return responses;
+                return new SuccessDataResult<List<GetAllBrandResponse>>(responses,Message.Brand.getAllBrands);
 
         //return brandRepository.findAll();
     }
 
     @Override
-    public CreateBrandResponse createBrand(CreateBrandRequest createBrandRequest) {
+    public Result createBrand(CreateBrandRequest createBrandRequest) {
         //***********************************ManuelMapper******************************************
 
         //Brand brand=new Brand();
@@ -55,7 +59,7 @@ public class BrandManager implements BrandService {
         Brand brand = modelMapperService.forRequest().map(createBrandRequest, Brand.class);
         Brand savedBrand = brandRepository.save(brand);
         CreateBrandResponse response = modelMapperService.forResponse().map(savedBrand, CreateBrandResponse.class);
-        return response;
+        return new SuccessResult(Message.Brand.createBrand);
     }
 
 }

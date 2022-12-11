@@ -4,17 +4,24 @@ import com.etiya.ecommercedemopair6.business.dto.request.concretes.product.Creat
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.product.CreateProductResponse;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.product.GetAllProductsResponse;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.product.GetProductResponse;
+import com.etiya.ecommercedemopair6.core.util.result.DataResult;
+import com.etiya.ecommercedemopair6.core.util.result.Result;
 
 import java.util.List;
 
 public interface ProductService {
 
-    List<GetAllProductsResponse> getAll();
-    GetProductResponse getById(int id);
+    DataResult<List<GetAllProductsResponse>> getAll();
+    DataResult<GetProductResponse >getById(int id);
 
-    List<GetAllProductsResponse> getAllByStockGreaterThan(int stock);
+   DataResult<List<GetAllProductsResponse>>getAllByStockGreaterThan(int stock);
 
-    GetProductResponse findByName(String name);
+    DataResult<GetProductResponse >findByName(String name);
 
-    CreateProductResponse createProduct(CreateProductRequest createProductRequest);
+    Result createProduct(CreateProductRequest createProductRequest);
+
+
+    DataResult<GetProductResponse> customProductId(int id);
+    DataResult<GetProductResponse> customProductId2(int id);
+
 }

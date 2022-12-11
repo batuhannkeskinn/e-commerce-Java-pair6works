@@ -2,11 +2,16 @@ package com.etiya.ecommercedemopair6.business.concretes;
 
 import com.etiya.ecommercedemopair6.business.abstracts.OrderService;
 import com.etiya.ecommercedemopair6.business.abstracts.PaymentService;
+import com.etiya.ecommercedemopair6.business.constants.Message;
 import com.etiya.ecommercedemopair6.business.dto.request.concretes.payment.CreatePaymentRequest;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.payment.CreatePaymentResponse;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.payment.GetAllPaymentsResponse;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.payment.GetPaymentResponse;
 import com.etiya.ecommercedemopair6.core.util.mapping.ModelMapperService;
+import com.etiya.ecommercedemopair6.core.util.result.DataResult;
+import com.etiya.ecommercedemopair6.core.util.result.Result;
+import com.etiya.ecommercedemopair6.core.util.result.SuccessDataResult;
+import com.etiya.ecommercedemopair6.core.util.result.SuccessResult;
 import com.etiya.ecommercedemopair6.entities.concretes.Payment;
 import com.etiya.ecommercedemopair6.repository.abstracts.AddressRepository;
 import com.etiya.ecommercedemopair6.repository.abstracts.PaymentRepository;
@@ -25,26 +30,26 @@ public class PaymentManager implements PaymentService {
     private final AddressRepository addressRepository;
 
     @Override
-    public GetPaymentResponse getById(int id) {
+    public DataResult<GetPaymentResponse> getById(int id) {
         Payment payment = paymentRepository.findById(id).orElseThrow();
         GetPaymentResponse response = modelMapperService.forResponse().map(payment,GetPaymentResponse.class);
-        return response;
+        return new SuccessDataResult<>(response, Message.Payment.getByPaymentd);
     }
 
     @Override
-    public List<GetAllPaymentsResponse> getAllPayments() {
+    public DataResult<List<GetAllPaymentsResponse>> getAllPayments() {
         List<Payment> payments = paymentRepository.findAll();
         List<GetAllPaymentsResponse> responses = payments.
                 stream().map
                         (payment -> modelMapperService.forResponse().map
                                 (payment, GetAllPaymentsResponse.class))
                 .collect(Collectors.toList());
-        return responses;
+        return new SuccessDataResult<>(responses, Message.Payment.getAllPayment);
 
     }
 
     @Override
-    public CreatePaymentResponse createPayment(CreatePaymentRequest createPaymentRequest) {
+    public Result createPayment(CreatePaymentRequest createPaymentRequest) {
 //***********************************ManuelMapper******************************************
         Payment payment = modelMapperService.forRequest().map(createPaymentRequest,Payment.class);
         Payment savedPayment = paymentRepository.save(payment);
@@ -57,6 +62,6 @@ public class PaymentManager implements PaymentService {
 //        Payment savedPayment = paymentRepository.save(payment);
 //        CreatePaymentResponse response = new CreatePaymentResponse(savedPayment.getBankName(),
 //                savedPayment.getCardNumber(), savedPayment.getOrder().getOrderId());
-        return response;
+        return new SuccessResult(Message.Payment.createPayment);
     }
 }

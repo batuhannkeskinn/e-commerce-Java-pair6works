@@ -17,10 +17,14 @@ public class CreateProductRequest {
     @NotBlank(message = "Ürün ismi boş olamaz.")
     @Min(value = 3 , message = "Minimum 3 karakter")
     @Max(value = 50 , message = "Max 50 karakter")
-    private String productName;
+    private String name;
     @Min(value = 0, message = "0 dan düşük değer giremezsin")
     private int stock;
     @Min(value = 1, message = "1 den düşük değer giremezsin")
     private double unitPrice;
+
+    public CreateProductRequest(String name) {
+        this.name = name;
+    }
 }
 

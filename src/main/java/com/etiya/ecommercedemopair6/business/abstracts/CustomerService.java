@@ -4,19 +4,21 @@ import com.etiya.ecommercedemopair6.business.dto.request.concretes.customer.Crea
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.customer.CreateCustomerResponse;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.customer.GetAllCustomersResponse;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.customer.GetCustomerResponse;
+import com.etiya.ecommercedemopair6.core.util.result.DataResult;
+import com.etiya.ecommercedemopair6.core.util.result.Result;
 
 import java.util.List;
 
 public interface CustomerService {
-    List<GetAllCustomersResponse> getAll();
+    DataResult<List<GetAllCustomersResponse> >getAll();
 
-    GetCustomerResponse getById(int id);
+    DataResult<GetCustomerResponse >getById(int id);
 
-    List<GetAllCustomersResponse> getAllByFirstName(String name);
+    DataResult<List<GetAllCustomersResponse> >getAllByFirstName(String name);
 
-    GetCustomerResponse customById(int id);
+    DataResult<GetCustomerResponse >customById(int id);
 
-    CreateCustomerResponse createCustomer(CreateCustomerRequest createCustomerRequest);
+    Result createCustomer(CreateCustomerRequest createCustomerRequest);
 
 
 }

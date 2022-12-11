@@ -6,6 +6,8 @@ import com.etiya.ecommercedemopair6.business.dto.request.concretes.shippingCompa
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.shippingCompany.CreateShippingCompanyResponse;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.shippingCompany.GetAllShippingCompanyResponse;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.shippingCompany.GetShippingCompanyResponse;
+import com.etiya.ecommercedemopair6.core.util.result.DataResult;
+import com.etiya.ecommercedemopair6.core.util.result.Result;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -27,17 +29,18 @@ public class ShippingCompanyController {
 
 
     @GetMapping("/getById")
-    public GetShippingCompanyResponse getById(int id){
-        return shippingCompanyService.getById(id);
+    public ResponseEntity<DataResult<GetShippingCompanyResponse>> getById(int id){
+        return new ResponseEntity<>(shippingCompanyService.getById(id),HttpStatus.OK);
     }
 
     @GetMapping("/getAll")
-    public List<GetAllShippingCompanyResponse> getAll() {
-        return shippingCompanyService.getAllShippingCompanies();
+    public ResponseEntity<DataResult<List<GetAllShippingCompanyResponse> >> getAll() {
+        return new ResponseEntity<>(shippingCompanyService.getAllShippingCompanies(),HttpStatus.OK);
+
     }
 
     @PostMapping("/add")
-    public ResponseEntity<CreateShippingCompanyResponse> createShippingCompnainy(CreateShippingCompanyRequest createShippingCompanyRequest){
-        return new ResponseEntity<CreateShippingCompanyResponse>(shippingCompanyService.createShippingCompany(createShippingCompanyRequest), HttpStatus.CREATED);
+    public ResponseEntity<Result> createShippingCompnainy(CreateShippingCompanyRequest createShippingCompanyRequest){
+        return new ResponseEntity<>(shippingCompanyService.createShippingCompany(createShippingCompanyRequest), HttpStatus.CREATED);
     }
 }

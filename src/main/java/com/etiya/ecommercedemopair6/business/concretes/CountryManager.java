@@ -7,6 +7,9 @@ import com.etiya.ecommercedemopair6.business.dto.response.concretes.country.Crea
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.country.GetAllCountryResponse;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.country.GetCountryResponse;
 import com.etiya.ecommercedemopair6.core.util.mapping.ModelMapperService;
+import com.etiya.ecommercedemopair6.core.util.result.DataResult;
+import com.etiya.ecommercedemopair6.core.util.result.Result;
+import com.etiya.ecommercedemopair6.core.util.result.SuccessDataResult;
 import com.etiya.ecommercedemopair6.entities.concretes.Country;
 import com.etiya.ecommercedemopair6.repository.abstracts.CountryRepository;
 import lombok.AllArgsConstructor;
@@ -23,25 +26,25 @@ public class CountryManager implements CountyService {
 
 
     @Override
-    public GetCountryResponse getById(int id) {
+    public DataResult<GetCountryResponse> getById(int id) {
         Country country =  countryRepository.findById(id).orElseThrow();
         GetCountryResponse response = modelMapperService.forResponse().map(country,GetCountryResponse.class);
-        return response;
+        return new SuccessDataResult<>(response,Message.Country.getByCountryId);
     }
 
     @Override
-    public List<GetAllCountryResponse> getAllCountry() {
+    public DataResult<List<GetAllCountryResponse>> getAllCountry() {
 
         List<Country> countries =  countryRepository.findAll();
         List<GetAllCountryResponse> responses = countries.stream()
                 .map(country -> modelMapperService.forResponse().map(country, GetAllCountryResponse.class))
                 .collect(Collectors.toList());
-        return responses;
+        return new SuccessDataResult<>(responses,Message.Country.getAllCountries);
     }
 
 
     @Override
-    public CreateCountryResponse createCountry(CreateCountryRequest createCountryRequest) {
+    public Result createCountry(CreateCountryRequest createCountryRequest) {
         //***********************************ManuelMapper******************************************
         checkIfExistsCountryId(createCountryRequest.getCountryId());
 
@@ -52,7 +55,7 @@ public class CountryManager implements CountyService {
         Country country = modelMapperService.forRequest().map(createCountryRequest, Country.class);
         Country saveCountry = countryRepository.save(country);
         CreateCountryResponse response = modelMapperService.forResponse().map(saveCountry, CreateCountryResponse.class);
-        return response;
+        return new SuccessDataResult<>(response,Message.Country.createCountry);
 
 
     }

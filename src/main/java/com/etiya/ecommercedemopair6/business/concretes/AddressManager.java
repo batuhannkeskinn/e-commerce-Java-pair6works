@@ -7,6 +7,10 @@ import com.etiya.ecommercedemopair6.business.dto.response.concretes.address.Crea
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.address.GetAddressResponse;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.address.GetAllAddressResponse;
 import com.etiya.ecommercedemopair6.core.util.mapping.ModelMapperService;
+import com.etiya.ecommercedemopair6.core.util.result.DataResult;
+import com.etiya.ecommercedemopair6.core.util.result.Result;
+import com.etiya.ecommercedemopair6.core.util.result.SuccessDataResult;
+import com.etiya.ecommercedemopair6.core.util.result.SuccessResult;
 import com.etiya.ecommercedemopair6.entities.concretes.Address;
 import com.etiya.ecommercedemopair6.repository.abstracts.*;
 import lombok.AllArgsConstructor;
@@ -27,14 +31,15 @@ public class AddressManager implements AddressService {
 
 
     @Override
-    public GetAddressResponse getById(int id) {
+    public  DataResult<GetAddressResponse> getById(int id) {
         Address address = addressRepository.findById(id).orElseThrow();
         GetAddressResponse response = modelMapperService.forResponse().map(address, GetAddressResponse.class);
-        return response;
+        return  new SuccessDataResult<>(response, Message.Address.getById);
+        //return new SuccessDataResult<>(response, Messages.Address.addressAdded);
     }
 
     @Override
-    public List<GetAllAddressResponse> getAll() {
+    public  DataResult<List<GetAllAddressResponse>> getAll() {
 
         List<Address> addresses = addressRepository.findAll();
 
@@ -44,7 +49,7 @@ public class AddressManager implements AddressService {
                                 (address, GetAllAddressResponse.class))
                 .collect(Collectors.toList());
 
-        return responses;
+        return new SuccessDataResult<>(responses,Message.Address.getAllAddress);
 
     }
 //    @Override
@@ -54,7 +59,7 @@ public class AddressManager implements AddressService {
 //    }
 
     @Override
-    public List<GetAllAddressResponse> getAllAddressByTitle(String title) {
+    public DataResult<List<GetAllAddressResponse>> getAllAddressByTitle(String title) {
 
 
         List<Address> addresses = addressRepository.findAllAddressByTitle(title);
@@ -63,35 +68,32 @@ public class AddressManager implements AddressService {
                         (address -> modelMapperService.forResponse().map
                                 (address, GetAllAddressResponse.class))
                 .collect(Collectors.toList());
-        return responses;
+        return new SuccessDataResult<>(responses,Message.Address.getAllAddress);
     }
 
     @Override
-    public GetAddressResponse getByIdJPQLMethod(int id) {
+    public DataResult<GetAddressResponse> getByIdJPQLMethod(int id) {
         Address address = addressRepository.customAddress(id);
         GetAddressResponse response = modelMapperService.forResponse().map(address,GetAddressResponse.class);
-        return response;
+
+        return new SuccessDataResult<>(response,Message.Address.getById);
     }
 
     @Override
-    public CreateAddressResponse addAddress(CreateAddressRequest createAddressRequest) {
+    public Result addAddress(CreateAddressRequest createAddressRequest) {
 
-
-        checkIfExistsCountryId(createAddressRequest.getCountryId());
-        checkIfExistsCityId(createAddressRequest.getCityId());
-        checkIfExistsStreetId(createAddressRequest.getStreetId());
+//        checkIfExistsCountryId(createAddressRequest.getCountryId());
+//        checkIfExistsCityId(createAddressRequest.getCityId());
+//        checkIfExistsStreetId(createAddressRequest.getStreetId());
 //***********************************ManuelMapper******************************************
 //      City city = cityService.getById(createAddressRequest.getCityId());
 //      Street street = streetService.getById(createAddressRequest.getStreetId());
 //      Country country = countyService.getById((createAddressRequest.getCountryId())
 //          Response = Alıcı, Request = Aracı , SET işlemlerimiz ise = Üretici
         Address address = modelMapperService.forRequest().map(createAddressRequest,Address.class);
-
         Address saveAddress = addressRepository.save(address);
 
-        CreateAddressResponse response = modelMapperService.forResponse().map(saveAddress,CreateAddressResponse.class);
-
-        return response;
+        return new SuccessResult(Message.Address.createAddress);
 
 
     }
