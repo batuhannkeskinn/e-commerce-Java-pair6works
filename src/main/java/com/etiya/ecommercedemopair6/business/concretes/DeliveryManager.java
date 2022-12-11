@@ -3,11 +3,16 @@ package com.etiya.ecommercedemopair6.business.concretes;
 import com.etiya.ecommercedemopair6.business.abstracts.DeliveryService;
 import com.etiya.ecommercedemopair6.business.abstracts.OrderService;
 import com.etiya.ecommercedemopair6.business.abstracts.ShippingCompanyService;
+import com.etiya.ecommercedemopair6.business.constants.Message;
 import com.etiya.ecommercedemopair6.business.dto.request.concretes.delivery.CreateDeliveryRequest;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.delivery.CreateDeliveryResponse;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.delivery.GetAllDeliveryResponse;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.delivery.GetDeliveryResponse;
 import com.etiya.ecommercedemopair6.core.util.mapping.ModelMapperService;
+import com.etiya.ecommercedemopair6.core.util.result.DataResult;
+import com.etiya.ecommercedemopair6.core.util.result.Result;
+import com.etiya.ecommercedemopair6.core.util.result.SuccessDataResult;
+import com.etiya.ecommercedemopair6.core.util.result.SuccessResult;
 import com.etiya.ecommercedemopair6.entities.concretes.Delivery;
 import com.etiya.ecommercedemopair6.repository.abstracts.DeliveryRepository;
 import lombok.AllArgsConstructor;
@@ -25,21 +30,21 @@ public class DeliveryManager implements DeliveryService {
     private ModelMapperService modelMapperService;
 
     @Override
-    public GetDeliveryResponse getById(int id) {
+    public DataResult<GetDeliveryResponse> getById(int id) {
     Delivery delivery = deliveryRepository.findById(id).orElseThrow();
     GetDeliveryResponse response = modelMapperService.forResponse().map(delivery,GetDeliveryResponse.class);
-    return response;
+    return new SuccessDataResult<>(response, Message.Delivery.getByDeliveryId);
     }
 
     @Override
-    public List<GetAllDeliveryResponse> getAllDelivery() {
+    public DataResult<List<GetAllDeliveryResponse>> getAllDelivery() {
         List<Delivery> deliveries = deliveryRepository.findAll();
         List<GetAllDeliveryResponse> responses = deliveries.stream().map(delivery -> modelMapperService.forResponse().map(delivery,GetAllDeliveryResponse.class)).collect(Collectors.toList());
-        return responses;
+        return new SuccessDataResult<>(responses,Message.Delivery.getAllDeliveries);
     }
 
     @Override
-    public CreateDeliveryResponse createDelivery(CreateDeliveryRequest createDeliveryRequest) {
+    public Result createDelivery(CreateDeliveryRequest createDeliveryRequest) {
         Delivery delivery = modelMapperService.forRequest().map(createDeliveryRequest,Delivery.class);
         Delivery deliverySaved = deliveryRepository.save(delivery);
         CreateDeliveryResponse response = modelMapperService.forResponse().map(deliverySaved,CreateDeliveryResponse.class);
@@ -57,7 +62,7 @@ public class DeliveryManager implements DeliveryService {
 //                savedDelivery.getDeliveryDate(),
 //                savedDelivery.getShippingCompany().getShippingCompanyId(),
 //                savedDelivery.getOrder().getOrderId());
-        return response;
+        return new SuccessResult(Message.Delivery.createDelivery);
 
     }
 }

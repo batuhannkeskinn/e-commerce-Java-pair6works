@@ -6,6 +6,8 @@ import com.etiya.ecommercedemopair6.business.dto.request.concretes.size.CreateSi
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.size.CreateSizeResponse;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.size.GetAllSizesResponse;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.size.GetSizeResponse;
+import com.etiya.ecommercedemopair6.core.util.result.DataResult;
+import com.etiya.ecommercedemopair6.core.util.result.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,18 +27,19 @@ public class SizeController {
 
     @GetMapping("/getById")
 
-    public GetSizeResponse getById(int id) {
-     return   sizeService.getById(id);
+    public ResponseEntity<DataResult<GetSizeResponse> >getById(int id) {
+
+     return  new ResponseEntity<>(sizeService.getById(id),HttpStatus.OK) ;
     }
 
     @GetMapping("/getAll")
-    public List<GetAllSizesResponse> getAllSizes(){
-        return sizeService.getAllServices();
+    public ResponseEntity<DataResult<List<GetAllSizesResponse>> >getAllSizes(){
+        return new ResponseEntity<>(sizeService.getAllServices(),HttpStatus.OK);
     }
 
 
      @PostMapping("/add")
-     public ResponseEntity<CreateSizeResponse> createSize(CreateSizeRequest createSizeRequest){
+     public ResponseEntity<Result> createSize(CreateSizeRequest createSizeRequest){
         return new ResponseEntity<>(sizeService.createSize(createSizeRequest), HttpStatus.CREATED);
     }
 }

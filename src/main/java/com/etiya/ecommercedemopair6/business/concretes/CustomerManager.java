@@ -8,6 +8,10 @@ import com.etiya.ecommercedemopair6.business.dto.response.concretes.customer.Cre
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.customer.GetAllCustomersResponse;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.customer.GetCustomerResponse;
 import com.etiya.ecommercedemopair6.core.util.mapping.ModelMapperService;
+import com.etiya.ecommercedemopair6.core.util.result.DataResult;
+import com.etiya.ecommercedemopair6.core.util.result.Result;
+import com.etiya.ecommercedemopair6.core.util.result.SuccessDataResult;
+import com.etiya.ecommercedemopair6.core.util.result.SuccessResult;
 import com.etiya.ecommercedemopair6.entities.concretes.Customer;
 import com.etiya.ecommercedemopair6.repository.abstracts.AddressRepository;
 import com.etiya.ecommercedemopair6.repository.abstracts.CustomerRepository;
@@ -21,27 +25,30 @@ import java.util.stream.Collectors;
 @Service
 public class CustomerManager implements CustomerService {
     private CustomerRepository customerRepository;
-
     private AddressService addressService;
     private AddressRepository addressRepository;
     private ModelMapperService modelMapperService;
 
     @Override
-    public List<GetAllCustomersResponse> getAll() {
+    public DataResult<List<GetAllCustomersResponse> >getAll() {
+
         List<Customer> customers = customerRepository.findAll();
         List<GetAllCustomersResponse> responses =
                 customers
                 .stream()
                 .map(customer -> modelMapperService.forResponse().map(customer,GetAllCustomersResponse.class))
                 .collect(Collectors.toList());
-        return responses;
+        return  new SuccessDataResult<>(responses,Message.Customer.getAllCustomers);
+
     }
 
     @Override
-    public GetCustomerResponse getById(int id) {
+    public DataResult<GetCustomerResponse> getById(int id) {
+
         Customer customer = customerRepository.findById(id).orElseThrow();
         GetCustomerResponse response = modelMapperService.forResponse().map(customer,GetCustomerResponse.class);
-        return response;
+        return new SuccessDataResult<>(response,Message.Customer.getByCustomerId);
+
     }
 
 //    public Address getById(int addressId) {
@@ -52,28 +59,34 @@ public class CustomerManager implements CustomerService {
 //        }
 
     @Override
-    public List<GetAllCustomersResponse> getAllByFirstName(String name) {
+    public DataResult< List<GetAllCustomersResponse>> getAllByFirstName(String name) {
         List<Customer> customers = customerRepository.findAll();
         List<GetAllCustomersResponse> responses = customers.
                 stream().map
                         (customer -> modelMapperService.forResponse().map
                                 (customer, GetAllCustomersResponse.class))
                 .collect(Collectors.toList());
-        return responses;
+        return new SuccessDataResult<>(responses,Message.Customer.getAllCustomers);
     }
 
     @Override
-    public GetCustomerResponse customById(int id) {
+    public DataResult<GetCustomerResponse> customById(int id) {
         Customer customer= customerRepository.customById(id);
         GetCustomerResponse response = modelMapperService.forResponse().map(customer,GetCustomerResponse.class);
-        return response;
+        return new SuccessDataResult<>(response,Message.Customer.getByCustomerId);
     }
 
     @Override
-    public CreateCustomerResponse createCustomer(CreateCustomerRequest createCustomerRequest) {
-        checkIfCustomerExistsAddressId(createCustomerRequest.getAddressId());
-        //***********************************ManuelMapper******************************************
+    public Result createCustomer(CreateCustomerRequest createCustomerRequest) {
 
+        checkIfCustomerExistsAddressId(createCustomerRequest.getAddressId());
+        Customer customer = modelMapperService.forRequest().map(createCustomerRequest, Customer.class);
+        Customer saveCustomer = customerRepository.save(customer);
+        CreateCustomerResponse response = modelMapperService.forResponse().map(saveCustomer, CreateCustomerResponse.class);
+        return new SuccessResult(Message.Customer.createCustomer);
+
+    }
+        //***********************************ManuelMapper******************************************
 //        Address address = addressService.getById(createCustomerRequest.getAddressId());
 //        Customer customer = new Customer();
 //        customer.setFirstName(createCustomerRequest.getCustomerFirstName());
@@ -94,11 +107,6 @@ public class CustomerManager implements CustomerService {
         //********************************************************************************/
 
 
-        Customer customer = modelMapperService.forRequest().map(createCustomerRequest, Customer.class);
-        Customer saveCustomer = customerRepository.save(customer);
-        CreateCustomerResponse response = modelMapperService.forResponse().map(saveCustomer, CreateCustomerResponse.class);
-        return response;
-    }
 
     public void checkIfCustomerExistsAddressId(int id) {
         boolean isExists = addressRepository.existsById(id);

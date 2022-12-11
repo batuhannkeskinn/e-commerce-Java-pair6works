@@ -1,11 +1,14 @@
 package com.etiya.ecommercedemopair6.business.concretes;
 
 import com.etiya.ecommercedemopair6.business.abstracts.CityService;
+import com.etiya.ecommercedemopair6.business.constants.Message;
 import com.etiya.ecommercedemopair6.business.dto.request.concretes.city.CreateCityRequest;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.city.CreateCityResponse;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.city.GetAllCityResponse;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.city.GetCityResponse;
 import com.etiya.ecommercedemopair6.core.util.mapping.ModelMapperService;
+import com.etiya.ecommercedemopair6.core.util.result.DataResult;
+import com.etiya.ecommercedemopair6.core.util.result.SuccessDataResult;
 import com.etiya.ecommercedemopair6.entities.concretes.City;
 import com.etiya.ecommercedemopair6.repository.abstracts.CityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,34 +24,34 @@ public class CityManager implements CityService {
     private ModelMapperService modelMapperService;
 
     @Override
-    public List<GetAllCityResponse> getAll(){
+    public DataResult<List<GetAllCityResponse>> getAll(){
         List<City> cities = cityRepository.findAll();
         List<GetAllCityResponse> responses = cities
                 .stream().map(city -> modelMapperService.forResponse().map(city, GetAllCityResponse.class))
                 .collect(Collectors.toList());
-        return responses;
+        return new SuccessDataResult<>(responses, Message.City.getAllCities);
     }
 
 
     @Override
-    public GetCityResponse getById(int id) {
+    public DataResult<GetCityResponse> getById(int id) {
         City city = cityRepository.findById(id).orElseThrow();
         GetCityResponse response = modelMapperService.forResponse().map(city,GetCityResponse.class);
-        return response;
+        return new SuccessDataResult<>(response,Message.City.getByCityId);
 
     }
 
     @Override
-    public List<GetAllCityResponse> findAllCityByCityName(String name) {
+    public DataResult<List<GetAllCityResponse>> findAllCityByCityName(String name) {
         List<City> cities = cityRepository.findAllCityByCityName(name);
         List<GetAllCityResponse> responses = cities
                 .stream().map(city -> modelMapperService.forResponse().map(city, GetAllCityResponse.class))
                 .collect(Collectors.toList());
-        return responses;
+        return new SuccessDataResult<>(responses,Message.City.getAllCities);
     }
 
     @Override
-    public CreateCityResponse addCity(CreateCityRequest createCityRequest) {
+    public DataResult<CreateCityResponse> addCity(CreateCityRequest createCityRequest) {
         //***********************************ManuelMapper******************************************
 
 //        City city = new City();
@@ -59,6 +62,6 @@ public class CityManager implements CityService {
         City city = modelMapperService.forRequest().map(createCityRequest,City.class);
         City savedCity = cityRepository.save(city);
         CreateCityResponse response = modelMapperService.forResponse().map(savedCity,CreateCityResponse.class);
-        return response;
+        return new SuccessDataResult<>(response,Message.City.createCity);
     }
 }

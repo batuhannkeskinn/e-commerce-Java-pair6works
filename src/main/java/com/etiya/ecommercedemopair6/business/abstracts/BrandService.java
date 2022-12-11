@@ -4,13 +4,15 @@ import com.etiya.ecommercedemopair6.business.dto.request.concretes.brand.CreateB
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.brand.CreateBrandResponse;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.brand.GetAllBrandResponse;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.brand.GetBrandResponse;
+import com.etiya.ecommercedemopair6.core.util.result.DataResult;
+import com.etiya.ecommercedemopair6.core.util.result.Result;
 
 import java.util.List;
 
 public interface BrandService {
-    GetBrandResponse getById(int id);
-    List<GetAllBrandResponse> getAllBrand();
-     CreateBrandResponse createBrand(CreateBrandRequest createBrandRequest);
+    DataResult<GetBrandResponse> getById(int id);
+    DataResult<List<GetAllBrandResponse>> getAllBrand();
+     Result createBrand(CreateBrandRequest createBrandRequest);
 
 
 }

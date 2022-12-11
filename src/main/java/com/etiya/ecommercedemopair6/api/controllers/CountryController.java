@@ -6,7 +6,10 @@ import com.etiya.ecommercedemopair6.business.dto.request.concretes.country.Creat
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.country.CreateCountryResponse;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.country.GetAllCountryResponse;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.country.GetCountryResponse;
+import com.etiya.ecommercedemopair6.core.util.result.DataResult;
+import com.etiya.ecommercedemopair6.core.util.result.Result;
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,19 +25,19 @@ public class CountryController {
     private CountyService countyService;
 
     @GetMapping("/getById")
-    public GetCountryResponse getById(@RequestParam int id){
-        return countyService.getById(id);
+    public ResponseEntity<DataResult<GetCountryResponse >>getById(@RequestParam int id){
+        return new ResponseEntity<>(countyService.getById(id),HttpStatus.OK);
     }
 
     @GetMapping("/getAll")
-    public List<GetAllCountryResponse> getAll(){
-        return countyService.getAllCountry();
+    public ResponseEntity<DataResult< List<GetAllCountryResponse>>> getAll(){
+        return  new ResponseEntity<>(countyService.getAllCountry(),HttpStatus.OK);
     }
 
 
     @PostMapping("/add")
 
-    public ResponseEntity<CreateCountryResponse>  createCountry(CreateCountryRequest createCountryRequest){
+    public ResponseEntity<Result>  createCountry(CreateCountryRequest createCountryRequest){
         return new ResponseEntity<>(countyService.createCountry(createCountryRequest), HttpStatus.CREATED);
     }
 }

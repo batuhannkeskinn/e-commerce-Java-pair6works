@@ -9,6 +9,10 @@ import com.etiya.ecommercedemopair6.business.dto.response.concretes.categoryProd
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.categoryProduct.GetAllCategoryProductResponse;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.categoryProduct.GetCategoryProductResponse;
 import com.etiya.ecommercedemopair6.core.util.mapping.ModelMapperService;
+import com.etiya.ecommercedemopair6.core.util.result.DataResult;
+import com.etiya.ecommercedemopair6.core.util.result.Result;
+import com.etiya.ecommercedemopair6.core.util.result.SuccessDataResult;
+import com.etiya.ecommercedemopair6.core.util.result.SuccessResult;
 import com.etiya.ecommercedemopair6.entities.concretes.CategoryProduct;
 import com.etiya.ecommercedemopair6.repository.abstracts.CategoryProductRepository;
 import com.etiya.ecommercedemopair6.repository.abstracts.CategoryRepository;
@@ -31,27 +35,28 @@ public class CategoryProductManager implements CategoryProductService {
     private ModelMapperService modelMapperService;
 
     @Override
-    public List<GetAllCategoryProductResponse> getAll() {
+    public DataResult<List<GetAllCategoryProductResponse>> getAll() {
 
         List<CategoryProduct> categoryProducts=categoryProductRepository.findAll();
         List<GetAllCategoryProductResponse> responses = categoryProducts.stream().
                 map(categoryProduct -> modelMapperService.forResponse().map(categoryProduct,GetAllCategoryProductResponse.class))
                 .collect(Collectors.toList());
-        return responses;
+        return  new SuccessDataResult<>(responses,Message.CategoryProduct.getAllCategoryProducts);
        // return categoryProductRepository.findAll();
     }
 
 
     @Override
-    public GetCategoryProductResponse getById(int id) {
+    public DataResult<GetCategoryProductResponse> getById(int id) {
         CategoryProduct categoryProduct=categoryProductRepository.findById(id).orElseThrow();
         GetCategoryProductResponse response=modelMapperService.forResponse().map(categoryProduct,GetCategoryProductResponse.class);
-        return response;
+        return new SuccessDataResult<>(response,Message.CategoryProduct.getByCategoryProductId);
+
         //return categoryProductRepository.findById(id).orElseThrow();
     }
 
     @Override
-    public CreateCategoryProductResponse createCategoryProduct(CreateCategoryProductRequest createCategoryProductRequest) {
+    public Result createCategoryProduct(CreateCategoryProductRequest createCategoryProductRequest) {
         checkIfExistsProductId(createCategoryProductRequest.getProductId());
         checkIfExistsProductId(createCategoryProductRequest.getCategoryId());
 //***********************************ManuelMapper******************************************
@@ -70,7 +75,7 @@ public class CategoryProductManager implements CategoryProductService {
         CategoryProduct categoryProduct = modelMapperService.forRequest().map(createCategoryProductRequest,CategoryProduct.class);
         CategoryProduct savedCategoryProduct = categoryProductRepository.save(categoryProduct);
         CreateCategoryProductResponse  response = modelMapperService.forResponse().map(savedCategoryProduct,CreateCategoryProductResponse.class);
-        return response;
+        return new SuccessResult(Message.CategoryProduct.createCategoryProduct);
     }
 
     public void checkIfExistsProductId(int id){

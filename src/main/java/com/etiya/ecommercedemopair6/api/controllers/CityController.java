@@ -6,6 +6,8 @@ import com.etiya.ecommercedemopair6.business.dto.request.concretes.city.CreateCi
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.city.CreateCityResponse;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.city.GetAllCityResponse;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.city.GetCityResponse;
+import com.etiya.ecommercedemopair6.core.util.result.DataResult;
+import com.etiya.ecommercedemopair6.core.util.result.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,17 +23,17 @@ public class CityController {
     private CityService cityService;
 
     @GetMapping("/getAll")
-    public List<GetAllCityResponse> getAll(){
-        return cityService.getAll();
+    public ResponseEntity<DataResult<List<GetAllCityResponse>>>getAll(){
+        return new ResponseEntity<DataResult<List<GetAllCityResponse>>>(cityService.getAll(),HttpStatus.OK);
     }
 
     @GetMapping("/getById")
-    public GetCityResponse getById(@RequestParam int id){
-        return cityService.getById(id);
+    public ResponseEntity<DataResult<GetCityResponse>> getById(@RequestParam int id){
+        return new ResponseEntity<>(cityService.getById(id),HttpStatus.OK);
     }
 
     @PostMapping("/add")
-    public ResponseEntity<CreateCityResponse> createCity(CreateCityRequest createCityRequest){
-        return new ResponseEntity<CreateCityResponse>(cityService.addCity(createCityRequest), HttpStatus.CREATED);
+    public ResponseEntity<Result> createCity(CreateCityRequest createCityRequest){
+        return new ResponseEntity<>(cityService.addCity(createCityRequest), HttpStatus.CREATED);
     }
 }

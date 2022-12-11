@@ -6,6 +6,8 @@ import com.etiya.ecommercedemopair6.business.dto.request.concretes.supplier.Crea
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.supplier.CreateSupplierResponse;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.supplier.GetAllSupplierResponse;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.supplier.GetSupplierResponse;
+import com.etiya.ecommercedemopair6.core.util.result.DataResult;
+import com.etiya.ecommercedemopair6.core.util.result.Result;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,18 +24,18 @@ public class SupplierController {
     private SupplierService supplierService;
 
     @GetMapping("/getAll")
-    public List<GetAllSupplierResponse> getAll(){
+    public ResponseEntity<DataResult<List<GetAllSupplierResponse>>>getAll(){
 
-        return supplierService.getAll();
+        return new ResponseEntity<>(supplierService.getAll(),HttpStatus.OK);
     }
     @GetMapping("/getById")
-    public GetSupplierResponse getById(@RequestParam int id) {
-        return supplierService.getById(id);
+    public ResponseEntity<DataResult<GetSupplierResponse>> getById(@RequestParam int id) {
+        return new ResponseEntity<>(supplierService.getById(id),HttpStatus.OK);
     }
 
     @PostMapping("/add")
-    public ResponseEntity<CreateSupplierResponse> createSupplier(@RequestBody CreateSupplierRequest createSupplierRequest){
+    public ResponseEntity<Result> createSupplier(@RequestBody CreateSupplierRequest createSupplierRequest){
         var response = supplierService.createSupplier(createSupplierRequest);
-        return new ResponseEntity<CreateSupplierResponse>(response, HttpStatus.CREATED);
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 }

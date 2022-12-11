@@ -6,6 +6,8 @@ import com.etiya.ecommercedemopair6.business.dto.request.concretes.orderDetail.C
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.orderDetail.CreateOrderDetailResponse;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.orderDetail.GetAllOrderDetailResponse;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.orderDetail.GetOrderDetailResponse;
+import com.etiya.ecommercedemopair6.core.util.result.DataResult;
+import com.etiya.ecommercedemopair6.core.util.result.Result;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -26,17 +28,17 @@ public class OrderDetailController {
 
 
     @GetMapping("/getById")
-    public GetOrderDetailResponse getById(int id) {
-        return orderDetailService.getById(id);
+    public ResponseEntity<DataResult<GetOrderDetailResponse>> getById(int id) {
+        return  new ResponseEntity<>(orderDetailService.getById(id),HttpStatus.OK);
     }
 
     @GetMapping("/getAll")
-    public List<GetAllOrderDetailResponse> getAllOrderDetails() {
-        return orderDetailService.getAllOrderDetails();
+    public ResponseEntity<DataResult<List<GetAllOrderDetailResponse>>> getAllOrderDetails() {
+        return new ResponseEntity<>(orderDetailService.getAllOrderDetails(),HttpStatus.OK);
     }
 
     @PostMapping("/add")
-    ResponseEntity<CreateOrderDetailResponse> createOrderDetail(CreateOrderDetailRequest
+    ResponseEntity<Result> createOrderDetail(CreateOrderDetailRequest
                                                                         createOrderDetailRequest) {
         return new ResponseEntity<>(orderDetailService.createOrderDetail(createOrderDetailRequest), HttpStatus.CREATED);
     }

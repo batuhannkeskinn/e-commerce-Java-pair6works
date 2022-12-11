@@ -6,6 +6,8 @@ import com.etiya.ecommercedemopair6.business.dto.request.concretes.payment.Creat
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.payment.CreatePaymentResponse;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.payment.GetAllPaymentsResponse;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.payment.GetPaymentResponse;
+import com.etiya.ecommercedemopair6.core.util.result.DataResult;
+import com.etiya.ecommercedemopair6.core.util.result.Result;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,16 +24,16 @@ public class PaymentController {
     private PaymentService paymentService;
 
     @GetMapping("/getAll")
-    public List<GetAllPaymentsResponse> getAllPayments(){
-        return paymentService.getAllPayments();
+    public ResponseEntity<DataResult<List<GetAllPaymentsResponse>>> getAllPayments(){
+        return  new ResponseEntity<>(paymentService.getAllPayments(),HttpStatus.OK);
     }
     @GetMapping("/getById")
-    public GetPaymentResponse getById(@RequestParam int id){
-        return paymentService.getById(id);
+    public ResponseEntity<DataResult<GetPaymentResponse>> getById(@RequestParam int id){
+        return new ResponseEntity<>(paymentService.getById(id),HttpStatus.OK);
     }
 
     @PostMapping("/add")
-    public ResponseEntity<CreatePaymentResponse> createPayment(@RequestBody CreatePaymentRequest createPaymentRequest){
-        return new ResponseEntity<CreatePaymentResponse>(paymentService.createPayment(createPaymentRequest), HttpStatus.CREATED);
+    public ResponseEntity<Result> createPayment(@RequestBody CreatePaymentRequest createPaymentRequest){
+        return new ResponseEntity<>(paymentService.createPayment(createPaymentRequest), HttpStatus.CREATED);
     }
 }

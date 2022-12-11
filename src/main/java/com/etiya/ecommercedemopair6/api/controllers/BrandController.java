@@ -6,6 +6,8 @@ import com.etiya.ecommercedemopair6.business.dto.request.concretes.brand.CreateB
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.brand.CreateBrandResponse;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.brand.GetAllBrandResponse;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.brand.GetBrandResponse;
+import com.etiya.ecommercedemopair6.core.util.result.DataResult;
+import com.etiya.ecommercedemopair6.core.util.result.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.xml.crypto.Data;
 import java.util.List;
 
 @RestController
@@ -23,17 +26,17 @@ public class BrandController {
     private BrandService brandService;
 
     @GetMapping("/getById")
-    public GetBrandResponse getById(int id) {
-        return brandService.getById(id);
+    public ResponseEntity<DataResult<GetBrandResponse>> getById(int id) {
+        return new ResponseEntity<DataResult<GetBrandResponse>>(brandService.getById(id),HttpStatus.OK);
     }
 
     @GetMapping("/getAll")
-    public List<GetAllBrandResponse> getAllBrand() {
-        return brandService.getAllBrand();
+    public ResponseEntity<DataResult<List<GetAllBrandResponse>>> getAllBrand() {
+        return new ResponseEntity<DataResult<List<GetAllBrandResponse>>>(brandService.getAllBrand(),HttpStatus.OK);
     }
 
     @PostMapping("/add")
-    public ResponseEntity<CreateBrandResponse> createBrand(CreateBrandRequest createBrandRequest) {
-        return new ResponseEntity<CreateBrandResponse>(brandService.createBrand(createBrandRequest), HttpStatus.CREATED);
+    public ResponseEntity<Result> createBrand(CreateBrandRequest createBrandRequest) {
+        return new ResponseEntity<Result>(brandService.createBrand(createBrandRequest), HttpStatus.CREATED);
     }
 }

@@ -4,14 +4,16 @@ import com.etiya.ecommercedemopair6.business.dto.request.concretes.BasketDetail.
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.basketDetail.CreateBasketDetailResponse;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.basketDetail.GetAllBasketDetailResponse;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.basketDetail.GetBasketDetailResponse;
+import com.etiya.ecommercedemopair6.core.util.result.DataResult;
+import com.etiya.ecommercedemopair6.core.util.result.Result;
 
 import java.util.List;
 
 public interface BasketDetailService {
-    GetBasketDetailResponse getById(int id);
+    DataResult<GetBasketDetailResponse> getById(int id);
 
-    List<GetAllBasketDetailResponse> getAllBasketDetail();
+    DataResult<List<GetAllBasketDetailResponse>> getAllBasketDetail();
 
-    CreateBasketDetailResponse createBasket(CreateBasketDetailRequest createBasketDetailRequest);
+    Result createBasket(CreateBasketDetailRequest createBasketDetailRequest);
 
 }

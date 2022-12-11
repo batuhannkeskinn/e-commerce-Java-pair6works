@@ -3,11 +3,16 @@ package com.etiya.ecommercedemopair6.business.concretes;
 import com.etiya.ecommercedemopair6.business.abstracts.OrderDetailService;
 import com.etiya.ecommercedemopair6.business.abstracts.OrderService;
 import com.etiya.ecommercedemopair6.business.abstracts.ProductService;
+import com.etiya.ecommercedemopair6.business.constants.Message;
 import com.etiya.ecommercedemopair6.business.dto.request.concretes.orderDetail.CreateOrderDetailRequest;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.orderDetail.CreateOrderDetailResponse;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.orderDetail.GetAllOrderDetailResponse;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.orderDetail.GetOrderDetailResponse;
 import com.etiya.ecommercedemopair6.core.util.mapping.ModelMapperService;
+import com.etiya.ecommercedemopair6.core.util.result.DataResult;
+import com.etiya.ecommercedemopair6.core.util.result.Result;
+import com.etiya.ecommercedemopair6.core.util.result.SuccessDataResult;
+import com.etiya.ecommercedemopair6.core.util.result.SuccessResult;
 import com.etiya.ecommercedemopair6.entities.concretes.OrderDetail;
 import com.etiya.ecommercedemopair6.repository.abstracts.OrderDetailRepository;
 import lombok.AllArgsConstructor;
@@ -27,15 +32,15 @@ public class OrderDetailManager implements OrderDetailService {
 
 
     @Override
-    public GetOrderDetailResponse getById(int id) {
-        OrderDetail orderDetail =orderDetailRepository.findById(id).orElseThrow();
-        GetOrderDetailResponse response = modelMapperService.forResponse().map(orderDetail,GetOrderDetailResponse.class);
-        return response;
+    public DataResult<GetOrderDetailResponse> getById(int id) {
+        OrderDetail orderDetail = orderDetailRepository.findById(id).orElseThrow();
+        GetOrderDetailResponse response = modelMapperService.forResponse().map(orderDetail, GetOrderDetailResponse.class);
+        return new SuccessDataResult<>(response, Message.OrderDetail.getByOrderDetailId);
 
     }
 
     @Override
-    public List<GetAllOrderDetailResponse> getAllOrderDetails() {
+    public DataResult<List<GetAllOrderDetailResponse>> getAllOrderDetails() {
 
         List<OrderDetail> orderDetails = orderDetailRepository.findAll();
         List<GetAllOrderDetailResponse> responses = orderDetails.
@@ -43,15 +48,15 @@ public class OrderDetailManager implements OrderDetailService {
                         (orderDetail -> modelMapperService.forResponse().map
                                 (orderDetail, GetAllOrderDetailResponse.class))
                 .collect(Collectors.toList());
-        return responses;
+        return new SuccessDataResult<>(responses, Message.OrderDetail.getAllOrderDetails);
     }
 
     @Override
-    public CreateOrderDetailResponse createOrderDetail(CreateOrderDetailRequest createOrderDetailRequest) {
-        OrderDetail orderDetail = modelMapperService.forRequest().map(createOrderDetailRequest,OrderDetail.class);
+    public Result createOrderDetail(CreateOrderDetailRequest createOrderDetailRequest) {
+        OrderDetail orderDetail = modelMapperService.forRequest().map(createOrderDetailRequest, OrderDetail.class);
 
-        OrderDetail detailSaved= orderDetailRepository.save(orderDetail);
-    CreateOrderDetailResponse response = modelMapperService.forResponse().map(detailSaved,CreateOrderDetailResponse.class);
+        OrderDetail detailSaved = orderDetailRepository.save(orderDetail);
+        CreateOrderDetailResponse response = modelMapperService.forResponse().map(detailSaved, CreateOrderDetailResponse.class);
 
 //**************************************ManuelMapper******************************************
         //        Order order = orderService.getById(createOrderDetailRequest.getOrderId());
@@ -64,7 +69,7 @@ public class OrderDetailManager implements OrderDetailService {
 //        CreateOrderDetailResponse response = new CreateOrderDetailResponse(
 //                savedOrderDetail.getOrder().getOrderId(),
 //                savedOrderDetail.getProduct().getProductId());
-        return response;
+        return new SuccessResult(Message.OrderDetail.createOrderDetail);
     }
 
 }

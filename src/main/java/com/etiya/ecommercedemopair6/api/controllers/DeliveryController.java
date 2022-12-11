@@ -6,7 +6,10 @@ import com.etiya.ecommercedemopair6.business.dto.request.concretes.delivery.Crea
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.delivery.CreateDeliveryResponse;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.delivery.GetAllDeliveryResponse;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.delivery.GetDeliveryResponse;
+import com.etiya.ecommercedemopair6.core.util.result.DataResult;
+import com.etiya.ecommercedemopair6.core.util.result.Result;
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,19 +25,17 @@ public class DeliveryController {
     private DeliveryService deliveryService;
 
     @GetMapping("/getById")
-    public GetDeliveryResponse getById(@RequestParam int id){
-        return deliveryService.getById(id);
+    public ResponseEntity<DataResult<GetDeliveryResponse>> getById(@RequestParam int id){
+        return  new ResponseEntity<>(deliveryService.getById(id),HttpStatus.OK);
     }
 
     @GetMapping("/getAll")
-    public List<GetAllDeliveryResponse> getAllDeliveries(){
-        return deliveryService.getAllDelivery();
+    public ResponseEntity<DataResult<List<GetAllDeliveryResponse>>> getAllDeliveries(){
+        return new ResponseEntity<>(deliveryService.getAllDelivery(),HttpStatus.OK);
     }
 
-
     @PostMapping("/add")
-
-    public ResponseEntity<CreateDeliveryResponse> createDelivery(CreateDeliveryRequest createDeliveryRequest){
-        return new ResponseEntity<CreateDeliveryResponse>(deliveryService.createDelivery(createDeliveryRequest), HttpStatus.CREATED);
+    public ResponseEntity<Result> createDelivery(CreateDeliveryRequest createDeliveryRequest){
+        return new ResponseEntity<>(deliveryService.createDelivery(createDeliveryRequest), HttpStatus.CREATED);
     }
 }

@@ -7,7 +7,11 @@ import com.etiya.ecommercedemopair6.business.dto.request.concretes.street.Create
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.street.CreateStreetResponse;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.street.GetAllStreetsResponse;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.street.GetStreetResponse;
+import com.etiya.ecommercedemopair6.core.util.result.DataResult;
+import com.etiya.ecommercedemopair6.core.util.result.Result;
 import lombok.AllArgsConstructor;
+import lombok.Data;
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,15 +26,15 @@ public class StreetController {
     @Autowired
     private StreetService streetService;
     @GetMapping("/getById")
-    public GetStreetResponse getById(@RequestParam int id){
-        return streetService.getById(id);
+    public ResponseEntity<DataResult<GetStreetResponse>> getById(@RequestParam int id){
+        return new ResponseEntity<>(streetService.getById(id),HttpStatus.OK);
     }
     @GetMapping("/getAll")
-    public List<GetAllStreetsResponse> getAll(){
-        return streetService.getAllServices();
+    public ResponseEntity<DataResult<List<GetAllStreetsResponse>>>getAll(){
+        return new ResponseEntity<>(streetService.getAllServices(),HttpStatus.OK);
     }
     @PostMapping("/add")
-    public ResponseEntity<CreateStreetResponse> createStreet(CreateStreetRequest createStreetRequest){
+    public ResponseEntity<Result> createStreet(CreateStreetRequest createStreetRequest){
         return new ResponseEntity<>(streetService.createStreet(createStreetRequest), HttpStatus.CREATED);
 
     }

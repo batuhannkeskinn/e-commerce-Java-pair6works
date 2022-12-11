@@ -4,11 +4,13 @@ import com.etiya.ecommercedemopair6.business.dto.request.concretes.street.Create
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.street.CreateStreetResponse;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.street.GetAllStreetsResponse;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.street.GetStreetResponse;
+import com.etiya.ecommercedemopair6.core.util.result.DataResult;
+import com.etiya.ecommercedemopair6.core.util.result.Result;
 
 import java.util.List;
 
 public interface StreetService {
-    GetStreetResponse getById(int id);
-    List<GetAllStreetsResponse> getAllServices();
-    CreateStreetResponse createStreet(CreateStreetRequest createStreetRequest);
+   DataResult<GetStreetResponse>  getById(int id);
+   DataResult<List<GetAllStreetsResponse>>getAllServices();
+   Result createStreet(CreateStreetRequest createStreetRequest);
 }
