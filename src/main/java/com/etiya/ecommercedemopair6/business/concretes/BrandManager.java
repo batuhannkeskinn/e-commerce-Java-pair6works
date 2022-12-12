@@ -6,6 +6,7 @@ import com.etiya.ecommercedemopair6.business.dto.request.concretes.brand.CreateB
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.brand.CreateBrandResponse;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.brand.GetAllBrandResponse;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.brand.GetBrandResponse;
+import com.etiya.ecommercedemopair6.core.util.exceptions.BusinessException;
 import com.etiya.ecommercedemopair6.core.util.mapping.ModelMapperService;
 import com.etiya.ecommercedemopair6.core.util.result.DataResult;
 import com.etiya.ecommercedemopair6.core.util.result.Result;
@@ -48,6 +49,7 @@ public class BrandManager implements BrandService {
 
     @Override
     public Result createBrand(CreateBrandRequest createBrandRequest) {
+        checkIfExistsBrandName(createBrandRequest.getName());
         //***********************************ManuelMapper******************************************
 
         //Brand brand=new Brand();
@@ -60,6 +62,13 @@ public class BrandManager implements BrandService {
         Brand savedBrand = brandRepository.save(brand);
         CreateBrandResponse response = modelMapperService.forResponse().map(savedBrand, CreateBrandResponse.class);
         return new SuccessResult(Message.Brand.createBrand);
+    }
+
+    public void checkIfExistsBrandName(String name){
+        boolean isExists = brandRepository.existsByName(name);
+        if (isExists){
+                throw new BusinessException(Message.Exception.runTimeException);
+        }
     }
 
 }

@@ -6,6 +6,7 @@ import com.etiya.ecommercedemopair6.business.dto.request.concretes.street.Create
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.street.CreateStreetResponse;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.street.GetAllStreetsResponse;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.street.GetStreetResponse;
+import com.etiya.ecommercedemopair6.core.util.exceptions.BusinessException;
 import com.etiya.ecommercedemopair6.core.util.mapping.ModelMapperService;
 import com.etiya.ecommercedemopair6.core.util.result.DataResult;
 import com.etiya.ecommercedemopair6.core.util.result.Result;
@@ -49,11 +50,28 @@ public class StreetManager implements StreetService {
 //        street.setStreetName(createStreetRequest.getStreetName());
 //        Street savedStreet=streetRepository.save(street);
 //        CreateStreetResponse response=new CreateStreetResponse(savedStreet.getStreetName());
+        checkIfExistsStreetName(createStreetRequest.getStreetName());
+
 
         Street street=modelMapperService.forRequest().map(createStreetRequest,Street.class);
         Street savedStreet = streetRepository.save(street);
         CreateStreetResponse response = modelMapperService.forResponse().map(savedStreet,CreateStreetResponse.class);
         return new SuccessResult(Message.Street.createStreet);
+    }
 
+    private void checkIfExistsStreetName(String streetName) {
+        boolean isExists = streetRepository.existsByStreetName(streetName);
+        if (isExists){
+            throw new BusinessException(Message.Street.runTimeException);
+
+        }
+
+    }
+
+    public void checkIfExistsStreetId(int id){
+        boolean isExists = streetRepository.existsById(id);
+        if (!isExists){
+            throw new BusinessException(Message.Street.runTimeException);
+        }
     }
 }

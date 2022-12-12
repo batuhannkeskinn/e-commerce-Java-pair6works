@@ -8,6 +8,7 @@ import com.etiya.ecommercedemopair6.business.dto.request.concretes.BasketDetail.
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.basketDetail.CreateBasketDetailResponse;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.basketDetail.GetAllBasketDetailResponse;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.basketDetail.GetBasketDetailResponse;
+import com.etiya.ecommercedemopair6.core.util.exceptions.BusinessException;
 import com.etiya.ecommercedemopair6.core.util.mapping.ModelMapperService;
 import com.etiya.ecommercedemopair6.core.util.result.DataResult;
 import com.etiya.ecommercedemopair6.core.util.result.Result;
@@ -51,6 +52,8 @@ public class BasketDetailManager implements BasketDetailService {
 
     @Override
     public Result createBasket(CreateBasketDetailRequest createBasketDetailRequest) {
+        checkIfExistsBasketDetailId(createBasketDetailRequest.getBasketId());
+
 //***********************************ManuelMapper******************************************
 
 
@@ -69,6 +72,12 @@ public class BasketDetailManager implements BasketDetailService {
         BasketDetail savedBasketDetail = basketDetailRepository.save(basketDetail);
         CreateBasketDetailResponse response = modelMapperService.forResponse().map(savedBasketDetail, CreateBasketDetailResponse.class);
         return new SuccessResult(Message.BasketDetails.createBasketDetail);
+    }
+    public void checkIfExistsBasketDetailId(int id){
+        boolean isExists = basketDetailRepository.existsById(id);
+        if (!isExists){
+            throw new BusinessException(Message.BasketDetails.runTimeException);
+        }
     }
 
 

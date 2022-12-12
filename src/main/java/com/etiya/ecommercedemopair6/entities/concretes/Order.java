@@ -38,6 +38,7 @@ public class Order {
     @ManyToOne
     @JoinColumn(name = "customer_id")
     private Customer customer;
+
     @JsonIgnore
     @OneToMany(mappedBy = "order")
     private List<Delivery> deliveries;

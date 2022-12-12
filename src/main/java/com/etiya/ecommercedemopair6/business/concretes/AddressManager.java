@@ -6,6 +6,7 @@ import com.etiya.ecommercedemopair6.business.dto.request.concretes.address.Creat
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.address.CreateAddressResponse;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.address.GetAddressResponse;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.address.GetAllAddressResponse;
+import com.etiya.ecommercedemopair6.core.util.exceptions.BusinessException;
 import com.etiya.ecommercedemopair6.core.util.mapping.ModelMapperService;
 import com.etiya.ecommercedemopair6.core.util.result.DataResult;
 import com.etiya.ecommercedemopair6.core.util.result.Result;
@@ -82,9 +83,9 @@ public class AddressManager implements AddressService {
     @Override
     public Result addAddress(CreateAddressRequest createAddressRequest) {
 
-//        checkIfExistsCountryId(createAddressRequest.getCountryId());
-//        checkIfExistsCityId(createAddressRequest.getCityId());
-//        checkIfExistsStreetId(createAddressRequest.getStreetId());
+        checkIfExistsCountryId(createAddressRequest.getCountryId());
+        checkIfExistsCityId(createAddressRequest.getCityId());
+        checkIfExistsStreetId(createAddressRequest.getStreetId());
 //***********************************ManuelMapper******************************************
 //      City city = cityService.getById(createAddressRequest.getCityId());
 //      Street street = streetService.getById(createAddressRequest.getStreetId());
@@ -101,19 +102,19 @@ public class AddressManager implements AddressService {
     public void checkIfExistsCityId(int id){
         boolean isExists = cityRepository.existsById(id);
         if (!isExists){
-            throw new RuntimeException(Message.City.CheckIfExistsCityId);
+            throw new BusinessException(Message.City.runTimeException);
         }
     }
     public void checkIfExistsStreetId(int id){
         boolean isExists = streetRepository.existsById(id);
         if (!isExists){
-            throw new RuntimeException(Message.Street.CheckIfExistsStreetId);
+            throw new BusinessException(Message.Street.runTimeException);
         }
     }
     public void checkIfExistsCountryId(int id){
         boolean isExists = countryRepository.existsById(id);
         if (!isExists){
-            throw new RuntimeException(Message.Country.CheckIfExistsCountryId);
+            throw new BusinessException(Message.Street.runTimeException);
         }
     }
 

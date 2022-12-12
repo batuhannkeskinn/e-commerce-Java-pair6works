@@ -6,6 +6,7 @@ import com.etiya.ecommercedemopair6.business.dto.request.concretes.city.CreateCi
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.city.CreateCityResponse;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.city.GetAllCityResponse;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.city.GetCityResponse;
+import com.etiya.ecommercedemopair6.core.util.exceptions.BusinessException;
 import com.etiya.ecommercedemopair6.core.util.mapping.ModelMapperService;
 import com.etiya.ecommercedemopair6.core.util.result.DataResult;
 import com.etiya.ecommercedemopair6.core.util.result.SuccessDataResult;
@@ -53,7 +54,7 @@ public class CityManager implements CityService {
     @Override
     public DataResult<CreateCityResponse> addCity(CreateCityRequest createCityRequest) {
         //***********************************ManuelMapper******************************************
-
+        checkIfExistsCityName(createCityRequest.getCityName());
 //        City city = new City();
 //        city.setCityName(createCityRequest.getCityName());
 //        City savedCity = cityRepository.save(city);
@@ -64,4 +65,11 @@ public class CityManager implements CityService {
         CreateCityResponse response = modelMapperService.forResponse().map(savedCity,CreateCityResponse.class);
         return new SuccessDataResult<>(response,Message.City.createCity);
     }
+    public void checkIfExistsCityName(String name){
+        boolean isExists=cityRepository.existsByCityName(name);
+        if (isExists){
+            throw new BusinessException(Message.City.runTimeException);
+        }
+    }
+
 }
