@@ -7,4 +7,7 @@ import java.util.List;
 
 public interface CityRepository extends JpaRepository<City,Integer> {
     List<City> findAllCityByCityName(String name);
+
+
+    boolean existsByCityName(String cityName);
 }

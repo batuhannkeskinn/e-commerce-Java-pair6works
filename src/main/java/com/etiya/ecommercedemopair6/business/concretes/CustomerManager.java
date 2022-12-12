@@ -80,6 +80,7 @@ public class CustomerManager implements CustomerService {
     public Result createCustomer(CreateCustomerRequest createCustomerRequest) {
 
         checkIfCustomerExistsAddressId(createCustomerRequest.getAddressId());
+        checkIfCustomerExistPhoneNumber(createCustomerRequest.getPhoneNumber());
         Customer customer = modelMapperService.forRequest().map(createCustomerRequest, Customer.class);
         Customer saveCustomer = customerRepository.save(customer);
         CreateCustomerResponse response = modelMapperService.forResponse().map(saveCustomer, CreateCustomerResponse.class);
@@ -110,6 +111,13 @@ public class CustomerManager implements CustomerService {
 
     public void checkIfCustomerExistsAddressId(int id) {
         boolean isExists = addressRepository.existsById(id);
+        if (!isExists) {
+            throw new RuntimeException(Message.Customer.CheckIfExistsCustomerId);
+        }
+    }
+
+    public void checkIfCustomerExistPhoneNumber(String name) {
+        boolean isExists = customerRepository.existsByPhoneNumber(name);
         if (!isExists) {
             throw new RuntimeException(Message.Customer.CheckIfExistsCustomerId);
         }

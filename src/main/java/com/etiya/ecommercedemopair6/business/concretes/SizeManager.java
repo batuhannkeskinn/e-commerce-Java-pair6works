@@ -6,6 +6,7 @@ import com.etiya.ecommercedemopair6.business.dto.request.concretes.size.CreateSi
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.size.CreateSizeResponse;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.size.GetAllSizesResponse;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.size.GetSizeResponse;
+import com.etiya.ecommercedemopair6.core.util.exceptions.BusinessException;
 import com.etiya.ecommercedemopair6.core.util.mapping.ModelMapperService;
 import com.etiya.ecommercedemopair6.core.util.result.DataResult;
 import com.etiya.ecommercedemopair6.core.util.result.Result;
@@ -45,6 +46,7 @@ public class SizeManager implements SizeService {
 //      size.setNumber(createSizeRequest.getNumber());
 //      Size sizeSaved = sizeRepository.save(size);
 //      CreateSizeResponse response = new CreateSizeResponse(sizeSaved.getNumber());
+        checkIfExistsSizeNumber(createSizeRequest.getNumber());
 
         Size size = modelMapperService.forRequest().map(createSizeRequest,Size.class);
         Size savedSize = sizeRepository.save(size);
@@ -53,5 +55,12 @@ public class SizeManager implements SizeService {
        return new SuccessResult(Message.Size.createSize);
 
 
+
+    }
+    public void checkIfExistsSizeNumber(String name){
+        boolean isExists = sizeRepository.existsByNumber(name);
+        if (isExists){
+            throw new BusinessException(Message.Size.runTimeException);
+        }
     }
 }

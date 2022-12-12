@@ -7,6 +7,7 @@ import com.etiya.ecommercedemopair6.business.dto.response.concretes.basket.Creat
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.category.CreateCategoryResponse;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.category.GetAllCategoryResponse;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.category.GetCategoryResponse;
+import com.etiya.ecommercedemopair6.core.util.exceptions.BusinessException;
 import com.etiya.ecommercedemopair6.core.util.mapping.ModelMapperService;
 import com.etiya.ecommercedemopair6.core.util.result.DataResult;
 import com.etiya.ecommercedemopair6.core.util.result.Result;
@@ -80,7 +81,7 @@ public class CategoryManager implements CategoryService {
     public void checkIfExistsWithSameName(String name){
         boolean isExists = categoryRepository.existsCategoryByCategoryName(name);
         if (isExists){
-            throw new RuntimeException(Message.Category.CheckIfExistsCategoryId);
+            throw new BusinessException(Message.Category.runTimeException);
         }
     }
 

@@ -15,4 +15,6 @@ public interface CustomerRepository extends JpaRepository<Customer, Integer> {
     @Query ("Select cu from Customer as cu where customer_id =:id")
     Customer customById(int id);
 
+    boolean existsByPhoneNumber(String number);
+
 }

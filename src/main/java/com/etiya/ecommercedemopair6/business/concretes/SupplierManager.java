@@ -28,7 +28,6 @@ public class SupplierManager implements SupplierService {
     ModelMapperService modelMapperService;
     SupplierRepository supplierRepository;
 
-
     @Override
     public DataResult<GetSupplierResponse> getById(int id) {
         Supplier supplier = supplierRepository.findById(id).orElseThrow();
@@ -44,14 +43,12 @@ public class SupplierManager implements SupplierService {
         return new SuccessDataResult<>(responses,Message.Supplier.getAllSuppliers);
 
     }
-
     @Override
     public Result createSupplier(CreateSupplierRequest createSupplierRequest) {
         Supplier supplier = modelMapperService.forRequest().map(createSupplierRequest, Supplier.class);
         Supplier savedSupplier = supplierRepository.save(supplier);
         CreateSupplierResponse response = modelMapperService
                 .forResponse().map(savedSupplier, CreateSupplierResponse.class);
-
         return new SuccessResult(Message.Supplier.createSupplier);
     }
 }

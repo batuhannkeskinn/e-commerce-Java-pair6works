@@ -6,6 +6,7 @@ import com.etiya.ecommercedemopair6.business.dto.request.concretes.shippingCompa
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.shippingCompany.CreateShippingCompanyResponse;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.shippingCompany.GetAllShippingCompanyResponse;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.shippingCompany.GetShippingCompanyResponse;
+import com.etiya.ecommercedemopair6.core.util.exceptions.BusinessException;
 import com.etiya.ecommercedemopair6.core.util.mapping.ModelMapperService;
 import com.etiya.ecommercedemopair6.core.util.result.DataResult;
 import com.etiya.ecommercedemopair6.core.util.result.Result;
@@ -44,6 +45,7 @@ public class ShippingCompanyManager implements ShippingCompanyService {
     @Override
     public Result createShippingCompany(CreateShippingCompanyRequest createShippingCompanyRequest) {
         //***********************************ManuelMapper******************************************
+        checkIfExistsShippingCompanyName(createShippingCompanyRequest.getCompanyName());
 
 //        ShippingCompany company = new ShippingCompany();
 //        company.setCompanyName(createShippingCompanyRequest.getCompanyName());
@@ -54,5 +56,11 @@ public class ShippingCompanyManager implements ShippingCompanyService {
         ShippingCompany savedShippingCompany = shippingCompanyRepository.save(shippingCompany);
         CreateShippingCompanyResponse response = modelMapperService.forResponse().map(savedShippingCompany,CreateShippingCompanyResponse.class);
         return new SuccessResult(Message.ShippingCompany.createShippingCompany);
+    }
+    public void checkIfExistsShippingCompanyName(String name){
+        boolean isExists = shippingCompanyRepository.existsByCompanyName(name);
+        if (isExists){
+            throw new BusinessException(Message.ShippingCompany.runTimeException);
+        }
     }
 }

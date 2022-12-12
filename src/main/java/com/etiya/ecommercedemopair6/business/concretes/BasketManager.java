@@ -8,6 +8,7 @@ import com.etiya.ecommercedemopair6.business.dto.request.concretes.Basket.Create
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.basket.CreateBasketResponse;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.basket.GetAllBasketResponse;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.basket.GetBasketResponse;
+import com.etiya.ecommercedemopair6.core.util.exceptions.BusinessException;
 import com.etiya.ecommercedemopair6.core.util.mapping.ModelMapperService;
 import com.etiya.ecommercedemopair6.core.util.result.DataResult;
 import com.etiya.ecommercedemopair6.core.util.result.Result;
@@ -66,4 +67,10 @@ public class BasketManager implements BasketService {
 
     }
 
+    public void checkIfExistsBasketId(int id){
+        boolean isExists = basketRepository.existsById(id);
+        if (!isExists){
+            throw new BusinessException(Message.Street.runTimeException);
+        }
+    }
 }

@@ -6,6 +6,7 @@ import com.etiya.ecommercedemopair6.business.dto.request.concretes.Color.CreateC
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.color.CreateColorResponse;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.color.GetAllColorResponse;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.color.GetColorResponse;
+import com.etiya.ecommercedemopair6.core.util.exceptions.BusinessException;
 import com.etiya.ecommercedemopair6.core.util.mapping.ModelMapperService;
 import com.etiya.ecommercedemopair6.core.util.result.DataResult;
 import com.etiya.ecommercedemopair6.core.util.result.Result;
@@ -48,6 +49,7 @@ public class ColorManager implements ColorService {
     @Override
     public Result createColor(CreateColorRequest createColorRequest) {
         //***********************************ManuelMapper******************************************
+        checkIfExistsColorName(createColorRequest.getColorName());
 
 //        Color color= new Color();
 //        color.setColorName(createColorRequest.getColorName());
@@ -59,5 +61,12 @@ public class ColorManager implements ColorService {
         CreateColorResponse response = modelMapperService.forResponse().map(savedColor,CreateColorResponse.class);
 
         return new SuccessResult(Message.Color.createColor);
+    }
+
+    public void checkIfExistsColorName(String name){
+        boolean isExists = colorRepository.existsByColorName(name);
+        if (isExists){
+            throw new BusinessException(Message.Color.runTimeException);
+        }
     }
 }
