@@ -12,4 +12,5 @@ public class GetAllOrderResponse {
     private int orderQuantity;
     private double totalPrice;
     private int customerId; //join
+
 }

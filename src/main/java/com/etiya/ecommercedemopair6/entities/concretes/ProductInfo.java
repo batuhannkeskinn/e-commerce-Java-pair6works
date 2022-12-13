@@ -17,7 +17,6 @@ public class ProductInfo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="product_info_id")
     private int productInfoId;
-
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name="brand_id")
@@ -30,17 +29,11 @@ public class ProductInfo {
     @ManyToOne
     @JoinColumn(name="size_id")
     private Size size;
+
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name="product_id")
     private Product product;
 
-
-
-
-    //brand_id
-    //color_id
-    //size_id
-    //product_id
 
 }

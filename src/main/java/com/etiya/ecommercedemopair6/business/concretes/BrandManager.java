@@ -70,5 +70,4 @@ public class BrandManager implements BrandService {
                 throw new BusinessException(Message.Exception.runTimeException);
         }
     }
-
 }

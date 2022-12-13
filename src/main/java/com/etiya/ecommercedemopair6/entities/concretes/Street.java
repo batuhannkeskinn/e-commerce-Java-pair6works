@@ -5,11 +5,10 @@ import lombok.NoArgsConstructor;
 import lombok.Data;
 import javax.persistence.*;
 import java.util.List;
-
+@Data
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
 @Table(name= "streets")
 public class Street {
     @Id

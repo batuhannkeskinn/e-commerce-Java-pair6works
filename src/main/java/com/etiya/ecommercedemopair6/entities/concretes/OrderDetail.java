@@ -3,6 +3,7 @@ package com.etiya.ecommercedemopair6.entities.concretes;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -13,12 +14,14 @@ import javax.persistence.*;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @Table(name = "order_details")
 public class OrderDetail {
+
     @Id
     @Column(name = "order_detail_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int orderId ;
+    private int orderDetailId;
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "order_id")

@@ -9,8 +9,8 @@ import javax.validation.constraints.Min;
 @AllArgsConstructor
 public class CreateOrderDetailRequest {
     @Min(value = 0)
-    private int orderId;
+    private int orderDetailId;
     @Min(value = 0)
-
     private int productId;
+    private int supplierId;
 }

@@ -53,11 +53,11 @@ public class AddressManager implements AddressService {
         return new SuccessDataResult<>(responses,Message.Address.getAllAddress);
 
     }
-//    @Override
-//    public List<Address> findAddressByCityByCityName(String cityName) {
-//        return addressRepository.customeCityAddress(cityName);
+    @Override
+    public List<Address> findAddressByCityByCityName(String cityName) {
+        return addressRepository.customeCityAddress(cityName);
 
-//    }
+    }
 
     @Override
     public DataResult<List<GetAllAddressResponse>> getAllAddressByTitle(String title) {

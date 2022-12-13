@@ -4,7 +4,6 @@ import com.etiya.ecommercedemopair6.business.abstracts.CategoryService;
 import com.etiya.ecommercedemopair6.business.abstracts.ProductService;
 import com.etiya.ecommercedemopair6.business.constants.Message;
 import com.etiya.ecommercedemopair6.business.dto.request.concretes.product.CreateProductRequest;
-import com.etiya.ecommercedemopair6.business.dto.response.concretes.category.GetAllCategoryResponse;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.product.CreateProductResponse;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.product.GetAllProductsResponse;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.product.GetProductResponse;
@@ -17,11 +16,12 @@ import com.etiya.ecommercedemopair6.entities.concretes.Product;
 import com.etiya.ecommercedemopair6.repository.abstracts.ProductRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-//?
+
 @Service
 @AllArgsConstructor
 public class ProductManager implements ProductService {
@@ -36,38 +36,36 @@ public class ProductManager implements ProductService {
     public DataResult<List<GetAllProductsResponse>> getAll() {
         List<Product> products = productRepository.findAll();
         List<GetAllProductsResponse> responses = products
-                .stream().map(product -> modelMapperService.forResponse().map(product,GetAllProductsResponse.class))
+                .stream().map(product -> modelMapperService.forResponse().map(product, GetAllProductsResponse.class))
                 .collect(Collectors.toList());
 
-        return new SuccessDataResult<List<GetAllProductsResponse>>(responses,Message.Product.getAllProducts);
-
+        return new SuccessDataResult<List<GetAllProductsResponse>>(responses, Message.Product.getAllProducts);
 
     }
 
-
     @Override
-    public DataResult<GetProductResponse>  getById(int id) {
+    public DataResult<GetProductResponse> getById(int id) {
         Product product = productRepository.findById(id).orElseThrow();
-        GetProductResponse response = modelMapperService.forResponse().map(product,GetProductResponse.class);
-        return new SuccessDataResult<GetProductResponse>(response,Message.Product.getByProductId);
+        GetProductResponse response = modelMapperService.forResponse().map(product, GetProductResponse.class);
+        return new SuccessDataResult<GetProductResponse>(response, Message.Product.getByProductId);
 
     }
 
     @Override
     public DataResult<List<GetAllProductsResponse>> getAllByStockGreaterThan(int stock) {
-        List<Product> products =  productRepository.findAllProductsByStockGreaterThan(stock);
+        List<Product> products = productRepository.findAllProductsByStockGreaterThan(stock);
         List<GetAllProductsResponse> responses = products.stream()
-                .map(product -> modelMapperService.forResponse().map(product,GetAllProductsResponse.class))
+                .map(product -> modelMapperService.forResponse().map(product, GetAllProductsResponse.class))
                 .collect(Collectors.toList());
-        return new SuccessDataResult<>(responses,Message.Product.getAllProducts);
+        return new SuccessDataResult<>(responses, Message.Product.getAllProducts);
 
     }
 
     @Override
     public DataResult<GetProductResponse> findByName(String name) {
         Product product = productRepository.findByName(name);
-        GetProductResponse response = modelMapperService.forResponse().map(product,GetProductResponse.class);
-        return new SuccessDataResult<>(response,Message.Product.getByProductId);
+        GetProductResponse response = modelMapperService.forResponse().map(product, GetProductResponse.class);
+        return new SuccessDataResult<>(response, Message.Product.getByProductId);
 
     }
 
@@ -85,9 +83,9 @@ public class ProductManager implements ProductService {
 //        CreateProductResponse response = new CreateProductResponse(savedProduct.getName(),
 //                savedProduct.getStock(),savedProduct.getUnitPrice());
 
-        Product product = modelMapperService.forRequest().map(createProductRequest,Product.class);
+        Product product = modelMapperService.forRequest().map(createProductRequest, Product.class);
         Product savedProduct = productRepository.save(product);
-        CreateProductResponse response = modelMapperService.forResponse().map(savedProduct,CreateProductResponse.class);
+        CreateProductResponse response = modelMapperService.forResponse().map(savedProduct, CreateProductResponse.class);
         return new SuccessResult(Message.Product.createProduct);
 
     }
@@ -95,20 +93,19 @@ public class ProductManager implements ProductService {
     @Override
     public DataResult customProductId(int id) {
         Product product = productRepository.customProductId(id);
-        GetProductResponse response = modelMapperService.forResponse().map(product,GetProductResponse.class);
+        GetProductResponse response = modelMapperService.forResponse().map(product, GetProductResponse.class);
         return new SuccessDataResult(Message.Product.getByProductId);
     }
 
     @Override
     public DataResult customProductId2(int id) {
         Product product = productRepository.customProduct2Id(id);
-        GetProductResponse response = modelMapperService.forResponse().map(product,GetProductResponse.class);
+        GetProductResponse response = modelMapperService.forResponse().map(product, GetProductResponse.class);
         return new SuccessDataResult(Message.Product.getByProductId);
     }
     //Eklenen product muhakkak var olan bir category Id ile eşleşmeli.
 
-
-    }
+}
 
 
 

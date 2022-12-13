@@ -1,39 +1,48 @@
 package com.etiya.ecommercedemopair6.business.concretes;
 
 import com.etiya.ecommercedemopair6.business.abstracts.CustomerService;
+import com.etiya.ecommercedemopair6.business.abstracts.InvoiceService;
 import com.etiya.ecommercedemopair6.business.abstracts.OrderService;
+import com.etiya.ecommercedemopair6.business.abstracts.ProductService;
 import com.etiya.ecommercedemopair6.business.constants.Message;
 import com.etiya.ecommercedemopair6.business.dto.request.concretes.order.CreateOrderRequest;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.order.CreateOrderResponse;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.order.GetAllOrderResponse;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.order.GetOrderResponse;
+import com.etiya.ecommercedemopair6.core.util.exceptions.BusinessException;
 import com.etiya.ecommercedemopair6.core.util.mapping.ModelMapperService;
 import com.etiya.ecommercedemopair6.core.util.result.DataResult;
 import com.etiya.ecommercedemopair6.core.util.result.Result;
 import com.etiya.ecommercedemopair6.core.util.result.SuccessDataResult;
 import com.etiya.ecommercedemopair6.core.util.result.SuccessResult;
-import com.etiya.ecommercedemopair6.entities.concretes.Order;
-import com.etiya.ecommercedemopair6.repository.abstracts.OrderRepository;
-import com.etiya.ecommercedemopair6.repository.abstracts.PaymentRepository;
+import com.etiya.ecommercedemopair6.entities.concretes.*;
+import com.etiya.ecommercedemopair6.repository.abstracts.*;
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @Service
 public class OrderManager implements OrderService {
+    private final InvoiceRepository invoiceRepository;
+    private final CustomerRepository customerRepository;
+    private final SupplierRepository supplierRepository;
     OrderRepository orderRepository;
     CustomerService customerService;
+    OrderDetailRepository orderDetailRepository;
+    ProductService productService;
+    InvoiceService invoiceService;
     ModelMapperService modelMapperService;
-    private final PaymentRepository paymentRepository;
+    ProductRepository productRepository;
 
     @Override
     public DataResult<GetOrderResponse> getById(int id) {
         Order order = orderRepository.findById(id).orElseThrow();
-        GetOrderResponse response = modelMapperService.forResponse().map(order,GetOrderResponse.class);
+        GetOrderResponse response = modelMapperService.forResponse().map(order, GetOrderResponse.class);
         return new SuccessDataResult<>(response, Message.Order.getByOrderId);
 
 
@@ -41,30 +50,105 @@ public class OrderManager implements OrderService {
 
     @Override
     public DataResult<List<GetAllOrderResponse>> getAllOrders() {
-       List<Order> orders = orderRepository.findAll();
-       List<GetAllOrderResponse> responses = orders.stream().map(order -> modelMapperService.forResponse().map(order, GetAllOrderResponse.class)).collect(Collectors.toList());
-       return new SuccessDataResult<>(responses,Message.Order.getAllOrder);
+        List<Order> orders = orderRepository.findAll();
+        List<GetAllOrderResponse> responses = orders.stream().map(order -> modelMapperService.forResponse().map(order, GetAllOrderResponse.class)).collect(Collectors.toList());
+        return new SuccessDataResult<>(responses, Message.Order.getAllOrder);
     }
 
     @Override
+    @Transactional
     public Result createOrder(CreateOrderRequest createOrderRequest) {
-        Order order =modelMapperService.forRequest().map(createOrderRequest,Order.class);
 
+        //*********************************** Check işlemi**********************************************
+        checkIfExistsCustomerId(createOrderRequest.getCustomerId());
+        checkIfExistsSupplierId(createOrderRequest.getSupplierId());
+        checkIfExistsProductId(createOrderRequest.getProductId());
+        //******************************Başlangıç:ihtiyaçlarımı belirle**********************************
+
+        Product product = productRepository.findById(createOrderRequest.getProductId()).get();
+        Customer customer = customerRepository.findById(createOrderRequest.getCustomerId()).get();
+        Supplier supplier = supplierRepository.findById(createOrderRequest.getSupplierId()).get();
+
+
+        //*********************************** Total price için hesaplama ******************************************
+
+        double prices = calculateTotalPrice(product, createOrderRequest);
+
+        //******************************** Order için gerekli set işlemleri ******************************************
+
+        Order order = Order.builder()  //orderId:126
+                .orderQuantity(createOrderRequest.getOrderQuantity())  //25
+                .totalPrice(prices)//50
+                .customer(customer).build(); //94
         Order savedOrder = orderRepository.save(order);
-        CreateOrderResponse response = modelMapperService.forResponse().map(savedOrder,CreateOrderResponse.class);
-//***********************************ManuelMapper******************************************
-//        Customer customer = customerService.getById(createOrderRequest.getCustomerId());
-//        Order order = new Order();
-//        order.setOrderDate(createOrderRequest.getOrderDate());
-//        order.setOrderNumber(createOrderRequest.getOrderNumber());
-//        order.setOrderQuantity(createOrderRequest.getOrderQuantity());
-//        order.setTotalPrice(createOrderRequest.getTotalPrice());
-//        order.setOrderNumber(createOrderRequest.getOrderNumber());
-//        order.setCustomer(customer);
-//        Order savedOrder = orderRepository.save(order);
-//        CreateOrderResponse response = new CreateOrderResponse(savedOrder.getOrderNumber(),
-//                savedOrder.getOrderQuantity(), savedOrder.getTotalPrice() , savedOrder.getCustomer().getCustomerId());
-        return new SuccessResult(Message.Order.getByOrderId);
+        //********************** Diğer tabloda ki ihtiyaçlarım: get OrderId ihtiyacım için **************************
 
+        Order referanceOrderId = Order.builder().orderId(order.getOrderId()).build(); //126
+        //OrderDetail:
+
+
+        //******************************** OrderDetail ***************************************************************
+
+        OrderDetail detail = OrderDetail.builder()
+                .order(referanceOrderId)
+                .product(product)
+                .supplier(supplier)
+                .build();
+        orderDetailRepository.save(detail);
+
+        //******************************** OrderDetail ekleme************************************************************
+
+        //İnvoice için set işlemleri manual mapping
+//        Invoice invoice = new Invoice();
+//        invoice.setInvoiceNumber(UUID.randomUUID().toString());
+//        invoice.setProduct(product);
+//        invoice.setOrder(order1);
+
+        //******************************** Invoice ekleme ***************************************************************
+        Invoice invoice = Invoice.builder()
+                .invoiceNumber(UUID.randomUUID().toString())
+                .product(product)
+                .order(referanceOrderId)
+                .build();
+        invoiceRepository.save(invoice);
+        return new SuccessResult(Message.Order.createOrder);
     }
+
+//******************************** Validation ***************************************************************
+
+    public void checkIfExistsSupplierId(int id){
+        boolean isExists = supplierRepository.existsById(id);
+        if (!isExists){
+            throw new BusinessException(Message.Supplier.runTimeException);
+        }
+    }
+
+
+    public void checkIfExistsProductId(int id){
+        boolean isExists = productRepository.existsById(id);
+        if (!isExists){
+            throw new BusinessException(Message.Product.runTimeException);
+        }
+    }
+
+
+    public void checkIfExistsCustomerId(int id){
+        boolean isExists = customerRepository.existsById(id);
+        if (!isExists){
+            throw new BusinessException(Message.Customer.runTimeException);
+        }
+    }
+
+    public double calculateTotalPrice(Product product, CreateOrderRequest order) {
+        double total = product.getUnitPrice() * order.getOrderQuantity();
+        return total;
+    }
+
 }
+
+
+
+
+
+
+

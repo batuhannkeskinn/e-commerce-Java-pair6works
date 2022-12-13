@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CreateOrderResponse {
+    private int orderId;
     private  int orderNumber;
     private int orderQuantity;
     private double totalPrice;
