@@ -24,4 +24,5 @@ public interface ProductService {
     DataResult<GetProductResponse> customProductId(int id);
     DataResult<GetProductResponse> customProductId2(int id);
 
+
 }

@@ -1,13 +1,12 @@
 package com.etiya.ecommercedemopair6.entities.concretes;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.sql.Timestamp;
 import java.util.List;
 
 @Getter
@@ -15,16 +14,16 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@Builder
 @Table(name = "orders")
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-
     @Column(name = "order_id")
     private int orderId;
 
     @Column(name = "order_number")
-    private  int orderNumber;
+    private int orderNumber;
 
     @Column(name = "order_quantity")
     private int orderQuantity;
@@ -32,8 +31,8 @@ public class Order {
     @Column(name = "total_price")
     private double totalPrice;
 
-    @Column(name = "order_date")
-    private Date orderDate;
+    @CreationTimestamp
+    private Timestamp orderDate;
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "customer_id")
@@ -43,9 +42,14 @@ public class Order {
     @OneToMany(mappedBy = "order")
     private List<Delivery> deliveries;
 
+    @JsonProperty
     @OneToMany(mappedBy = "order")
     private List<OrderDetail> orderDetails;
+
     @JsonIgnore
     @OneToMany(mappedBy = "order")
     private List<Payment> payments;
+
+    @OneToMany(mappedBy = "order")
+    private List<Invoice> invoices;
 }

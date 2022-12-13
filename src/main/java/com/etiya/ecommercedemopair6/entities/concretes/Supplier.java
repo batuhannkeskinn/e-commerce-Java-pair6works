@@ -12,7 +12,6 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Supplier {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="suppliers_id")
@@ -26,6 +25,5 @@ public class Supplier {
 
     @OneToMany(mappedBy = "supplier")
     private List <OrderDetail> orderDetails;
-
 
 }

@@ -42,9 +42,13 @@ public class Customer {
     @JsonIgnore
     @OneToMany(mappedBy = "customer")
     private List<Order> orders;
-    //addres_id
+
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "address_id")
     private Address address;
+
+
+//    @OneToMany(mappedBy = "customer")
+//    private List<Invoice> invoices;
 }

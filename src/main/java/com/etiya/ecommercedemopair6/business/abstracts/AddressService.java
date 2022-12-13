@@ -16,7 +16,7 @@ public interface AddressService {
 
     DataResult<List<GetAllAddressResponse> >getAll();
 
-//    List<Address> findAddressByCityByCityName(String cityName);
+    List<Address> findAddressByCityByCityName(String cityName);
 
     DataResult<List<GetAllAddressResponse> > getAllAddressByTitle(String title);
 

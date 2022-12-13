@@ -19,8 +19,9 @@ public interface AddressRepository extends JpaRepository<Address, Integer> {
 
     @Query("Select ad from Address as ad WHERE ad.addressId=:id")
     Address customAddress(int id);
-//
-//    @Query("SELECT ad FROM Address ad JOIN  ad.street.city.cityName =:cityName")
-//    List<Address> customeCityAddress(String cityName);
+
+   @Query(value =" Select * from addresses ads Inner Join streets st ON st.street_id =" +
+           " ads.street_id join cities ON cities.city_id = st.city_id",nativeQuery = true)
+   List<Address> customeCityAddress(String cityName);
 
 }

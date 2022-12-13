@@ -6,6 +6,7 @@ import com.etiya.ecommercedemopair6.business.dto.request.concretes.supplier.Crea
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.supplier.CreateSupplierResponse;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.supplier.GetAllSupplierResponse;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.supplier.GetSupplierResponse;
+import com.etiya.ecommercedemopair6.core.util.exceptions.BusinessException;
 import com.etiya.ecommercedemopair6.core.util.mapping.ModelMapperService;
 import com.etiya.ecommercedemopair6.core.util.result.DataResult;
 import com.etiya.ecommercedemopair6.core.util.result.Result;
@@ -32,7 +33,7 @@ public class SupplierManager implements SupplierService {
     public DataResult<GetSupplierResponse> getById(int id) {
         Supplier supplier = supplierRepository.findById(id).orElseThrow();
         GetSupplierResponse response = modelMapperService.forResponse().map(supplier, GetSupplierResponse.class);
-        return new SuccessDataResult<>(response,Message.Supplier.getBySupplierId);
+        return new SuccessDataResult<>(response, Message.Supplier.getBySupplierId);
     }
 
     @Override
@@ -40,15 +41,25 @@ public class SupplierManager implements SupplierService {
         List<Supplier> suppliers = supplierRepository.findAll();
         List<GetAllSupplierResponse> responses = suppliers.stream().map(supplier -> modelMapperService.forResponse().map(supplier,
                 GetAllSupplierResponse.class)).collect(Collectors.toList());
-        return new SuccessDataResult<>(responses,Message.Supplier.getAllSuppliers);
+        return new SuccessDataResult<>(responses, Message.Supplier.getAllSuppliers);
 
     }
+
     @Override
     public Result createSupplier(CreateSupplierRequest createSupplierRequest) {
+        checkIfExistsSupplierName(createSupplierRequest.getSupplierName());
         Supplier supplier = modelMapperService.forRequest().map(createSupplierRequest, Supplier.class);
         Supplier savedSupplier = supplierRepository.save(supplier);
         CreateSupplierResponse response = modelMapperService
                 .forResponse().map(savedSupplier, CreateSupplierResponse.class);
         return new SuccessResult(Message.Supplier.createSupplier);
+    }
+
+    private void checkIfExistsSupplierName(String supplerName) {
+        boolean isExists = supplierRepository.existsBySupplierName(supplerName);
+        if (isExists) {
+            throw new BusinessException(Message.Street.runTimeException);
+
+        }
     }
 }

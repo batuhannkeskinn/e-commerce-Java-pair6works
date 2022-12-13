@@ -8,10 +8,10 @@ import lombok.Data;
 import javax.persistence.*;
 import java.util.List;
 
+@Data
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Data //Getter Setter yerine karşılıyor
 @Table(name = "shipping_companies")
 public class ShippingCompany {
     @Id

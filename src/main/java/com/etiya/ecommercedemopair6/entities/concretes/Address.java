@@ -22,9 +22,6 @@ public class Address {
     @Column(name="title")
     private String title;
 
-//    @Column(name="postal_code")
-//    private int postalCode;
-
     @JsonIgnore
     @OneToMany(mappedBy = "address")
     private List<Customer> customers;
@@ -34,6 +31,8 @@ public class Address {
     @JoinColumn(name ="street_id")
     private Street street;
 
+//    @Column(name="postal_code")
+//    private int postalCode;
 
 //   //city_id
 //    @JsonIgnore

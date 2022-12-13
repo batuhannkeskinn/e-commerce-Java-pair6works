@@ -19,17 +19,10 @@ public class CategoryProduct {
    @Column(name ="category_product_id")
    private int categoryProductId;
 
-
-//category_id
-
-
    @JsonIgnore
    @ManyToOne
    @JoinColumn(name = "category_id")
    private Category category;
-
-   //product_id
-
 
    @JsonIgnore
    @ManyToOne

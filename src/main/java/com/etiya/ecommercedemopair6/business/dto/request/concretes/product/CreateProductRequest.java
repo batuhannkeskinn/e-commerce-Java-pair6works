@@ -22,9 +22,6 @@ public class CreateProductRequest {
     private int stock;
     @Min(value = 1, message = "1 den düşük değer giremezsin")
     private double unitPrice;
-
-    public CreateProductRequest(String name) {
-        this.name = name;
-    }
+    private int supplierId;
 }
 
