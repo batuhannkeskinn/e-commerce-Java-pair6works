@@ -12,6 +12,10 @@ import com.etiya.ecommercedemopair6.entities.concretes.Address;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -59,5 +63,17 @@ public class AddressController {
     @GetMapping("getAllAddressByCityName")
     public List<Address> findAddressByCityByCityName(@RequestParam("cityName") String cityName){
         return addressService.findAddressByCityByCityName(cityName);
+    }
+
+    @GetMapping("/getAddressPages")
+    public ResponseEntity<DataResult<Page<Address>>> getAddressPages(@RequestParam("page") int page,@RequestParam("pageSize") int pageSize){
+        Pageable pageable = PageRequest.of(page,pageSize);
+        return new ResponseEntity<>(addressService.findAll(pageable),HttpStatus.OK);
+    }
+    @GetMapping("/getAddressSlies")
+    public ResponseEntity<DataResult<Slice<Address>>> getAddressSlice(@RequestParam("page") int page,@RequestParam("pageSize") int pageSize){
+       Pageable pageable = PageRequest.of(page,pageSize);
+        return new ResponseEntity<>(addressService.findAllSlice(pageable),HttpStatus.OK);
+
     }
 }

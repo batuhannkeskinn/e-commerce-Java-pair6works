@@ -8,7 +8,13 @@ import com.etiya.ecommercedemopair6.business.dto.response.concretes.product.GetA
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.product.GetProductResponse;
 import com.etiya.ecommercedemopair6.core.util.result.DataResult;
 import com.etiya.ecommercedemopair6.core.util.result.Result;
+import com.etiya.ecommercedemopair6.entities.concretes.Product;
+import com.etiya.ecommercedemopair6.entities.concretes.Supplier;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -62,6 +68,17 @@ public class ProductController {
     @PostMapping("/add")
     public ResponseEntity<Result> createProduct(@RequestBody CreateProductRequest createProductRequest){
         return new ResponseEntity<>(productService.createProduct(createProductRequest), HttpStatus.CREATED);
+
+    }
+    @GetMapping("/getProductPages")
+    public ResponseEntity<DataResult<Page<Product>>>getProductPages (@RequestParam("page") int page, @RequestParam("pageSize") int pageSize){
+        Pageable pageable = PageRequest.of(page,pageSize);
+        return  new ResponseEntity<>(productService.findAll(pageable),HttpStatus.OK);
+    }
+    @GetMapping("/getProductSlies")
+    public ResponseEntity<DataResult<Slice<Product>>> getProductSlice(@RequestParam("page") int page, @RequestParam("pageSize") int pageSize){
+        Pageable pageable = PageRequest.of(page,pageSize);
+        return new ResponseEntity<>(productService.findAllSlice(pageable),HttpStatus.OK);
 
     }
 

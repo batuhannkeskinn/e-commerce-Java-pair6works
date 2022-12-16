@@ -15,6 +15,11 @@ import com.etiya.ecommercedemopair6.core.util.result.SuccessResult;
 import com.etiya.ecommercedemopair6.entities.concretes.Product;
 import com.etiya.ecommercedemopair6.repository.abstracts.ProductRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,7 +31,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class ProductManager implements ProductService {
     //dependency injection
-
+private MessageSource messageSource;
     private ProductRepository productRepository;
     private CategoryService categoryService;
     private ModelMapperService modelMapperService;
@@ -47,7 +52,8 @@ public class ProductManager implements ProductService {
     public DataResult<GetProductResponse> getById(int id) {
         Product product = productRepository.findById(id).orElseThrow();
         GetProductResponse response = modelMapperService.forResponse().map(product, GetProductResponse.class);
-        return new SuccessDataResult<GetProductResponse>(response, Message.Product.getByProductId);
+        return new SuccessDataResult<>(response, messageSource.getMessage(Message.Product.getByProductId,null,
+                LocaleContextHolder.getLocale()));
 
     }
 
@@ -102,6 +108,17 @@ public class ProductManager implements ProductService {
         Product product = productRepository.customProduct2Id(id);
         GetProductResponse response = modelMapperService.forResponse().map(product, GetProductResponse.class);
         return new SuccessDataResult(Message.Product.getByProductId);
+    }
+
+    @Override
+    public DataResult<Page<Product>> findAll(Pageable pageable) {
+        return new SuccessDataResult<>(productRepository.findAll(pageable));
+    }
+
+    @Override
+    public DataResult<Slice<Product>> findAllSlice(Pageable pageable) {
+        return new SuccessDataResult<>(productRepository.findAllSlice(pageable));
+
     }
     //Eklenen product muhakkak var olan bir category Id ile eşleşmeli.
 

@@ -15,6 +15,11 @@ import com.etiya.ecommercedemopair6.core.util.result.SuccessResult;
 import com.etiya.ecommercedemopair6.entities.concretes.Size;
 import com.etiya.ecommercedemopair6.repository.abstracts.SizeRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,13 +28,15 @@ import java.util.stream.Collectors;
 @Service
 @AllArgsConstructor
 public class SizeManager implements SizeService {
+    private MessageSource messageSource;
    private SizeRepository sizeRepository;
    private ModelMapperService modelMapperService;
     @Override
     public DataResult<GetSizeResponse> getById(int id) {
         Size size =  sizeRepository.findById(id).orElseThrow();
         GetSizeResponse response = modelMapperService.forResponse().map(size, GetSizeResponse.class);
-        return new SuccessDataResult<>(response, Message.Size.getBysizeId);
+        return new SuccessDataResult<>(response, messageSource.getMessage(Message.Size.getBysizeId,null,
+                LocaleContextHolder.getLocale()));
     }
 
     @Override
@@ -52,15 +59,30 @@ public class SizeManager implements SizeService {
         Size savedSize = sizeRepository.save(size);
         CreateSizeResponse response = modelMapperService.forResponse().map(savedSize,CreateSizeResponse.class);
 
-       return new SuccessResult(Message.Size.createSize);
-
+       return new SuccessDataResult<>(response, messageSource.getMessage(Message.Size.getBysizeId,null,
+               LocaleContextHolder.getLocale()));
 
 
     }
+
+    @Override
+    public DataResult<Page<Size>> findAll(Pageable pageable) {
+        return new SuccessDataResult<>(sizeRepository.findAll(pageable),messageSource.getMessage(Message.Size
+                .getAllPageable,null,LocaleContextHolder.getLocale()));
+    }
+
+    @Override
+    public DataResult<Slice<Size>> findAllSlice(Pageable pageable) {
+        return new SuccessDataResult<>(sizeRepository.findAllSlice(pageable),messageSource.getMessage(Message.Size
+                .getAllPageable,null,LocaleContextHolder.getLocale()));
+    }
+
     public void checkIfExistsSizeNumber(String name){
         boolean isExists = sizeRepository.existsByNumber(name);
         if (isExists){
-            throw new BusinessException(Message.Size.runTimeException);
+            throw new BusinessException(messageSource.getMessage(Message.Size.CheckIfExistsSizeId,null,
+                    LocaleContextHolder.getLocale()));
+
         }
     }
 }

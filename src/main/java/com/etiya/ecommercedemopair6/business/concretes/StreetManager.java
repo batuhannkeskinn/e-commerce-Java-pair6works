@@ -16,6 +16,11 @@ import com.etiya.ecommercedemopair6.entities.concretes.Street;
 import com.etiya.ecommercedemopair6.repository.abstracts.StreetRepository;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,6 +29,7 @@ import java.util.stream.Collectors;
 @Service
 @AllArgsConstructor
 public class StreetManager implements StreetService {
+    private MessageSource messageSource;
     private StreetRepository streetRepository;
     private ModelMapperService modelMapperService;
 
@@ -59,10 +65,22 @@ public class StreetManager implements StreetService {
         return new SuccessResult(Message.Street.createStreet);
     }
 
+    @Override
+    public DataResult<Page<Street>> findAll(Pageable pageable) {
+        return new SuccessDataResult<>(streetRepository.findAll(pageable),messageSource.getMessage(Message.Street
+                .getAllPageable,null,LocaleContextHolder.getLocale()));
+    }
+
+    @Override
+    public DataResult<Slice<Street>> findAllSlice(Pageable pageable) {
+        return new SuccessDataResult<>(streetRepository.findAllSlice(pageable),messageSource.getMessage(Message.Street
+                .getAllPageable,null,LocaleContextHolder.getLocale()));
+    }
+
     private void checkIfExistsStreetName(String streetName) {
         boolean isExists = streetRepository.existsByStreetName(streetName);
         if (isExists){
-            throw new BusinessException(Message.Street.runTimeException);
+            throw new BusinessException(messageSource.getMessage(Message.Street.runTimeException,null,LocaleContextHolder.getLocale()));
 
         }
 
@@ -71,7 +89,9 @@ public class StreetManager implements StreetService {
     public void checkIfExistsStreetId(int id){
         boolean isExists = streetRepository.existsById(id);
         if (!isExists){
-            throw new BusinessException(Message.Street.runTimeException);
+            throw new BusinessException(messageSource.getMessage(Message.Street.CheckIfExistsStreetId,null,
+                    LocaleContextHolder.getLocale()));
+
         }
     }
 }

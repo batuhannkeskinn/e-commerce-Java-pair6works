@@ -8,14 +8,17 @@ import com.etiya.ecommercedemopair6.business.dto.response.concretes.orderDetail.
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.orderDetail.GetOrderDetailResponse;
 import com.etiya.ecommercedemopair6.core.util.result.DataResult;
 import com.etiya.ecommercedemopair6.core.util.result.Result;
+import com.etiya.ecommercedemopair6.entities.concretes.OrderDetail;
+import com.etiya.ecommercedemopair6.entities.concretes.Supplier;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -41,5 +44,16 @@ public class OrderDetailController {
     ResponseEntity<Result> createOrderDetail(CreateOrderDetailRequest
                                                                         createOrderDetailRequest) {
         return new ResponseEntity<>(orderDetailService.createOrderDetail(createOrderDetailRequest), HttpStatus.CREATED);
+    }
+    @GetMapping("/getOrderDetailPages")
+    public ResponseEntity<DataResult<Page<OrderDetail>>>getOrderDetailPages (@RequestParam("page") int page, @RequestParam("pageSize") int pageSize){
+        Pageable pageable = PageRequest.of(page,pageSize);
+        return new ResponseEntity<>(orderDetailService.findAll(pageable),HttpStatus.OK);
+    }
+    @GetMapping("/getOrderDetailSlies")
+    public ResponseEntity<DataResult<Slice<OrderDetail>>> getOrderDetailSlice(@RequestParam("page") int page, @RequestParam("pageSize") int pageSize){
+        Pageable pageable = PageRequest.of(page,pageSize);
+        return new ResponseEntity<>(orderDetailService.findAllSlice(pageable),HttpStatus.OK);
+
     }
 }

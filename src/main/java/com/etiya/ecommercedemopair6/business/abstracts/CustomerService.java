@@ -6,6 +6,12 @@ import com.etiya.ecommercedemopair6.business.dto.response.concretes.customer.Get
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.customer.GetCustomerResponse;
 import com.etiya.ecommercedemopair6.core.util.result.DataResult;
 import com.etiya.ecommercedemopair6.core.util.result.Result;
+import com.etiya.ecommercedemopair6.entities.concretes.Address;
+import com.etiya.ecommercedemopair6.entities.concretes.BasketDetail;
+import com.etiya.ecommercedemopair6.entities.concretes.Customer;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 
 import java.util.List;
 
@@ -19,6 +25,10 @@ public interface CustomerService {
     DataResult<GetCustomerResponse >customById(int id);
 
     Result createCustomer(CreateCustomerRequest createCustomerRequest);
+
+    DataResult<Page<Customer>> findAll(Pageable pageable);
+    DataResult<Slice<Customer>> findAllSlice(Pageable pageable);
+
 
 
 }

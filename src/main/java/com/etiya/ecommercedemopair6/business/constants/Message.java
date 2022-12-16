@@ -2,174 +2,218 @@ package com.etiya.ecommercedemopair6.business.constants;
 
 public class Message {
 
-    public static class Supplier {
-        public static final String CheckIfExistsSizeId = "This Supplier found";
-        public static final String createSupplier= "This Supplier  has been successfully added. ";
-        public static final String getAllSuppliers="All  Supplier been successfully called.";
-        public static final String getBySupplierId = "This Supplier  was called successfully";
 
-        public static final String runTimeException = "This supplier not found";
+    public static class Supplier {
+        public static final String CheckIfExistsSizeId = "checkIfExistsSizeId";
+        public static final String createSupplier= "createSupplier";
+        public static final String getAllSuppliers="getAllSuppliers";
+        public static final String getBySupplierId = "getBySupplierId";
+        public static final String runTimeException = "runTimeException";
+        public static final String getAllPageable="getAllPageable";
     }
 
 
     public static class Size {
-        public static final String CheckIfExistsSizeId = "This size  found";
-        public static final String createSize= "This size has been successfully added. ";
-        public static final String getAllSizes="All  size have been successfully called.";
-        public static final String getBysizeId = "This size was called successfully";
-        public static final String runTimeException = "This size not found";
+        public static final String CheckIfExistsSizeId = "CheckIfExistsSizeId";
+        public static final String createSize= "createSize";
+        public static final String getAllSizes="getAllSizes";
+        public static final String getBysizeId = "getBysizeId";
+        public static final String runTimeException = "runTimeException";
+        public static final String getAllPageable="getAllPageable";
+
     }
 
 
     public static class ShippingCompany {
-        public static final String CheckIfExistsShippingCompanyId = "This ShippingCompany  found";
-        public static final String createShippingCompany= "This ShippingCompany has been successfully added. ";
-        public static final String getAllShippingCompanies="All  ShippingCompany have been successfully called.";
-        public static final String getByShippingCompanyId = "This ShippingCompany was called successfully";
-        public static final String runTimeException =  "This ShippingCompany not found";
+        public static final String CheckIfExistsShippingCompanyId = "CheckIfExistsShippingCompanyId";
+        public static final String createShippingCompany= "createShippingCompany ";
+        public static final String getAllShippingCompanies="getAllShippingCompanies";
+        public static final String getByShippingCompanyId = "getByShippingCompanyId";
+        public static final String runTimeException =  "runTimeException";
+        public static final String getAllPageable="getAllPageable";
+
     }
 
     public static class ProductInfo {
-        public static final String CheckIfExistsProductInfotId = "This productInfo found";
-        public static final String createProductInfo = "This product info has been successfully added. ";
-        public static final String getAllProductInfos="All  product info have been successfully called.";
-        public static final String getByProductInfId = "This product info  was called successfully";
-        public static final String runTimeException = "This productInfo not found";
+        public static final String CheckIfExistsProductInfotId = "CheckIfExistsProductInfotId";
+        public static final String createProductInfo = "createProductInfo ";
+        public static final String getAllProductInfos="getAllProductInfos";
+        public static final String getByProductInfId = "getByProductInfId";
+        public static final String runTimeException = "runTimeException";
+        public static final String getAllPageable="getAllPageable";
+
     }
 
 
     public static class Payment {
-        public static final String CheckIfExistsPaymentId = "This payment found";
-        public static final String createPayment= "This payment has been successfully added. ";
-        public static final String getAllPayment="All  payment have been successfully called.";
-        public static final String getByPaymentd = "This payment  was called successfully";
-        public static final String runTimeException = "This payment not found";
+        public static final String CheckIfExistsPaymentId = "CheckIfExistsPaymentId";
+        public static final String createPayment= "createPayment";
+        public static final String getAllPayment="getAllPayment";
+        public static final String getByPaymentId = "getByPaymentd";
+        public static final String runTimeException = "runTimeException";
+        public static final String getAllPageable="getAllPageable";
+
     }
 
 
     public static class Order {
-        public static final String CheckIfExistsOrderId = "This order  found";
-        public static final String createOrder= "This order has been successfully added. ";
-        public static final String getAllOrder ="All  order have been successfully called.";
-        public static final String getByOrderId = "This order  was called successfully";
-        public static final String runTimeException = "This order not found";
+        public static final String CheckIfExistsOrderId = "CheckIfExistsOrderId";
+        public static final String createOrder= "createOrder ";
+        public static final String getAllOrder ="getAllOrder";
+        public static final String getByOrderId = "getByOrderId";
+        public static final String runTimeException = "runTimeException";
+        public static final String getAllPageable="getAllPageable";
+
     }
 
 
 
     public static class OrderDetail {
-        public static final String CheckIfExistsOrderDetailId = "This order detail  found";
-        public static final String createOrderDetail= "This order detail  has been successfully added. ";
-        public static final String getAllOrderDetails= "All  orderDetails  have been successfully called.";
-        public static final String getByOrderDetailId = "This order detail was called successfully";
-        public static final String runTimeException = "This order detail not  found";
+        public static final String CheckIfExistsOrderDetailId = "CheckIfExistsOrderDetailId";
+        public static final String createOrderDetail= "createOrderDetail ";
+        public static final String getAllOrderDetails= "getAllOrderDetails";
+        public static final String getByOrderDetailId = "getByOrderDetailId";
+        public static final String runTimeException = "runTimeException";
+        public static final String getAllPageable="getAllPageable";
+
     }
 
 
     public static class Delivery {
-        public static final String CheckIfExistsDeliveryd = "This delivery  found";
-        public static final String createDelivery = "This delivery has been successfully added. ";
-        public static final String getAllDeliveries = "All deliveries have been successfully called.";
-        public static final String getByDeliveryId = "This delivery was called successfully";
-        public static final String runTimeException =  "This delivery not found";
+        public static final String CheckIfExistsDeliveryd = "CheckIfExistsDeliveryd";
+        public static final String createDelivery = "createDelivery";
+        public static final String getAllDeliveries = "getAllDeliveries";
+        public static final String getByDeliveryId = "getByDeliveryId";
+        public static final String runTimeException =  "runTimeException";
+        public static final String getAllPageable="getAllPageable";
+
+
     }
 
 
     public static class Color {
-        public static final String CheckIfExistsColorId = "This color  found";
-        public static final String createColor = "This color has been successfully added. ";
-        public static final String getAllColors= "All colors have been successfully called.";
-        public static final String getByColorId = "This color was called successfully";
-        public static final String runTimeException = "This color not found";
+        public static final String CheckIfExistsColorId = "CheckIfExistsColorId";
+        public static final String createColor = "createColor";
+        public static final String getAllColors= "getAllColors";
+        public static final String getByColorId = "getByColorId";
+        public static final String runTimeException = "runTimeException";
+        public static final String getAllPageable="getAllPageable";
+        public static final String checkIfExistsColorName = "checkIfExistsColorName";
+
+
     }
 
     public static class City {
-        public static final String CheckIfExistsCityId = "This city  found";
-        public static final String createCity= "This city has been successfully added. ";
-        public static final String getAllCities = "All cities  have been successfully called.";
-        public static final String getByCityId = "This city was called successfully";
-        public static final String runTimeException = "This city not found";;
+        public static final String CheckIfExistsCityId = "CheckIfExistsCityId";
+        public static final String createCity= "createCity";
+        public static final String getAllCities = "getAllCities";
+        public static final String getByCityId = "getByCityId";
+        public static final String runTimeException = "runTimeException";
+        public static final String getAllPageable="getAllPageable";
+
+
+
 
     }
 
     public static class Street {
-        public static final String CheckIfExistsStreetId = "This street found";
-        public static final String createStreet= "This street has been successfully added. ";
-        public static final String getAllStreets= "All streets have been successfully called.";
-        public static final String getByStreetId = "This street was called successfully";
-        public static final String runTimeException = "This street not found";
+        public static final String CheckIfExistsStreetId = "CheckIfExistsStreetId";
+        public static final String createStreet= "createStreet";
+        public static final String getAllStreets= "getAllStreets";
+        public static final String getByStreetId = "getByStreetId";
+        public static final String runTimeException = "runTimeException";
+        public static final String getAllPageable="getAllPageable";
+
+
     }
 
     public static class Country {
-        public static final String CheckIfExistsCountryId= "This country found. ";
-        public static final String createCountry= "This country has been successfully added. ";
-        public static final String getAllCountries = "All countries have been successfully called.";
-        public static final String getByCountryId = "This country was called successfully";
-        public static final String runTimeException =  "This country not found ";
+        public static final String CheckIfExistsCountryId= "CheckIfExistsCountryId";
+        public static final String createCountry= "createCountry";
+        public static final String getAllCountries = "getAllCountries";
+        public static final String getByCountryId = "getByCountryId";
+        public static final String runTimeException =  "runTimeException";
+        public static final String getAllPageable ="getAllPageable";
+
 
     }
 
     public static class Category {
-        public static final String CheckIfExistsCategoryId = "This category found";
-        public static final String createCategory ="This country has been successfully added. ";
-        public static final String getAllCategories = "All countries have been successfully called.";
-        public static final String getByCategoryId= "This country was called successfully";
-        public static final String runTimeException = "This category not found";
+        public static final String CheckIfExistsCategoryId = "CheckIfExistsCategoryId";
+        public static final String createCategory ="createCategory";
+        public static final String getAllCategories = "getAllCategories";
+        public static final String getByCategoryId= "getByCategoryId";
+        public static final String runTimeException = "runTimeException";
+        public static final String getAllPageable ="getAllPageable";
+
 
     }
 
     public static class Product {
-        public static final String CheckIfExistsProductId = "This  product  found";
-        public static final String createProduct ="This product has been successfully added. ";
-        public static final String getAllProducts = "All products have been successfully called.";
-        public static final String getByProductId= "This product was called successfully";
-        public static final String runTimeException = "This  product not found";
+        public static final String CheckIfExistsProductId = "CheckIfExistsProductId";
+        public static final String createProduct ="createProduct";
+        public static final String getAllProducts = "getAllProducts";
+        public static final String getByProductId= "getByProductId";
+        public static final String runTimeException = "runTimeException";
+        public static final String getAllPageable ="getAllPageable";
+
 
 
     }
 
     public static class Customer {
-        public static final String CheckIfExistsCustomerId = "This customer  found";
-        public static final String createCustomer="This customer has been successfully added. ";
-        public static final String getAllCustomers= "All customers have been successfully called.";
-        public static final String getByCustomerId= "This customer was called successfully";
-        public static final String runTimeException = "This customer not found";
+        public static final String CheckIfExistsCustomerId = "CheckIfExistsCustomerId";
+        public static final String createCustomer="createCustomer";
+        public static final String getAllCustomers= "getAllCustomers";
+        public static final String getByCustomerId= "getByCustomerId";
+        public static final String runTimeException = "runTimeException";
+        public static final String getAllPageable ="getAllPageable";
+
     }
 
     public static class Address {
-        public static final String CheckIfExistsAddressId = "This customer found";
-        public static final String createAddress = "This address has been successfully added. ";
-        public static final String getAllAddress = "All addresses have been successfully called.";
-        public static final String getById = "This address was called successfully";
-        public static final String runTimeException ="This customer not found";
+        public static final String checkIfExistsAddressId = "checkIfExistsAddressId";
+        public static final String createAddress = "createAddress";
+        public static final String getAllAddress = "getAllAddress";
+        public static final String getById = "getByAddressId";
+        public static final String runTimeException ="runTimeException";
+        public static final String getAllPageable ="getAllPageable";
     }
 
     public static class BasketDetails {
-        public static final String createBasketDetail= "This basket detail has been successfully added. ";
-        public static final String getAllBasketDetails= "All basket details have been successfully called.";
-        public static final String getByBasketDetailId= "This basket detail was called successfully";
-        public static final String runTimeException =  "This basket detail not found";
+        public static final String createBasketDetail= "createBasketDetail";
+        public static final String getAllBasketDetails= "getAllBasketDetails";
+        public static final String getByBasketDetailId= "getByBasketDetailId";
+        public static final String runTimeException =  "runTimeException";
+        public static final String getAllPageable ="getAllPageable";
+
     }
 
     public static class Basket{
-        public static final String createBasket= "This basket  has been successfully added. ";
-        public static final String getAllBasket= "All baskets have been successfully called.";
-        public static final String getByBasketId= "This basket  was called successfully";
-        public static final String runTimeException = "This basket not found";
+        public static final String createBasket= "createBasket";
+        public static final String getAllBasket= "getAllBasket";
+        public static final String getByBasketId= "getByBasketId";
+        public static final String runTimeException = "runTimeException";
+        public static final String getAllPageable ="getAllPageable";
+
     }
 
     public static class Brand{
-        public static final String createBrand= "This brand  has been successfully added. ";
-        public static final String getAllBrands= "All brands have been successfully called.";
+        public static final String createBrand= "createBrand";
+        public static final String getAllBrands= "getAllBrands";
         public static final String getByBrand= "This brand  was called successfully";
         public static final String runTimeException = "This brand exists";
+        public static final String getAllPageable ="getAllPageable";
+
     }
 
     public static class CategoryProduct{
-        public static final String createCategoryProduct= "This category product  has been successfully added. ";
-        public static final String getAllCategoryProducts= "All category product have been successfully called.";
-        public static final String getByCategoryProductId= "This category product  was called successfully";
-        public static final String runTimeException =" This category product not found" ;
+        public static final String createCategoryProduct= "createCategoryProduct";
+        public static final String getAllCategoryProducts= "getAllCategoryProducts";
+        public static final String getByCategoryProductId= "getByCategoryProductId";
+        public static final String runTimeException ="runTimeException" ;
+        public static final String getAllPageable ="getAllPageable";
+
     }
 
     public static class Exception{
@@ -181,4 +225,6 @@ public class Message {
 
 
     }
+
+
 }

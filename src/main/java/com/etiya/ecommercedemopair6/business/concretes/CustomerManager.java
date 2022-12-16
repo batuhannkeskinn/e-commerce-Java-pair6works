@@ -12,10 +12,16 @@ import com.etiya.ecommercedemopair6.core.util.result.DataResult;
 import com.etiya.ecommercedemopair6.core.util.result.Result;
 import com.etiya.ecommercedemopair6.core.util.result.SuccessDataResult;
 import com.etiya.ecommercedemopair6.core.util.result.SuccessResult;
+import com.etiya.ecommercedemopair6.entities.concretes.BasketDetail;
 import com.etiya.ecommercedemopair6.entities.concretes.Customer;
 import com.etiya.ecommercedemopair6.repository.abstracts.AddressRepository;
 import com.etiya.ecommercedemopair6.repository.abstracts.CustomerRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -28,6 +34,7 @@ public class CustomerManager implements CustomerService {
     private AddressService addressService;
     private AddressRepository addressRepository;
     private ModelMapperService modelMapperService;
+    private MessageSource messageSource;
 
     @Override
     public DataResult<List<GetAllCustomersResponse> >getAll() {
@@ -38,7 +45,9 @@ public class CustomerManager implements CustomerService {
                 .stream()
                 .map(customer -> modelMapperService.forResponse().map(customer,GetAllCustomersResponse.class))
                 .collect(Collectors.toList());
-        return  new SuccessDataResult<>(responses,Message.Customer.getAllCustomers);
+        //return  new SuccessDataResult<>(responses,Message.Customer.getAllCustomers);
+        return new SuccessDataResult<>(responses,messageSource.getMessage(Message.Customer.getAllCustomers,null,
+                LocaleContextHolder.getLocale()));
 
     }
 
@@ -47,7 +56,9 @@ public class CustomerManager implements CustomerService {
 
         Customer customer = customerRepository.findById(id).orElseThrow();
         GetCustomerResponse response = modelMapperService.forResponse().map(customer,GetCustomerResponse.class);
-        return new SuccessDataResult<>(response,Message.Customer.getByCustomerId);
+       // return new SuccessDataResult<>(response,Message.Customer.getByCustomerId);
+        return new SuccessDataResult<>(response,messageSource.getMessage(Message.Customer.getByCustomerId,null,
+                LocaleContextHolder.getLocale()));
 
     }
 
@@ -67,6 +78,7 @@ public class CustomerManager implements CustomerService {
                                 (customer, GetAllCustomersResponse.class))
                 .collect(Collectors.toList());
         return new SuccessDataResult<>(responses,Message.Customer.getAllCustomers);
+
     }
 
     @Override
@@ -84,10 +96,24 @@ public class CustomerManager implements CustomerService {
         Customer customer = modelMapperService.forRequest().map(createCustomerRequest, Customer.class);
         Customer saveCustomer = customerRepository.save(customer);
         CreateCustomerResponse response = modelMapperService.forResponse().map(saveCustomer, CreateCustomerResponse.class);
-        return new SuccessResult(Message.Customer.createCustomer);
+        //return new SuccessResult(Message.Customer.createCustomer);
+        return new SuccessDataResult<>(response,messageSource.getMessage(Message.Customer.createCustomer,null,
+                LocaleContextHolder.getLocale()));
 
     }
-        //***********************************ManuelMapper******************************************
+
+    @Override
+    public DataResult<Page<Customer>> findAll(Pageable pageable) {
+        return new SuccessDataResult<>(customerRepository.findAll(pageable), messageSource.getMessage(Message.Address.getAllPageable,null,
+                LocaleContextHolder.getLocale()));
+    }
+
+    @Override
+    public DataResult<Slice<Customer>> findAllSlice(Pageable pageable) {
+        return new SuccessDataResult<>(customerRepository.findAllSlice(pageable), messageSource.getMessage(Message.Address.getAllPageable,null,
+                LocaleContextHolder.getLocale()));
+    }
+    //***********************************ManuelMapper******************************************
 //        Address address = addressService.getById(createCustomerRequest.getAddressId());
 //        Customer customer = new Customer();
 //        customer.setFirstName(createCustomerRequest.getCustomerFirstName());

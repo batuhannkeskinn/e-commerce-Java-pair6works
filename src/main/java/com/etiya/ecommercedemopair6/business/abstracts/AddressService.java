@@ -7,6 +7,9 @@ import com.etiya.ecommercedemopair6.business.dto.response.concretes.address.GetA
 import com.etiya.ecommercedemopair6.core.util.result.DataResult;
 import com.etiya.ecommercedemopair6.core.util.result.Result;
 import com.etiya.ecommercedemopair6.entities.concretes.Address;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 
 import java.util.List;
 
@@ -25,5 +28,8 @@ public interface AddressService {
     Result addAddress(CreateAddressRequest createAddressRequest);
 
     //Address getAllCitiesByAddresId(int id);
+    DataResult<Page<Address>> findAll(Pageable pageable);
+
+    DataResult<Slice<Address>>findAllSlice(Pageable pageable);
 
 }

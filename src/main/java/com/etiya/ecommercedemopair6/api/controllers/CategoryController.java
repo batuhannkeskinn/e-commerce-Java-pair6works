@@ -9,9 +9,15 @@ import com.etiya.ecommercedemopair6.business.dto.response.concretes.category.Get
 import com.etiya.ecommercedemopair6.core.util.result.DataResult;
 import com.etiya.ecommercedemopair6.core.util.result.Result;
 import com.etiya.ecommercedemopair6.core.util.result.SuccessDataResult;
+import com.etiya.ecommercedemopair6.entities.concretes.Category;
+import com.etiya.ecommercedemopair6.entities.concretes.Supplier;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -49,5 +55,16 @@ public class CategoryController {
     @PostMapping("/add")
     public ResponseEntity<Result> createCategory(CreateCategoryRequest createCategoryRequest){
         return new ResponseEntity<Result>(categoryService.createCategory(createCategoryRequest),HttpStatus.CREATED);
+    }
+    @GetMapping("/getCategoryPages")
+    public ResponseEntity<DataResult<Page<Category>>>getCategoryPages (@RequestParam("page") int page, @RequestParam("pageSize") int pageSize){
+        Pageable pageable = PageRequest.of(page,pageSize);
+        return  new ResponseEntity<>(categoryService.findAll(pageable),HttpStatus.OK);
+    }
+    @GetMapping("/getCategorySlies")
+    public ResponseEntity<DataResult<Slice<Category>>> getCategorySlice(@RequestParam("page") int page, @RequestParam("pageSize") int pageSize){
+        Pageable pageable = PageRequest.of(page,pageSize);
+        return new ResponseEntity<>(categoryService.findAllSlice(pageable),HttpStatus.OK);
+
     }
 }

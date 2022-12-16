@@ -16,6 +16,12 @@ import com.etiya.ecommercedemopair6.core.util.result.SuccessResult;
 import com.etiya.ecommercedemopair6.entities.concretes.OrderDetail;
 import com.etiya.ecommercedemopair6.repository.abstracts.OrderDetailRepository;
 import lombok.AllArgsConstructor;
+import lombok.Data;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,10 +30,8 @@ import java.util.stream.Collectors;
 @Service
 @AllArgsConstructor
 public class OrderDetailManager implements OrderDetailService {
-
+    private MessageSource messageSource;
     private OrderDetailRepository orderDetailRepository;
-    private OrderService orderService;
-    private ProductService productService;
     private ModelMapperService modelMapperService;
 
 
@@ -35,7 +39,8 @@ public class OrderDetailManager implements OrderDetailService {
     public DataResult<GetOrderDetailResponse> getById(int id) {
         OrderDetail orderDetail = orderDetailRepository.findById(id).orElseThrow();
         GetOrderDetailResponse response = modelMapperService.forResponse().map(orderDetail, GetOrderDetailResponse.class);
-        return new SuccessDataResult<>(response, Message.OrderDetail.getByOrderDetailId);
+        return new SuccessDataResult<>(response, messageSource.getMessage(Message.OrderDetail.getByOrderDetailId,null,
+                LocaleContextHolder.getLocale()));
 
     }
 
@@ -48,7 +53,8 @@ public class OrderDetailManager implements OrderDetailService {
                         (orderDetail -> modelMapperService.forResponse().map
                                 (orderDetail, GetAllOrderDetailResponse.class))
                 .collect(Collectors.toList());
-        return new SuccessDataResult<>(responses, Message.OrderDetail.getAllOrderDetails);
+        return new SuccessDataResult<>(responses, messageSource.getMessage(Message.OrderDetail.getAllOrderDetails,null,
+                LocaleContextHolder.getLocale()));
     }
 
     @Override
@@ -70,6 +76,16 @@ public class OrderDetailManager implements OrderDetailService {
 //                savedOrderDetail.getOrder().getOrderId(),
 //                savedOrderDetail.getProduct().getProductId());
         return new SuccessResult(Message.OrderDetail.createOrderDetail);
+    }
+
+    @Override
+    public DataResult<Page<OrderDetail>> findAll(Pageable pageable) {
+        return new SuccessDataResult<>(orderDetailRepository.findAll(pageable),messageSource.getMessage(Message.OrderDetail.CheckIfExistsOrderDetailId,null,LocaleContextHolder.getLocale()));
+    }
+
+    @Override
+    public DataResult<Slice<OrderDetail>> findAllSlice(Pageable pageable) {
+        return new SuccessDataResult<>(orderDetailRepository.findAllSlice(pageable),messageSource.getMessage(Message.OrderDetail.CheckIfExistsOrderDetailId,null,LocaleContextHolder.getLocale()));
     }
 
 }
