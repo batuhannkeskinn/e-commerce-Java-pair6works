@@ -15,6 +15,11 @@ import com.etiya.ecommercedemopair6.entities.concretes.ProductInfo;
 import com.etiya.ecommercedemopair6.repository.abstracts.ProductInfoRepository;
 import com.etiya.ecommercedemopair6.repository.abstracts.ProductRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,6 +28,7 @@ import java.util.stream.Collectors;
 @Service
 @AllArgsConstructor
 public class ProductInfoManager implements ProductInfoService {
+    private MessageSource messageSource;
     private BrandService brandService;
     private ColorService colorService;
     private SizeService sizeService;
@@ -35,7 +41,8 @@ public class ProductInfoManager implements ProductInfoService {
     public DataResult<GetProductInfoResponse> getById(int id) {
         ProductInfo productInfo = productInfoRepository.findById(id).orElseThrow();
         GetProductInfoResponse response = modelMapperService.forResponse().map(productInfo, GetProductInfoResponse.class);
-        return new SuccessDataResult<>(response, Message.ProductInfo.getByProductInfId);
+        return new SuccessDataResult<>(response, messageSource.getMessage(Message.ProductInfo.getByProductInfId,null,
+                LocaleContextHolder.getLocale()));
 
 
         //return productInfoRepository.findById(id).orElseThrow();
@@ -75,5 +82,17 @@ public class ProductInfoManager implements ProductInfoService {
 //                        savedProductInfo.getSize().getSizeId());
 
         return new SuccessResult(Message.ProductInfo.createProductInfo);
+    }
+
+    @Override
+    public DataResult<Page<ProductInfo>> findAll(Pageable pageable) {
+        return new SuccessDataResult<>(productInfoRepository.findAll(pageable), messageSource.getMessage(Message.Address.getAllPageable,null,
+                LocaleContextHolder.getLocale()));
+    }
+
+    @Override
+    public DataResult<Slice<ProductInfo>> findAllSlice(Pageable pageable) {
+        return new SuccessDataResult<>(productInfoRepository.findAllSlice(pageable), messageSource.getMessage(Message.Address.getAllPageable,null,
+                LocaleContextHolder.getLocale()));
     }
 }

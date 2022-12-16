@@ -6,7 +6,6 @@ import com.etiya.ecommercedemopair6.business.abstracts.OrderService;
 import com.etiya.ecommercedemopair6.business.abstracts.ProductService;
 import com.etiya.ecommercedemopair6.business.constants.Message;
 import com.etiya.ecommercedemopair6.business.dto.request.concretes.order.CreateOrderRequest;
-import com.etiya.ecommercedemopair6.business.dto.response.concretes.order.CreateOrderResponse;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.order.GetAllOrderResponse;
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.order.GetOrderResponse;
 import com.etiya.ecommercedemopair6.core.util.exceptions.BusinessException;
@@ -18,6 +17,11 @@ import com.etiya.ecommercedemopair6.core.util.result.SuccessResult;
 import com.etiya.ecommercedemopair6.entities.concretes.*;
 import com.etiya.ecommercedemopair6.repository.abstracts.*;
 import lombok.AllArgsConstructor;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,9 +32,10 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 @Service
 public class OrderManager implements OrderService {
-    private final InvoiceRepository invoiceRepository;
-    private final CustomerRepository customerRepository;
-    private final SupplierRepository supplierRepository;
+    private MessageSource messageSource;
+    private  InvoiceRepository invoiceRepository;
+    private  CustomerRepository customerRepository;
+    private  SupplierRepository supplierRepository;
     OrderRepository orderRepository;
     CustomerService customerService;
     OrderDetailRepository orderDetailRepository;
@@ -43,7 +48,8 @@ public class OrderManager implements OrderService {
     public DataResult<GetOrderResponse> getById(int id) {
         Order order = orderRepository.findById(id).orElseThrow();
         GetOrderResponse response = modelMapperService.forResponse().map(order, GetOrderResponse.class);
-        return new SuccessDataResult<>(response, Message.Order.getByOrderId);
+        return new SuccessDataResult<>(response, messageSource.getMessage(Message.Order.getByOrderId,null,
+                LocaleContextHolder.getLocale()));
 
 
     }
@@ -80,7 +86,7 @@ public class OrderManager implements OrderService {
                 .orderQuantity(createOrderRequest.getOrderQuantity())  //25
                 .totalPrice(prices)//50
                 .customer(customer).build(); //94
-        Order savedOrder = orderRepository.save(order);
+        orderRepository.save(order);
         //********************** Diğer tabloda ki ihtiyaçlarım: get OrderId ihtiyacım için **************************
 
         Order referanceOrderId = Order.builder().orderId(order.getOrderId()).build(); //126
@@ -114,27 +120,38 @@ public class OrderManager implements OrderService {
         return new SuccessResult(Message.Order.createOrder);
     }
 
+    @Override
+    public DataResult<Page<Order>> findAll(Pageable pageable) {
+        return new SuccessDataResult<>(orderRepository.findAll(pageable), messageSource.getMessage(Message.Order.getAllPageable,null,LocaleContextHolder.getLocale()));
+    }
+
+    @Override
+    public DataResult<Slice<Order>> findAllSlice(Pageable pageable) {
+        return new SuccessDataResult<>(orderRepository.findAllSlice(pageable),messageSource.getMessage(Message.Order.getAllPageable,null,LocaleContextHolder.getLocale()));
+    }
+
 //******************************** Validation ***************************************************************
 
-    public void checkIfExistsSupplierId(int id){
+    public void checkIfExistsSupplierId(int id) {
         boolean isExists = supplierRepository.existsById(id);
-        if (!isExists){
-            throw new BusinessException(Message.Supplier.runTimeException);
+        if (!isExists) {
+            throw new BusinessException(messageSource.getMessage(Message.Order.CheckIfExistsOrderId,null,
+                    LocaleContextHolder.getLocale()));
         }
     }
 
 
-    public void checkIfExistsProductId(int id){
+    public void checkIfExistsProductId(int id) {
         boolean isExists = productRepository.existsById(id);
-        if (!isExists){
+        if (!isExists) {
             throw new BusinessException(Message.Product.runTimeException);
         }
     }
 
 
-    public void checkIfExistsCustomerId(int id){
+    public void checkIfExistsCustomerId(int id) {
         boolean isExists = customerRepository.existsById(id);
-        if (!isExists){
+        if (!isExists) {
             throw new BusinessException(Message.Customer.runTimeException);
         }
     }

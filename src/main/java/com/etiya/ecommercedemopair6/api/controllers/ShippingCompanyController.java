@@ -8,14 +8,17 @@ import com.etiya.ecommercedemopair6.business.dto.response.concretes.shippingComp
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.shippingCompany.GetShippingCompanyResponse;
 import com.etiya.ecommercedemopair6.core.util.result.DataResult;
 import com.etiya.ecommercedemopair6.core.util.result.Result;
+import com.etiya.ecommercedemopair6.entities.concretes.ShippingCompany;
+import com.etiya.ecommercedemopair6.entities.concretes.Supplier;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -42,5 +45,16 @@ public class ShippingCompanyController {
     @PostMapping("/add")
     public ResponseEntity<Result> createShippingCompnainy(CreateShippingCompanyRequest createShippingCompanyRequest){
         return new ResponseEntity<>(shippingCompanyService.createShippingCompany(createShippingCompanyRequest), HttpStatus.CREATED);
+    }
+    @GetMapping("/getShippingCompanyPages")
+    public ResponseEntity<DataResult<Page<ShippingCompany>>>getShippingCompanyPages (@RequestParam("page") int page, @RequestParam("pageSize") int pageSize){
+        Pageable pageable = PageRequest.of(page,pageSize);
+        return  new ResponseEntity<>(shippingCompanyService.findAll(pageable),HttpStatus.OK);
+    }
+    @GetMapping("/getShippingCompanySlies")
+    public ResponseEntity<DataResult<Slice<ShippingCompany>>> getShippingCompanySlice(@RequestParam("page") int page, @RequestParam("pageSize") int pageSize){
+        Pageable pageable = PageRequest.of(page,pageSize);
+        return new ResponseEntity<>(shippingCompanyService.findAllSlice(pageable),HttpStatus.OK);
+
     }
 }

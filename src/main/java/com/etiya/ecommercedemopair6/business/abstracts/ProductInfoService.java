@@ -6,6 +6,12 @@ import com.etiya.ecommercedemopair6.business.dto.response.concretes.productInfo.
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.productInfo.GetProductInfoResponse;
 import com.etiya.ecommercedemopair6.core.util.result.DataResult;
 import com.etiya.ecommercedemopair6.core.util.result.Result;
+import com.etiya.ecommercedemopair6.entities.concretes.Address;
+import com.etiya.ecommercedemopair6.entities.concretes.BasketDetail;
+import com.etiya.ecommercedemopair6.entities.concretes.ProductInfo;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 
 import java.util.List;
 
@@ -14,4 +20,8 @@ public interface ProductInfoService  {
 
     DataResult<List<GetAllProductInfosResponse>> getAllProductInfos();
     Result createProduct(CreateProductInfoRequest createProductInfoRequest);
+
+    DataResult<Page<ProductInfo>> findAll(Pageable pageable);
+    DataResult<Slice<ProductInfo>> findAllSlice(Pageable pageable);
+
 }

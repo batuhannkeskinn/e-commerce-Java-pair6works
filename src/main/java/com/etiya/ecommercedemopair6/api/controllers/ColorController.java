@@ -9,8 +9,14 @@ import com.etiya.ecommercedemopair6.business.dto.response.concretes.color.GetAll
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.color.GetColorResponse;
 import com.etiya.ecommercedemopair6.core.util.result.DataResult;
 import com.etiya.ecommercedemopair6.core.util.result.Result;
+import com.etiya.ecommercedemopair6.entities.concretes.Color;
+import com.etiya.ecommercedemopair6.entities.concretes.Supplier;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -41,6 +47,17 @@ public class ColorController {
 
     public ResponseEntity<Result> createColor(@RequestBody @Valid CreateColorRequest createColorRequest){
         return new ResponseEntity<Result>(colorService.createColor(createColorRequest), HttpStatus.CREATED);
+    }
+    @GetMapping("/getColorPages")
+    public ResponseEntity<DataResult<Page<Color>>>getColorPages (@RequestParam("page") int page, @RequestParam("pageSize") int pageSize){
+        Pageable pageable = PageRequest.of(page,pageSize);
+        return  new ResponseEntity<>(colorService.findAll(pageable),HttpStatus.OK);
+    }
+    @GetMapping("/getColorSlies")
+    public ResponseEntity<DataResult<Slice<Color>>> getColorSlice(@RequestParam("page") int page, @RequestParam("pageSize") int pageSize){
+        Pageable pageable = PageRequest.of(page,pageSize);
+        return new ResponseEntity<>(colorService.findAllSlice(pageable),HttpStatus.OK);
+
     }
 
 }

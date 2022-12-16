@@ -1,7 +1,10 @@
 package com.etiya.ecommercedemopair6.repository.abstracts;
 //bu interface in veri erişim katmanı olması için alması gereken extends
 
+import com.etiya.ecommercedemopair6.entities.concretes.Address;
 import com.etiya.ecommercedemopair6.entities.concretes.Product;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -29,4 +32,6 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
             "from Product pr WHERE pr.productId=:productId")
 
     Product customProduct2Id( int productId);
+    @Query("Select p from Product as p")
+    Slice<Product> findAllSlice(Pageable pageable);
 }

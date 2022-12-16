@@ -14,9 +14,15 @@ import com.etiya.ecommercedemopair6.core.util.result.DataResult;
 import com.etiya.ecommercedemopair6.core.util.result.Result;
 import com.etiya.ecommercedemopair6.core.util.result.SuccessDataResult;
 import com.etiya.ecommercedemopair6.core.util.result.SuccessResult;
+import com.etiya.ecommercedemopair6.entities.concretes.BasketDetail;
 import com.etiya.ecommercedemopair6.entities.concretes.Delivery;
 import com.etiya.ecommercedemopair6.repository.abstracts.DeliveryRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -29,19 +35,25 @@ public class DeliveryManager implements DeliveryService {
     private ShippingCompanyService shippingCompanyService;
     private OrderService orderService;
     private ModelMapperService modelMapperService;
+    private MessageSource messageSource;
 
     @Override
     public DataResult<GetDeliveryResponse> getById(int id) {
     Delivery delivery = deliveryRepository.findById(id).orElseThrow();
     GetDeliveryResponse response = modelMapperService.forResponse().map(delivery,GetDeliveryResponse.class);
-    return new SuccessDataResult<>(response, Message.Delivery.getByDeliveryId);
+    //return new SuccessDataResult<>(response, Message.Delivery.getByDeliveryId);
+        return new SuccessDataResult<>(response,messageSource.getMessage(Message.Delivery.getByDeliveryId,null,
+                LocaleContextHolder.getLocale()));
+
     }
 
     @Override
     public DataResult<List<GetAllDeliveryResponse>> getAllDelivery() {
         List<Delivery> deliveries = deliveryRepository.findAll();
         List<GetAllDeliveryResponse> responses = deliveries.stream().map(delivery -> modelMapperService.forResponse().map(delivery,GetAllDeliveryResponse.class)).collect(Collectors.toList());
-        return new SuccessDataResult<>(responses,Message.Delivery.getAllDeliveries);
+        //return new SuccessDataResult<>(responses,Message.Delivery.getAllDeliveries);
+        return new SuccessDataResult<>(responses,messageSource.getMessage(Message.Delivery.getAllDeliveries,null,
+                LocaleContextHolder.getLocale()));
     }
 
     @Override
@@ -63,12 +75,26 @@ public class DeliveryManager implements DeliveryService {
 //                savedDelivery.getDeliveryDate(),
 //                savedDelivery.getShippingCompany().getShippingCompanyId(),
 //                savedDelivery.getOrder().getOrderId());
-        return new SuccessResult(Message.Delivery.createDelivery);
+       // return new SuccessResult(Message.Delivery.createDelivery);
+
+        return new SuccessDataResult<>(response,messageSource.getMessage(Message.Delivery.createDelivery,null,
+                LocaleContextHolder.getLocale()));
 
     }
 
-
-
+    @Override
+    public DataResult<Page<Delivery>> findAll(Pageable pageable) {
+        return new SuccessDataResult<>(deliveryRepository.findAll(pageable), messageSource.getMessage(Message.Address.getAllPageable,null,
+                LocaleContextHolder.getLocale()));
     }
+
+    @Override
+    public DataResult<Slice<Delivery>> findAllSlice(Pageable pageable) {
+        return new SuccessDataResult<>(deliveryRepository.findAllSlice(pageable), messageSource.getMessage(Message.Address.getAllPageable,null,
+                LocaleContextHolder.getLocale()));
+    }
+
+
+}
 
 

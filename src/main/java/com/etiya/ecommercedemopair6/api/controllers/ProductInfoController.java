@@ -8,8 +8,14 @@ import com.etiya.ecommercedemopair6.business.dto.response.concretes.productInfo.
 import com.etiya.ecommercedemopair6.business.dto.response.concretes.productInfo.GetProductInfoResponse;
 import com.etiya.ecommercedemopair6.core.util.result.DataResult;
 import com.etiya.ecommercedemopair6.core.util.result.Result;
+import com.etiya.ecommercedemopair6.entities.concretes.ProductInfo;
+import com.etiya.ecommercedemopair6.entities.concretes.Supplier;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -37,6 +43,17 @@ public class ProductInfoController {
     @PostMapping("/add")
     public ResponseEntity<Result> createProductInfo(CreateProductInfoRequest createProductInfoRequest) {
         return new ResponseEntity<>(productInfoService.createProduct(createProductInfoRequest), HttpStatus.CREATED);
+
+    }
+    @GetMapping("/getProductInfoPages")
+    public ResponseEntity<DataResult<Page<ProductInfo>>>getProductInfoPages (@RequestParam("page") int page, @RequestParam("pageSize") int pageSize){
+        Pageable pageable = PageRequest.of(page,pageSize);
+        return  new ResponseEntity<>(productInfoService.findAll(pageable),HttpStatus.OK);
+    }
+    @GetMapping("/getProductInfoSlies")
+    public ResponseEntity<DataResult<Slice<ProductInfo>>> getProductInfoSlice(@RequestParam("page") int page, @RequestParam("pageSize") int pageSize){
+        Pageable pageable = PageRequest.of(page,pageSize);
+        return new ResponseEntity<>(productInfoService.findAllSlice(pageable),HttpStatus.OK);
 
     }
 }

@@ -2,6 +2,8 @@ package com.etiya.ecommercedemopair6.repository.abstracts;
 
 import com.etiya.ecommercedemopair6.entities.concretes.Address;
 import com.etiya.ecommercedemopair6.entities.concretes.Product;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -23,5 +25,7 @@ public interface AddressRepository extends JpaRepository<Address, Integer> {
    @Query(value =" Select * from addresses ads Inner Join streets st ON st.street_id =" +
            " ads.street_id join cities ON cities.city_id = st.city_id",nativeQuery = true)
    List<Address> customeCityAddress(String cityName);
+    @Query("Select adr from Address as adr")
+    Slice<Address> findAllSlice(Pageable pageable);
 
 }
